@@ -15,7 +15,7 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
 
 
   return (
-    <Navbar className="ms-2 me-2" expand="lg">
+    <Navbar className="ms-4 me-4" expand="lg">
       <Container fluid>
         <Navbar.Brand href="#">
             <img src={logo} style={{ width: 150, height:30 }} />
@@ -40,10 +40,15 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
           </Nav>
        </Navbar>
         <Navbar className="justify-content-end">
-          <Button variant="outline-success">Search</Button>
-          <Navbar.Text>
-            Signed in as: <a href="#login">Mark Otto</a>
-          </Navbar.Text>
+          {1!=1 ? 
+            <>
+              <Button className="me-3" style={{width:125}}  variant="outline-success"> Login </Button>
+              <Button style={{width:125}} variant="success"> Sign up </Button>
+            </> : 
+            <TextLarge>denis-polozov</TextLarge>}
+          {/*<Navbar.Text>
+                Signed in as: <a href="#login">Mark Otto</a>
+            </Navbar.Text>*/}
         </Navbar>
       </Container>
     </Navbar>

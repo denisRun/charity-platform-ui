@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from '../images/logo.svg';
 import LoginForm from './Forms/LoginForm';
@@ -29,19 +30,19 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
             className="justify-content-center"
             style={{ maxHeight: '50px' }}
           >
-            <Nav.Link as={Link} to="/help"> 
+            <NavLink className="nav-link" to="/help"> 
 
                     Need help
-            </Nav.Link>
-            <Nav.Link as={Link} to="/propositions"> 
+            </NavLink>
+            <NavLink className="nav-link" to="/propositions"> 
                 People`s suggestions
-            </Nav.Link>
-            <Nav.Link as={Link} to="/statistics"> 
+            </NavLink>
+            <NavLink className="nav-link" to="/statistics"> 
                 Statistics
-            </Nav.Link>
-            <Nav.Link as={Link} to="/about"> 
+            </NavLink>
+            <NavLink className="nav-link" to="/about"> 
                 About us
-            </Nav.Link>
+            </NavLink>
           </Nav>
        </Navbar>
         <Navbar className="justify-content-end">

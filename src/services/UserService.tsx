@@ -1,31 +1,31 @@
 import axios from "../axios/Axios";
 import { IPagedResultSet } from "../types/PagedResultSet";
+import { IUserLogin } from "../types/UserLogin";
 import { UserSearchRequest } from "../types/UserSearchRequest";
+import { IUserSignup } from "../types/UserSignup";
 import { IUser } from "../types/UserType";
 
 export interface IUserService{
-    authorize(username: string, password: string): Promise<IUser>;
+    login(credentials: IUserLogin): Promise<IUser>;
     getUsers(query: string): Promise<IUser[]>;
     getUser(id: string): Promise<IUser>;
     createUser(user: IUser): Promise<IUser>;
     updateUser(id: string, user: IUser): Promise<IUser>;
 }
 
-const controllerPath = "/api/Users";
+const controllerPath = "/auth";
 
 class UserService implements IUserService{
 
-    async authorize(username: string, password: string): Promise<IUser> {
-
-        const request = {
-            username:username,
-            password:password
-        };
-
-        const response = await axios.post<IUser>(controllerPath + "/authorize", JSON.stringify(request));
+    async login(credentials: IUserLogin): Promise<IUser> {
+        const response = await axios.post<IUser>(controllerPath + "/sign-in", JSON.stringify(credentials));
         return response.data;
     }
 
+    async signup(credentials: IUserSignup): Promise<IUser> {
+        const response = await axios.post<IUser>(controllerPath + "/sign-up", JSON.stringify(credentials));
+        return response.data;
+    }
 
 
     // ALL the following should be REMOVED

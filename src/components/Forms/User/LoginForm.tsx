@@ -1,9 +1,13 @@
 import { FC, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
+import { useStore } from '../../../contexts/StoreContext';
 import Modal from 'react-bootstrap/Modal';
 import { Link } from "react-router-dom";
-import logo from '../../images/logo.svg';
+import logo from '../../../images/logo.svg';
+import { ErrorMessage, Formik, FormikHelpers } from "formik";
+import { IUserLogin } from "../../../types/UserLogin";
+import UserLoginValidation from "../../../validations/UserLoginValidatioin";
 
 interface ILoginFormProps{
     show: boolean;
@@ -12,18 +16,16 @@ interface ILoginFormProps{
 
 const LoginForm: FC<ILoginFormProps> = (props) => {
 
-    const [validated, setValidated] = useState(false);
+    const store = useStore();
+    const initialValues = new IUserLogin();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        } else {
-            alert("logged in")
+    const loginSubmit = async (credentials: IUserLogin, helpers: FormikHelpers<IUserLogin>) => {
+
+        await store.userStore.login(credentials)
+        if(store.userStore.user != null && store.userStore.isError == false){
+            props.onHide();
+            console.log(store.userStore.user)
         }
-
-        setValidated(true);
       };
 
     return (
@@ -38,28 +40,43 @@ const LoginForm: FC<ILoginFormProps> = (props) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Formik
+                //validationSchema={schema}
+                onSubmit={loginSubmit}
+                initialValues={initialValues}
+                validationSchema={UserLoginValidation}
+                >
+                {({
+                    handleSubmit,
+                    handleChange,
+                    handleBlur,
+                    values,
+                    touched,
+                    isValid,
+                    errors,
+                }) => (
+                <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="justify-content-md-center ms-3 me-3 mt-3">
                             <Form.Control
-                                id="login-username"
-                                placeholder="Username"
+                                name="email"
+                                placeholder="Email"
+                                value={values.email}
+                                onChange={handleChange}
                                 required
                             />
-                                <Form.Control.Feedback type="invalid">
-                                    Enter your username or email
-                                </Form.Control.Feedback>
+                                <ErrorMessage name="email">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4">
                             <Form.Control
-                                id="login-password"
+                                name="password"
                                 type="password"
                                 placeholder="Password"
+                                value={values.password}
+                                onChange={handleChange}
                                 required
                             />
-                                <Form.Control.Feedback type="invalid">
-                                    Enter password
-                                </Form.Control.Feedback>
+                                <ErrorMessage name="password">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4">
                             <a onClick={() => alert("link has been send on email")} className="link-secondary">
@@ -73,6 +90,8 @@ const LoginForm: FC<ILoginFormProps> = (props) => {
                         </Row>
                     </Container>
                 </Form>
+                )}
+            </Formik>
             </Modal.Body>
         </Modal>
     );

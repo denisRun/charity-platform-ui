@@ -93,6 +93,10 @@
   color:var(--theme-black)
 }
 
+.error-color{
+  color:var(--theme-red)
+}
+
 *,
 *::before,
 *::after {
@@ -5463,7 +5467,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 1200px) {
   .modal-xl {
-    --bs-modal-width: 1140px;
+    --bs-modal-width: 900px;
   }
 }
 .modal-fullscreen {

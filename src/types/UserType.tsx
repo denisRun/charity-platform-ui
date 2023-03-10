@@ -1,12 +1,12 @@
+import { IAddress } from "./Address";
+
 export interface IUser{
     id: string;
-    fullName: string;
+    firstName: string;
+    secondName: string
     email: string;
-    password: string;
-    role: string;
-}
-
-export interface IAddress{
-    street: string;
-    city: string;
+    telephone: string;
+    companyName: string;
+    token: string;
+    address: IAddress;
 }

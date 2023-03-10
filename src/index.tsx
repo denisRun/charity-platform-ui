@@ -8,6 +8,6 @@ const store = new RootStore();
 
 root.render(
   <StoreProvider store={store}>
-    <App />
+      <App />
   </StoreProvider>
   );

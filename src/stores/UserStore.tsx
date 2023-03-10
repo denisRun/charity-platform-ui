@@ -1,30 +1,56 @@
 import { action, makeAutoObservable } from 'mobx';
 import { UserServiceInstance } from '../services/UserService';
+import { IUserLogin } from '../types/UserLogin';
+import { IUserSignup } from '../types/UserSignup';
 import { IUser } from '../types/UserType';
 
 export class UserStore {
-    users: IUser[] = [];
     user: IUser | null = null;
     isLoading: boolean = false;
     isError: boolean = false;
+    errorMessage: string = '';
 
     constructor(){
         makeAutoObservable(this);
+        if(localStorage.getItem("token") != null){
+            //alert("relogin with token");
+        }
     }
 
-    getUsers = async (query: string): Promise<void> => {
+    login = async (credentials: IUserLogin): Promise<void> => {
         try{
-            this.startOperation()
-            
-            const userList = await UserServiceInstance.getUsers(query);
-            this.users = userList;
+            this.startOperation();
+            const user = await UserServiceInstance.login(credentials);
+            this.user = user;
+            this.finishOperation();
+            localStorage.setItem("token", user.token);
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }    
 
+    signup = async (credentials: IUserSignup): Promise<void> => {
+        try{
+            this.startOperation();
+            const user = await UserServiceInstance.signup(credentials);
             this.finishOperation();
         } catch(ex){
             console.log(ex);
-            this.operationFailed()
+            this.operationFailed((ex as any).errorMessage);
         }
-    }
+    }    
+
+    logout = async (): Promise<void> => {
+        try{
+            this.user = null;
+            this.finishOperation();
+            localStorage.clear();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
 
     getUser = async (id?: string): Promise<void> => {
         try{
@@ -38,7 +64,7 @@ export class UserStore {
     createUser = async (newItem: IUser): Promise<void> => {
         try{
             const createdUser = await UserServiceInstance.createUser(newItem);
-            this.users.push(createdUser);
+            this.user = createdUser;
         } catch(ex){
             console.log(ex);
         }
@@ -47,7 +73,7 @@ export class UserStore {
     updateUser = async (id: string, itemToUpdate: IUser): Promise<void> => {
         try{
             const updatedUser = await UserServiceInstance.updateUser(id, itemToUpdate);
-            this.users = this.users.map(item => item.id === updatedUser.id ? updatedUser : item);
+            this.user = updatedUser;
         } catch(ex){
             console.log(ex);
         }
@@ -56,16 +82,19 @@ export class UserStore {
     startOperation = () => {
         this.isLoading = true;
         this.isError = false;
+        this.errorMessage = '';
     }
 
     finishOperation = () => {
         this.isLoading = false;
         this.isError = false;
+        this.errorMessage = '';
     }
 
-    operationFailed = () => {
+    operationFailed = (ex: string) => {
         this.isLoading = false;
         this.isError = true;
+        this.errorMessage = ex;
     }
 }
 

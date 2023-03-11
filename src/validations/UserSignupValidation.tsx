@@ -13,10 +13,6 @@ const UserSignupValidation = yup.object().shape({
         .required('Enter your Second name'),
     telephone: yup.string()
         .required('Enter your Phone number'),
-    companyName: yup.string()
-        .required('Enter your Company name'),
-    companyLink: yup.string()
-        .required('Enter your Conpany link'),
 
     address: yup.object().shape({
         city: yup.string().required("Enter your City"),

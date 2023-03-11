@@ -1,11 +1,13 @@
 import { action, makeAutoObservable } from 'mobx';
 import { UserServiceInstance } from '../services/UserService';
+import { INotification } from '../types/Notification';
 import { IUserLogin } from '../types/UserLogin';
 import { IUserSignup } from '../types/UserSignup';
 import { IUser } from '../types/UserType';
 
 export class UserStore {
     user: IUser | null = null;
+    notifications: INotification[] | null = null;
     isLoading: boolean = false;
     isError: boolean = false;
     errorMessage: string = '';
@@ -52,6 +54,17 @@ export class UserStore {
         }
     }  
 
+    changePassword = async (): Promise<void> => {
+        try{
+            this.startOperation();
+            const user = await UserServiceInstance.changePassword();
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
     getUser = async (id?: string): Promise<void> => {
         try{
             const user = await UserServiceInstance.getUser(id);
@@ -78,6 +91,18 @@ export class UserStore {
             console.log(ex);
         }
     }
+
+    getNotifications = async (): Promise<void> => {
+        try{
+            this.startOperation();
+            const notifications = await UserServiceInstance.getNotifications();
+            this.notifications = notifications;
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
 
     startOperation = () => {
         this.isLoading = true;

@@ -8,6 +8,7 @@ import logo from '../../../images/logo.svg';
 import { ErrorMessage, Formik, FormikHelpers } from "formik";
 import { IUserLogin } from "../../../types/UserLogin";
 import UserLoginValidation from "../../../validations/UserLoginValidatioin";
+import { useSnackbar } from "notistack";
 
 interface ILoginFormProps{
     show: boolean;
@@ -18,13 +19,16 @@ const LoginForm: FC<ILoginFormProps> = (props) => {
 
     const store = useStore();
     const initialValues = new IUserLogin();
+    const { enqueueSnackbar } = useSnackbar()
 
     const loginSubmit = async (credentials: IUserLogin, helpers: FormikHelpers<IUserLogin>) => {
 
         await store.userStore.login(credentials)
         if(store.userStore.user != null && store.userStore.isError == false){
             props.onHide();
-            console.log(store.userStore.user)
+            enqueueSnackbar("Login succeed.", { variant: 'success'})
+        } else {
+            enqueueSnackbar("Failed to Login.", { variant: 'error'})
         }
       };
 

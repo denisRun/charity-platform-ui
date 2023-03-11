@@ -1,12 +1,13 @@
 import { FC } from "react";
 
 interface TextLargeProps{
-    children: React.ReactNode
+    children: React.ReactNode,
+    className: string
 }
 
 const TextLarge: FC<TextLargeProps> = (props) => {
     return (
-        <p style={{ fontSize:"20px", fontWeight:"bold",  display:"contents"}}>
+        <p className={ props.className } style={{ fontSize:"20px", fontWeight:"bold",  display:"contents"}}>
             {props.children}
         </p>
   )};

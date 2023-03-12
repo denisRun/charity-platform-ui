@@ -31,7 +31,7 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
             props.onHide();
             enqueueSnackbar("Email has been send.", { variant: 'success'})
         } else{
-        enqueueSnackbar("Failed to Sign up.", { variant: 'error'})
+            enqueueSnackbar("Failed to Sign up.", { variant: 'error'})
         }
       };
 

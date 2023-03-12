@@ -85,6 +85,14 @@
   --theme-font-family: Inter;
 }
 
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .dark-gray{
   color:var(--theme-dark-gray)
 }
@@ -752,6 +760,11 @@ progress {
   width: auto;
 }
 
+.col-0-5 {
+  flex: 0 0 auto;
+  width: 4.166666665%;
+}
+
 .col-1 {
   flex: 0 0 auto;
   width: 8.33333333%;
@@ -760,6 +773,11 @@ progress {
 .col-2 {
   flex: 0 0 auto;
   width: 16.66666667%;
+}
+
+.col-2-5 {
+  flex: 0 0 auto;
+  width: 20.83333333%;
 }
 
 .col-3 {
@@ -7370,8 +7388,16 @@ textarea.form-control-lg {
   height: 25% !important;
 }
 
+.h-30 {
+  height: 30% !important;
+}
+
 .h-50 {
   height: 50% !important;
+}
+
+.h-70 {
+  height: 70% !important;
 }
 
 .h-75 {

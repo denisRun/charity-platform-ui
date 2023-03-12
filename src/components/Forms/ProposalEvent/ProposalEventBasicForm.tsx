@@ -85,6 +85,9 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
+                                    as="textarea" 
+                                    rows={3}
+                                    type="textarea"
                                     name="description"
                                     placeholder="Description"
                                     value={values.description}

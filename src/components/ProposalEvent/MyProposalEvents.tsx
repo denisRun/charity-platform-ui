@@ -1,3 +1,4 @@
+import { Pagination } from "@mui/material";
 import { observer } from "mobx-react";
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
@@ -5,6 +6,7 @@ import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortBy } from "../../types/enums/ProposalEventSortBy";
 import { ProposalEventStatus } from "../../types/enums/ProposalEventStatus";
 import { SortOrder } from "../../types/enums/SortOrder";
+import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
 
 interface BodyProps{
@@ -98,10 +100,16 @@ const MyProposalEvents: FC = observer(() => {
             </div>
         </Container>
         <Container className="mt-3" fluid>
-            <div className="row" >
-                фівафі
+            <div>
+                <ProposalEventCard />
+                <ProposalEventCard />
+                
+
             </div>
         </Container>
+        <div className="d-flex justify-content-center" style={{}}>
+                    <Pagination count={10} style={{justifyContent:"center"}}/>
+            </div>
         <ProposalEventBasicForm
             isCreate={true}
             show={createProposalFormShow}

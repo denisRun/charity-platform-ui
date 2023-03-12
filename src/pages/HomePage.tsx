@@ -8,18 +8,7 @@ import Body from '../components/Body'
 import ImagePeople from '../images/home-page-people.png';
 
 const HomePage: FC = observer(() => {
-  const navigate = useNavigate();
-  const store = useStore();
-  const [filter, setFilter] = useState("");
-
-  const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFilter(event.currentTarget.value);
-  }
-
-//   const handleSearchClick = () => {
-//     store.userStore.getUsers(filter);
-//   }
-
+  
   return (
     <div>
         <Header />

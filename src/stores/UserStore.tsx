@@ -25,7 +25,7 @@ export class UserStore {
             const user = await UserServiceInstance.login(credentials);
             this.user = user;
             this.finishOperation();
-            localStorage.setItem("token", user.token);
+            localStorage.setItem("token", user.token!);
         } catch(ex){
             console.log(ex);
             this.operationFailed((ex as any).errorMessage);

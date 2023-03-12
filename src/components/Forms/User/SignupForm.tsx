@@ -10,6 +10,7 @@ import TextFormHeader from "../../Text/TextFormHeader";
 import TextForm from "../../Text/TextForm";
 import { IUserSignup } from "../../../types/UserSignup";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
+import { useSnackbar } from "notistack";
 
 interface ISignupFormProps{
     show: boolean;
@@ -20,13 +21,17 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
 
     const store = useStore();
     const initialValues = new IUserSignup();
-
+    const { enqueueSnackbar } = useSnackbar()
+    
     const signupSubmit = async (credentials: IUserSignup, helpers: FormikHelpers<IUserSignup>) => {
 
         await store.userStore.signup(credentials);
         console.log(credentials);
         if(store.userStore.isError == false){
             props.onHide();
+            enqueueSnackbar("Email has been send.", { variant: 'success'})
+        } else{
+        enqueueSnackbar("Failed to Sign up.", { variant: 'error'})
         }
       };
 

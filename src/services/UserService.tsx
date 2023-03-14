@@ -8,20 +8,32 @@ import { IUser } from "../types/UserType";
 
 export interface IUserService{
     login(credentials: IUserLogin): Promise<IUser>;
+    refreshUserData(refreshToken: string): Promise<IUser>;
+    signup(credentials: IUserSignup): Promise<IUser>;
     changePassword(): Promise<void>;
-    getUsers(query: string): Promise<IUser[]>;
-    getUser(id: string): Promise<IUser>;
-    createUser(user: IUser): Promise<IUser>;
-    updateUser(id: string, user: IUser): Promise<IUser>;
+    // getUsers(query: string): Promise<IUser[]>;
+    // getUser(id: string): Promise<IUser>;
+    // createUser(user: IUser): Promise<IUser>;
+    // updateUser(id: string, user: IUser): Promise<IUser>;
+    getNotifications(): Promise<INotification[]>;
 }
 
 const authControllerPath = "/auth";
+const apiControllerPath = "/api";
 const userControllerPath = "/user";
 
 class UserService implements IUserService{
 
     async login(credentials: IUserLogin): Promise<IUser> {
         const response = await axios.post<IUser>(authControllerPath + "/sign-in", JSON.stringify(credentials));
+        return response.data;
+    }
+
+    async refreshUserData(refreshToken: string): Promise<IUser> {
+        const tokenObj = {
+            refreshToken: refreshToken
+        }
+        const response = await axios.post<IUser>(apiControllerPath + "/refresh-user-data", JSON.stringify(tokenObj));
         return response.data;
     }
 
@@ -70,4 +82,4 @@ class UserService implements IUserService{
 /**
  * Export only one Instance of class
 */
-export const UserServiceInstance = new UserService();
+export const UserServiceInstance: IUserService = new UserService();

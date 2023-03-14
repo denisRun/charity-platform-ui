@@ -1,10 +1,13 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, toJS } from 'mobx';
 import { ProposalEventServiceInstance } from '../services/ProposalEventService';
 import { IProposalEventBasic } from '../types/ProposalEventBasic';
 
 export class ProposalEventStore {
     // event: IUser | null = null;
     // events: INotification[] | null = null;
+    events: IProposalEventBasic[] = [];
+    ownEvents: IProposalEventBasic[]  = [];
+    tookPartEvents: IProposalEventBasic[] = [];
     isLoading: boolean = false;
     isError: boolean = false;
     errorMessage: string = '';
@@ -17,6 +20,18 @@ export class ProposalEventStore {
         try{
             this.startOperation();
             const createdEvent = await ProposalEventServiceInstance.createEvent(event);
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+    
+    getOwnEvents = async (): Promise<void> => {
+        try{
+            this.startOperation();
+            const eventsResponse = await ProposalEventServiceInstance.getOwnEvents();
+            this.ownEvents = eventsResponse;
             this.finishOperation();
         } catch(ex){
             console.log(ex);

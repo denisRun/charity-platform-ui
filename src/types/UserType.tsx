@@ -8,5 +8,6 @@ export class IUser{
     telephone?: string;
     companyName?: string;
     token?: string;
+    refreshToken?: string;
     address?: IAddress;
 }

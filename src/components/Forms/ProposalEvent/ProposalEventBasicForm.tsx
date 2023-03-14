@@ -108,49 +108,6 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                             />
                             <ErrorMessage name="maxConcurrentRequests">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
                         </Row>
-                        <Row className="ms-3 me-3 mt-4 mb-2">
-                            <TextForm> Location: </TextForm>
-                        </Row>
-                        <Row className="ms-3 me-3">
-                            <Col className="ps-0">
-                                <Form.Control
-                                    name="location.region"
-                                    placeholder="Region"
-                                    value={values.location?.region}
-                                    onChange={handleChange}
-                                />
-                                <ErrorMessage name="location.region">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
-                            </Col>
-                            <Col className="pe-0">
-                                <Form.Control
-                                    name="location.city"
-                                    placeholder="City"
-                                    value={values.location?.city}
-                                    onChange={handleChange}
-                                />
-                                <ErrorMessage name="location.city">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
-                            </Col>
-                        </Row>
-                        <Row className="ms-3 me-3 mt-3">
-                            <Col className="ps-0">
-                                <Form.Control
-                                    name="location.district"
-                                    placeholder="District"
-                                    value={values.location?.district}
-                                    onChange={handleChange}
-                                />
-                                <ErrorMessage name="location.district">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
-                            </Col>
-                            <Col className="pe-0">
-                                <Form.Control
-                                    name="location.homeLocation"
-                                    placeholder="Street"
-                                    value={values.location?.homeLocation}
-                                    onChange={handleChange}
-                                />
-                                <ErrorMessage name="location.homeLocation">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
-                            </Col>
-                        </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
                                     {props.isCreate == true ? "Submit" : "Update"}

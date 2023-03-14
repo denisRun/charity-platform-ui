@@ -15,7 +15,7 @@ export class UserStore {
     constructor(){
         makeAutoObservable(this);
         if(localStorage.getItem("token") != null){
-            //alert("relogin with token");
+            this.refreshUserData(localStorage.getItem("refreshToken")!);
         }
     }
 
@@ -26,6 +26,19 @@ export class UserStore {
             this.user = user;
             this.finishOperation();
             localStorage.setItem("token", user.token!);
+            localStorage.setItem("refreshToken", user.refreshToken!);
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }    
+
+    refreshUserData = async (refreshToken: string): Promise<void> => {
+        try{
+            this.startOperation();
+            const user = await UserServiceInstance.refreshUserData(refreshToken);
+            this.user = user;
+            this.finishOperation();
         } catch(ex){
             console.log(ex);
             this.operationFailed((ex as any).errorMessage);
@@ -65,32 +78,32 @@ export class UserStore {
         }
     }  
 
-    getUser = async (id?: string): Promise<void> => {
-        try{
-            const user = await UserServiceInstance.getUser(id);
-            this.user = user;
-        } catch(ex){
-            console.log(ex);
-        }
-    }
+    // getUser = async (id?: string): Promise<void> => {
+    //     try{
+    //         const user = await UserServiceInstance.getUser(id!);
+    //         this.user = user;
+    //     } catch(ex){
+    //         console.log(ex);
+    //     }
+    // }
 
-    createUser = async (newItem: IUser): Promise<void> => {
-        try{
-            const createdUser = await UserServiceInstance.createUser(newItem);
-            this.user = createdUser;
-        } catch(ex){
-            console.log(ex);
-        }
-    }
+    // createUser = async (newItem: IUser): Promise<void> => {
+    //     try{
+    //         const createdUser = await UserServiceInstance.createUser(newItem);
+    //         this.user = createdUser;
+    //     } catch(ex){
+    //         console.log(ex);
+    //     }
+    // }
 
-    updateUser = async (id: string, itemToUpdate: IUser): Promise<void> => {
-        try{
-            const updatedUser = await UserServiceInstance.updateUser(id, itemToUpdate);
-            this.user = updatedUser;
-        } catch(ex){
-            console.log(ex);
-        }
-    }
+    // updateUser = async (id: string, itemToUpdate: IUser): Promise<void> => {
+    //     try{
+    //         const updatedUser = await UserServiceInstance.updateUser(id, itemToUpdate);
+    //         this.user = updatedUser;
+    //     } catch(ex){
+    //         console.log(ex);
+    //     }
+    // }
 
     getNotifications = async (): Promise<void> => {
         try{
@@ -122,5 +135,3 @@ export class UserStore {
         this.errorMessage = ex;
     }
 }
-
-export default new UserStore();

@@ -1,11 +1,14 @@
 import { Pagination } from "@mui/material";
 import { observer } from "mobx-react";
-import { FC, useState } from "react";
+import { useSnackbar } from "notistack";
+import { FC, useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortBy } from "../../types/enums/ProposalEventSortBy";
 import { ProposalEventStatus } from "../../types/enums/ProposalEventStatus";
 import { SortOrder } from "../../types/enums/SortOrder";
+import { IProposalEventBasic } from "../../types/ProposalEventBasic";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
 
@@ -20,18 +23,17 @@ const MyProposalEvents: FC = observer(() => {
     const [sortDirection, setSortDirection] = useState<string>(SortOrder.descending);
     const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatus.active);
     const [createProposalFormShow, setCreateProposalFormShow] = useState(false);
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar()
 
-    const handleSearchClick = async () => {
+    const handleSearchClick = () => {
 
-        alert("search by "+sortBy+" "+sortDirection+" "+filterStatus)
-        // await store.userStore.login(credentials)
-        // if(store.userStore.user != null && store.userStore.isError == false){
-        //     props.onHide();
-        //     enqueueSnackbar("Login succeed.", { variant: 'success'})
-        // } else {
-        //     enqueueSnackbar("Failed to Login.", { variant: 'error'})
-        // }
-      };
+        //alert("search by "+sortBy+" "+sortDirection+" "+filterStatus)
+        store.proposalEventStore.getOwnEvents()
+        if(store.proposalEventStore.isError == true){
+            enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+        }
+    }
     
     return (
         <>
@@ -101,15 +103,14 @@ const MyProposalEvents: FC = observer(() => {
         </Container>
         <Container className="mt-3" fluid>
             <div>
-                <ProposalEventCard />
-                <ProposalEventCard />
-                
-
+                {store.proposalEventStore.ownEvents.map((event) => (
+                    <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} key={event.id!}/>            
+                ))}
             </div>
         </Container>
         <div className="d-flex justify-content-center" style={{}}>
-                    <Pagination count={10} style={{justifyContent:"center"}}/>
-            </div>
+                <Pagination hidden={store.proposalEventStore.ownEvents.length > 1 ? false : true} count={10} style={{justifyContent:"center"}}/>
+        </div>
         <ProposalEventBasicForm
             isCreate={true}
             show={createProposalFormShow}

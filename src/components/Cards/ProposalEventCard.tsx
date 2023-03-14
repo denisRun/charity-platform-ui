@@ -1,7 +1,11 @@
 import { FC } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { IProposalEventBasic } from "../../types/ProposalEventBasic";
 
 interface TextFormProps{
+    onClick: () => void;
+    item: IProposalEventBasic;
+    key: number;
 }
 
 const ProposalEventCard: FC<TextFormProps> = (props) => {
@@ -51,12 +55,12 @@ const ProposalEventCard: FC<TextFormProps> = (props) => {
         //         </div>
         //     </div>
         // </div>
-        <div className="card w-100 mb-3" style={{height:160}}>
+        <div className="card w-100 mb-3 card-hover" style={{height:160}}>
             <div className="row h-100 ms-2 me-2" style={{marginTop: "auto", marginBottom: "auto", overflow:"hidden"}}>
-                <div className="col-2" style={{height:135,overflow:"hidden",marginTop: "auto", marginBottom: "auto"}}>
+                <div className="col-2" style={{height:135,overflow:"hidden",marginTop: "auto", marginBottom: "auto"}} onClick={() => props.onClick()}>
                     <img src="https://img.freepik.com/free-photo/beautiful-aerial-shot-fronalpstock-mountains-switzerland-beautiful-pink-blue-sky_181624-9315.jpg?w=996&t=st=1678644966~exp=1678645566~hmac=ba4b8eb4e9e07f835b572413756f273bd4063e70b616e22e6e22a643cfccbbba" className="img-fluid rounded-1 border border-2"  alt="Avatar" />
                 </div>
-                <div className="col-7 mt-3">
+                <div className="col-7 mt-3" onClick={() => props.onClick()}>
                     <div className="row h-30" >
                         <div className="col-12" >
                             <h3>{"I can pick up stray dogs.I can pick up stray dogs".slice(0,100)+" ..."}</h3>

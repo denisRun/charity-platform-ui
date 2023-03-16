@@ -9,9 +9,9 @@ import TextLarge from "../../Text/TextLarge";
 import TextFormHeader from "../../Text/TextFormHeader";
 import TextForm from "../../Text/TextForm";
 import { IUserSignup } from "../../../types/UserSignup";
-import { IProposalEventBasic } from "../../../types/ProposalEventBasic";
 import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
+import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdateResource";
 
 interface IProposalEventBasicFormProps{
     show: boolean;
@@ -23,9 +23,9 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
-    const initialValues = new IProposalEventBasic();
+    const initialValues = new IProposalEventUpdateResource();
 
-    const proposalEventSubmit = async (proposalEvent: IProposalEventBasic, helpers: FormikHelpers<IProposalEventBasic>) => {
+    const proposalEventSubmit = async (proposalEvent: IProposalEventUpdateResource, helpers: FormikHelpers<IProposalEventUpdateResource>) => {
 
         await store.proposalEventStore.createEvent(proposalEvent);
         console.log(proposalEvent);

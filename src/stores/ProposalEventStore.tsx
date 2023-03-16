@@ -1,13 +1,12 @@
 import { action, makeAutoObservable, toJS } from 'mobx';
 import { ProposalEventServiceInstance } from '../services/ProposalEventService';
-import { IProposalEventBasic } from '../types/ProposalEventBasic';
+import { IProposalEventSearchResource } from '../types/ProposalEventSearchResource';
+import { IProposalEventUpdateResource } from '../types/ProposalEventUpdateResource';
 
 export class ProposalEventStore {
-    // event: IUser | null = null;
-    // events: INotification[] | null = null;
-    events: IProposalEventBasic[] = [];
-    ownEvents: IProposalEventBasic[]  = [];
-    tookPartEvents: IProposalEventBasic[] = [];
+    events: IProposalEventSearchResource[] = [];
+    ownEvents: IProposalEventSearchResource[]  = [];
+    tookPartEvents: IProposalEventSearchResource[] = [];
     isLoading: boolean = false;
     isError: boolean = false;
     errorMessage: string = '';
@@ -16,7 +15,7 @@ export class ProposalEventStore {
         makeAutoObservable(this);
     } 
 
-    createEvent = async (event: IProposalEventBasic): Promise<void> => {
+    createEvent = async (event: IProposalEventUpdateResource): Promise<void> => {
         try{
             this.startOperation();
             const createdEvent = await ProposalEventServiceInstance.createEvent(event);

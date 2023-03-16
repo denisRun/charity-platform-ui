@@ -1,3 +1,4 @@
+import { Pagination } from "@mui/material";
 import { observer } from "mobx-react";
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
@@ -100,6 +101,9 @@ const TookPartInProposalEvents: FC = observer(() => {
                 фівафі
             </div>
         </Container>
+        <div className="d-flex justify-content-center" style={{}}>
+                <Pagination hidden={store.proposalEventStore.tookPartEvents.length > 1 ? false : true} count={10} style={{justifyContent:"center"}}/>
+        </div>
         </>
   )});
 

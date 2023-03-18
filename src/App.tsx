@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
+import ProposalEventItemPage from './pages/proposition-event/ProposalEventItemPage';
 import ProposalEventsPage from './pages/proposition-event/ProposalEventsPage';
 
 const App = () => {
@@ -8,6 +9,7 @@ const App = () => {
     <BrowserRouter>
         <Routes>
           <Route element={<HomePage/>} path={'/'} />
+          <Route element={<ProposalEventItemPage/>} path={'/propositions/:id'} />
           <Route element={<ProposalEventsPage/>} path={'/propositions'} />
           <Route element={<HomePage/>} path={'/help'} />
           <Route element={<HomePage/>} path={'/statistics'} />

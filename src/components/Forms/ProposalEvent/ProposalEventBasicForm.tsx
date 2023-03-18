@@ -8,7 +8,7 @@ import { ErrorMessage, Formik, FormikHelpers } from "formik";
 import TextLarge from "../../Text/TextLarge";
 import TextFormHeader from "../../Text/TextFormHeader";
 import TextForm from "../../Text/TextForm";
-import { IUserSignup } from "../../../types/UserSignup";
+import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
 import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdateResource";
@@ -16,6 +16,7 @@ import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdate
 interface IProposalEventBasicFormProps{
     show: boolean;
     isCreate: boolean;
+    item?: IProposalEventUpdateResource;
     onHide: () => void;
 }
 
@@ -23,17 +24,28 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
-    const initialValues = new IProposalEventUpdateResource();
+    const initialValues = props.item ?? new IProposalEventUpdateResource();
 
     const proposalEventSubmit = async (proposalEvent: IProposalEventUpdateResource, helpers: FormikHelpers<IProposalEventUpdateResource>) => {
 
-        await store.proposalEventStore.createEvent(proposalEvent);
-        console.log(proposalEvent);
-        if(store.proposalEventStore.isError == false){
-            props.onHide();
-            enqueueSnackbar("Suggestion created.", { variant: 'success'})
+        if(props.isCreate){
+            await store.proposalEventStore.createEvent(proposalEvent);
+
+            if(store.proposalEventStore.isError == false){
+                props.onHide();
+                enqueueSnackbar("Suggestion created.", { variant: 'success'})
+            } else {
+                enqueueSnackbar("Failed to create suggestion.", { variant: 'error'})
+            }
         } else {
-            enqueueSnackbar("Failed to create suggestion.", { variant: 'error'})
+            await store.proposalEventStore.updateEvent(proposalEvent);
+
+            if(store.proposalEventStore.isError == false){
+                props.onHide();
+                enqueueSnackbar("Suggestion updated.", { variant: 'success'})
+            } else {
+                enqueueSnackbar("Failed to update suggestion.", { variant: 'error'})
+            }
         }
       };
 

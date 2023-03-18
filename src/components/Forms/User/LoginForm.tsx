@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Link } from "react-router-dom";
 import logo from '../../../images/logo.svg';
 import { ErrorMessage, Formik, FormikHelpers } from "formik";
-import { IUserLogin } from "../../../types/UserLogin";
+import { IUserLoginRequest } from "../../../types/UserLoginRequest";
 import UserLoginValidation from "../../../validations/UserLoginValidatioin";
 import { useSnackbar } from "notistack";
 
@@ -18,10 +18,10 @@ interface ILoginFormProps{
 const LoginForm: FC<ILoginFormProps> = (props) => {
 
     const store = useStore();
-    const initialValues = new IUserLogin();
+    const initialValues = new IUserLoginRequest();
     const { enqueueSnackbar } = useSnackbar()
 
-    const loginSubmit = async (credentials: IUserLogin, helpers: FormikHelpers<IUserLogin>) => {
+    const loginSubmit = async (credentials: IUserLoginRequest, helpers: FormikHelpers<IUserLoginRequest>) => {
 
         await store.userStore.login(credentials)
         if(store.userStore.user != null && store.userStore.isError == false){

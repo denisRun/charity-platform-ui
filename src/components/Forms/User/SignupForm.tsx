@@ -8,7 +8,7 @@ import { ErrorMessage, Formik, FormikHelpers } from "formik";
 import TextLarge from "../../Text/TextLarge";
 import TextFormHeader from "../../Text/TextFormHeader";
 import TextForm from "../../Text/TextForm";
-import { IUserSignup } from "../../../types/UserSignup";
+import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
 
@@ -20,10 +20,10 @@ interface ISignupFormProps{
 const SignupForm: FC<ISignupFormProps> = (props) => {
 
     const store = useStore();
-    const initialValues = new IUserSignup();
+    const initialValues = new IUserSignupRequest();
     const { enqueueSnackbar } = useSnackbar()
     
-    const signupSubmit = async (credentials: IUserSignup, helpers: FormikHelpers<IUserSignup>) => {
+    const signupSubmit = async (credentials: IUserSignupRequest, helpers: FormikHelpers<IUserSignupRequest>) => {
 
         await store.userStore.signup(credentials);
         console.log(credentials);

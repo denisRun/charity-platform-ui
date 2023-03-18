@@ -55,7 +55,7 @@ const MyProposalEvents: FC = observer(() => {
         return 0;
       }
 
-    const pageSize: number = 2;
+    const pageSize: number = 5;
     const totalPageCount = Math.ceil((store.proposalEventStore.ownEvents
         .filter(event => event.title!.includes(filterTitle) && event.status == filterStatus).length) / pageSize);
     

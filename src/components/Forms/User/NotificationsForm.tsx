@@ -8,7 +8,7 @@ import { ErrorMessage, Formik, FormikHelpers } from "formik";
 import TextLarge from "../../Text/TextLarge";
 import TextFormHeader from "../../Text/TextFormHeader";
 import TextForm from "../../Text/TextForm";
-import { IUserSignup } from "../../../types/UserSignup";
+import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 
 interface INotificationsFormProps{
@@ -19,7 +19,7 @@ interface INotificationsFormProps{
 const NotificationsForm: FC<INotificationsFormProps> = (props) => {
 
     const store = useStore();
-    const initialValues = new IUserSignup();
+    const initialValues = new IUserSignupRequest();
 
     return (
         <Modal

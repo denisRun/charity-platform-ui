@@ -1,13 +1,13 @@
 import { action, makeAutoObservable } from 'mobx';
 import { UserServiceInstance } from '../services/UserService';
-import { INotification } from '../types/Notification';
-import { IUserLogin } from '../types/UserLogin';
-import { IUserSignup } from '../types/UserSignup';
-import { IUser } from '../types/UserType';
+import { INotificationResource } from '../types/NotificationResource';
+import { IUserLoginRequest } from '../types/UserLoginRequest';
+import { IUserSignupRequest } from '../types/UserSignupRequest';
+import { IUserResource } from '../types/UserResource';
 
 export class UserStore {
-    user: IUser | null = null;
-    notifications: INotification[] | null = null;
+    user: IUserResource | null = null;
+    notifications: INotificationResource[] = [];
     isLoading: boolean = false;
     isError: boolean = false;
     errorMessage: string = '';
@@ -19,7 +19,7 @@ export class UserStore {
         }
     }
 
-    login = async (credentials: IUserLogin): Promise<void> => {
+    login = async (credentials: IUserResource): Promise<void> => {
         try{
             this.startOperation();
             const user = await UserServiceInstance.login(credentials);
@@ -45,7 +45,7 @@ export class UserStore {
         }
     }    
 
-    signup = async (credentials: IUserSignup): Promise<void> => {
+    signup = async (credentials: IUserSignupRequest): Promise<void> => {
         try{
             this.startOperation();
             const user = await UserServiceInstance.signup(credentials);

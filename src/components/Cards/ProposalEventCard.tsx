@@ -3,13 +3,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IProposalEventSearchResource } from "../../types/ProposalEventSearchResource";
 import dateTimeFormatter from "../../Helpers/ToDateTimeConverter";
 
-interface TextFormProps{
+interface ProposalEventCardProps{
     onClick: () => void;
     item: IProposalEventSearchResource;
     key: number;
 }
 
-const ProposalEventCard: FC<TextFormProps> = (props) => {
+const ProposalEventCard: FC<ProposalEventCardProps> = (props) => {
 
     return (
         <div className="card w-100 mb-3 card-hover" style={{height:160}}>
@@ -20,12 +20,12 @@ const ProposalEventCard: FC<TextFormProps> = (props) => {
                 <div className="col-7 mt-3" onClick={() => props.onClick()}>
                     <div className="row h-30" >
                         <div className="col-12" >
-                            <h3>{props.item.title!.length > 100 ? props.item.title!.slice(0,100)+" ..." : props.item.title}</h3>
+                            <h3>{props.item.title!.length > 55 ? props.item.title!.slice(0,55)+" ..." : props.item.title}</h3>
                         </div>
                     </div>
                     <div className="row h-70 mt-1" >
                         <div className="col-12">
-                            <h6>{props.item.description!.length > 350 ? props.item.description!.slice(0,350)+" ..." : props.item.description}</h6>
+                            <h6>{props.item.description!.length > 400 ? props.item.description!.slice(0,400)+" ..." : props.item.description}</h6>
                         </div>
                     </div>
                 </div>

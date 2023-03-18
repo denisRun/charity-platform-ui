@@ -1,21 +1,21 @@
 import axios from "../axios/Axios";
-import { INotification } from "../types/Notification";
+import { INotificationResource } from "../types/NotificationResource";
 import { IPagedResultSet } from "../types/PagedResultSet";
-import { IUserLogin } from "../types/UserLogin";
+import { IUserLoginRequest } from "../types/UserLoginRequest";
 import { UserSearchRequest } from "../types/UserSearchRequest";
-import { IUserSignup } from "../types/UserSignup";
-import { IUser } from "../types/UserType";
+import { IUserSignupRequest } from "../types/UserSignupRequest";
+import { IUserResource } from "../types/UserResource";
 
 export interface IUserService{
-    login(credentials: IUserLogin): Promise<IUser>;
-    refreshUserData(refreshToken: string): Promise<IUser>;
-    signup(credentials: IUserSignup): Promise<IUser>;
+    login(credentials: IUserLoginRequest): Promise<IUserResource>;
+    refreshUserData(refreshToken: string): Promise<IUserResource>;
+    signup(credentials: IUserSignupRequest): Promise<IUserResource>;
     changePassword(): Promise<void>;
     // getUsers(query: string): Promise<IUser[]>;
     // getUser(id: string): Promise<IUser>;
     // createUser(user: IUser): Promise<IUser>;
     // updateUser(id: string, user: IUser): Promise<IUser>;
-    getNotifications(): Promise<INotification[]>;
+    getNotifications(): Promise<INotificationResource[]>;
 }
 
 const authControllerPath = "/auth";
@@ -24,21 +24,21 @@ const userControllerPath = "/user";
 
 class UserService implements IUserService{
 
-    async login(credentials: IUserLogin): Promise<IUser> {
-        const response = await axios.post<IUser>(authControllerPath + "/sign-in", JSON.stringify(credentials));
+    async login(credentials: IUserLoginRequest): Promise<IUserResource> {
+        const response = await axios.post<IUserResource>(authControllerPath + "/sign-in", JSON.stringify(credentials));
         return response.data;
     }
 
-    async refreshUserData(refreshToken: string): Promise<IUser> {
+    async refreshUserData(refreshToken: string): Promise<IUserResource> {
         const tokenObj = {
             refreshToken: refreshToken
         }
-        const response = await axios.post<IUser>(apiControllerPath + "/refresh-user-data", JSON.stringify(tokenObj));
+        const response = await axios.post<IUserResource>(apiControllerPath + "/refresh-user-data", JSON.stringify(tokenObj));
         return response.data;
     }
 
-    async signup(credentials: IUserSignup): Promise<IUser> {
-        const response = await axios.post<IUser>(authControllerPath + "/sign-up", JSON.stringify(credentials));
+    async signup(credentials: IUserSignupRequest): Promise<IUserResource> {
+        const response = await axios.post<IUserResource>(authControllerPath + "/sign-up", JSON.stringify(credentials));
         return response.data;
     }
 
@@ -46,35 +46,35 @@ class UserService implements IUserService{
         const response = await axios.post<void>(authControllerPath + "/reset-password");
     }
 
-    async getNotifications(): Promise<INotification[]> {
-        const response = await axios.get<INotification[]>(userControllerPath + "/notifications");
+    async getNotifications(): Promise<INotificationResource[]> {
+        const response = await axios.get<INotificationResource[]>(userControllerPath + "/notifications");
         return response.data;
     }
     // ALL the following should be REMOVED
 
 
-    async getUsers(query: string): Promise<IUser[]> {
+    async getUsers(query: string): Promise<IUserResource[]> {
         const request: UserSearchRequest = {
             query:query,
             pageNumber:1,
             pageSize:20
         };
-        const response = await axios.post<IPagedResultSet<IUser>>(authControllerPath + '/search', request);
+        const response = await axios.post<IPagedResultSet<IUserResource>>(authControllerPath + '/search', request);
         return response.data.items;
     }
 
-    async getUser(id?: string): Promise<IUser> {
-        const response = await axios.get<IUser>(authControllerPath + "/" + id);
+    async getUser(id?: string): Promise<IUserResource> {
+        const response = await axios.get<IUserResource>(authControllerPath + "/" + id);
         return response.data;
     }
 
-    async createUser(user: IUser): Promise<IUser> {
-        const response = await axios.post<IUser>(authControllerPath, JSON.stringify(user));
+    async createUser(user: IUserResource): Promise<IUserResource> {
+        const response = await axios.post<IUserResource>(authControllerPath, JSON.stringify(user));
         return response.data;
     }
 
-    async updateUser(id: string, user: IUser): Promise<IUser> {
-        const response = await axios.put<IUser>(authControllerPath + "/" +id, JSON.stringify(user));
+    async updateUser(id: string, user: IUserResource): Promise<IUserResource> {
+        const response = await axios.put<IUserResource>(authControllerPath + "/" +id, JSON.stringify(user));
         return response.data;
     }
 }

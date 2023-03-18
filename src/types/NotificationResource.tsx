@@ -1,4 +1,4 @@
-export class INotification{
+export class INotificationResource{
     id?: string;
     eventType?: string;
     eventId?: string;

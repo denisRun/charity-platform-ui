@@ -1,4 +1,4 @@
-export class IAddress{
+export class IAddressResource{
     region?: string;
     city?: string;
     district?: string;

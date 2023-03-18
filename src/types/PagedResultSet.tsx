@@ -1,4 +1,4 @@
-import { IUser } from "./UserType";
+import { IUserResource } from "./UserResource";
 
 export class IPagedResultSet<T>{
     pageNumber!: number;

@@ -1,6 +1,6 @@
 import { IUserInfoResource } from "./UserInfoResource";
 import { ICommentResource } from "./CommentResource";
-import { ITags } from "./Tags";
+import { ITagResource } from "./TagResource";
 import { ITransactionResource } from "./TransactionResource";
 
 export class IProposalEventSearchResource{
@@ -15,7 +15,7 @@ export class IProposalEventSearchResource{
     authorInfo?: IUserInfoResource = new IUserInfoResource();
     comments?: ICommentResource[] = [];
     transactions?: ITransactionResource[] = [];
-    tags?: ITags[] = [];
+    tags?: ITagResource[] = [];
 
     constructor(){
         this.tags = [];

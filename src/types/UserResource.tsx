@@ -1,6 +1,6 @@
-import { IAddress } from "./Address";
+import { IAddressResource } from "./AddressResource";
 
-export class IUser{
+export class IUserResource{
     id?: number;
     firstName?: string;
     secondName?: string
@@ -9,5 +9,5 @@ export class IUser{
     companyName?: string;
     token?: string;
     refreshToken?: string;
-    address?: IAddress;
+    address?: IAddressResource;
 }

@@ -1,4 +1,4 @@
-export class IUserLogin{
+export class IUserLoginRequest{
     email?: string;
     password?: string;
 }

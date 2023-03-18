@@ -1,4 +1,4 @@
-export class ITags{
+export class ITagResource{
     title?: string;
     values?: string[];
 }

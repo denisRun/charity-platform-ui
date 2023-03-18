@@ -1,6 +1,6 @@
-import { IAddress } from "./Address";
+import { IAddressResource } from "./AddressResource";
 
-export class IUserSignup{
+export class IUserSignupRequest{
     firstName?: string;
     secondName?: string;
     email?: string;
@@ -8,9 +8,9 @@ export class IUserSignup{
     telephone?: string;
     companyName?: string;
     companyLink?: string;
-    address?: IAddress;
+    address?: IAddressResource;
 
     constructor(){
-        this.address = new IAddress();
+        this.address = new IAddressResource();
     }
 }

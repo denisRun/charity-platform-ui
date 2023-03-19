@@ -1,7 +1,9 @@
 import { action, makeAutoObservable, toJS } from 'mobx';
 import { ProposalEventServiceInstance } from '../services/ProposalEventService';
+import { TagServiceInstance } from '../services/TagService';
 import { IProposalEventSearchResource } from '../types/ProposalEventSearchResource';
 import { IProposalEventUpdateResource } from '../types/ProposalEventUpdateResource';
+import { ITagResource } from '../types/TagResource';
 
 export class ProposalEventStore {
 
@@ -42,11 +44,11 @@ export class ProposalEventStore {
         }
     }  
 
-    upsertEventTags = async (event: IProposalEventUpdateResource): Promise<void> => {
+    upsertEventTags = async (tags: ITagResource[]): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.updateEvent(event);
-            this.event = await ProposalEventServiceInstance.getById(event.id?.toString()!)
+            await TagServiceInstance.upsertProposalEventTags(this.event.id!, tags);
+            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!)
             this.finishOperation();
         } catch(ex){
             console.log(ex);

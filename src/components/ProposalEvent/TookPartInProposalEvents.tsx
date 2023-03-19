@@ -3,9 +3,9 @@ import { observer } from "mobx-react";
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
-import { ProposalEventSortBy } from "../../types/enums/ProposalEventSortBy";
-import { ProposalEventStatus } from "../../types/enums/ProposalEventStatus";
-import { SortOrder } from "../../types/enums/SortOrder";
+import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
+import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
+import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 
 interface BodyProps{
     children: React.ReactNode
@@ -14,9 +14,9 @@ interface BodyProps{
 const TookPartInProposalEvents: FC = observer(() => {
 
     const store = useStore();
-    const [sortBy, setSortBy] = useState<string>(ProposalEventSortBy.createDate);
-    const [sortDirection, setSortDirection] = useState<string>(SortOrder.descending);
-    const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatus.active);
+    const [sortBy, setSortBy] = useState<string>(ProposalEventSortByEnum.createDate);
+    const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
+    const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatusEnum.active);
 
     const handleSearchClick = async () => {
 
@@ -57,8 +57,8 @@ const TookPartInProposalEvents: FC = observer(() => {
                                 setSortBy(selectedOption.target.value);
                                 }}
                             aria-label="Default select example">
-                            <option selected value={ProposalEventSortBy.createDate}>Created date</option>
-                            <option value={ProposalEventSortBy.title}>Title</option>
+                            <option selected value={ProposalEventSortByEnum.createDate}>Created date</option>
+                            <option value={ProposalEventSortByEnum.title}>Title</option>
                         </select>
                         <select className="form-select"
                             onChange={selectedOption => {
@@ -68,8 +68,8 @@ const TookPartInProposalEvents: FC = observer(() => {
                                 setSortDirection(selectedOption.target.value);
                                 }}
                             aria-label="Default select example">
-                            <option selected value={SortOrder.descending}>Descending</option>
-                            <option value={SortOrder.ascending}>Ascending</option>
+                            <option selected value={SortOrderEnum.descending}>Descending</option>
+                            <option value={SortOrderEnum.ascending}>Ascending</option>
                         </select>
                     </div>
                 </div>
@@ -82,9 +82,9 @@ const TookPartInProposalEvents: FC = observer(() => {
                             setFilterStatus(selectedOption.target.value);
                             }}
                         aria-label="Default select example">
-                        <option selected value={ProposalEventStatus.active}>Active</option>
-                        <option value={ProposalEventStatus.inactive}>Inactive</option>
-                        <option value={ProposalEventStatus.done}>Done</option>
+                        <option selected value={ProposalEventStatusEnum.active}>Active</option>
+                        <option value={ProposalEventStatusEnum.inactive}>Inactive</option>
+                        <option value={ProposalEventStatusEnum.done}>Done</option>
                     </select>
                 </div>
                 <div className="col-3">

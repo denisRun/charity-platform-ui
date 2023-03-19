@@ -13,11 +13,13 @@ import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
 import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdateResource";
 import { Checkbox } from "@mui/material";
+import { ITagResource } from "../../../types/TagResource";
+import { ProposalEventTagsEnum } from "../../../types/enums/ProposalEventTagsEnum";
 
 interface IProposalEventTagsFormProps{
     show: boolean;
     isCreate: boolean;
-    items?: IProposalEventUpdateResource;
+    items?: ITagResource[];
     onHide: () => void;
 }
 
@@ -25,27 +27,41 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
-    const initialValues = props.items ?? new IProposalEventUpdateResource();
-    const ageGroupValues = ["Children", "Schollers", "Students", "Middle aged", "Pensioners"];
-    const [userAgeGroupsSelected, setUserAgeGroupsSelected] = useState<string[]>(["Children"]);
+    const ageGroupPossibleValues = ["Children", "Schollers", "Students", "Middle aged", "Pensioners"];
+    
+    var userPrevAgeGroups = props.items?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values ?? [];
+    const [userAgeGroupsSelected, setUserAgeGroupsSelected] = useState<string[]>(userPrevAgeGroups);
 
-    const proposalEventSubmit = async (proposalEvent: IProposalEventUpdateResource, helpers: FormikHelpers<IProposalEventUpdateResource>) => {
+    var userPrevLocation = props.items?.find(x => x.title == ProposalEventTagsEnum.location)?.values ?? ['', '', '', ''];
+    const [region, setRegion] = useState(userPrevLocation[0]);
+    const [city, setCity] = useState(userPrevLocation[1]);
+    const [district, setDistrict] = useState(userPrevLocation[2]);
+    const [street, setStreet] = useState(userPrevLocation[3]);
 
+    const handleTagsSubmit = async () => {
 
-        alert(userAgeGroupsSelected);
-            // await store.proposalEventStore.createEvent(proposalEvent);
+        // alert(userAgeGroupsSelected);
+        const result: ITagResource[] = [];
 
-            // if(store.proposalEventStore.isError == false){
-            //     props.onHide();
-            //     enqueueSnackbar("Tags are updated.", { variant: 'success'})
-            // } else {
-            //     enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
-            // }
+        const location = [region, city, district, street];
+        const locationRes = new ITagResource(ProposalEventTagsEnum.location, location);
+        const ageGroupsRes = new ITagResource(ProposalEventTagsEnum.ageGroup, userAgeGroupsSelected);
+
+        result.push(locationRes);
+        result.push(ageGroupsRes);
+
+        await store.proposalEventStore.upsertEventTags(result);
+
+        if(store.proposalEventStore.isError == false){
+            props.onHide();
+            enqueueSnackbar("Tags are updated.", { variant: 'success'})
+        } else {
+            enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
+        }
     };
 
     const handleAgeGroupChange = async (value: string) => {
 
-        debugger;
         const newValues = userAgeGroupsSelected;
         const index = userAgeGroupsSelected.indexOf(value, 0);
         if (index > -1) {
@@ -75,8 +91,8 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
             </Modal.Header>
             <Modal.Body>
             <Formik
-                onSubmit={proposalEventSubmit}
-                initialValues={initialValues}
+                onSubmit={handleTagsSubmit}
+                initialValues={{}}
                 >
                 {({
                     handleSubmit,
@@ -89,22 +105,40 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
                 <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Age group: </TextForm>
+                            <TextForm> Location: </TextForm>
                         </Row>
-                        <Row className="me-3 ps-0">
-                            <div>
-                                {ageGroupValues.map((ageGroup) => (
-                                    <><input type="checkbox" key={"age-group"+ageGroup} id={"age-group"+ageGroup} value={ageGroup} className="checkbox-hidden me-3" defaultChecked={userAgeGroupsSelected.includes(ageGroup)} onChange={e => handleAgeGroupChange(e.target.value)} /> <label htmlFor={"age-group"+ageGroup} className="checkbox-rounded"> {ageGroup} </label></>
-                                ))}
-                                {/* <input type="checkbox" id="age-group-mig-age" value={"mid-age"} className="checkbox-hidden" /> <label htmlFor="age-group-mig-age" className="checkbox-rounded"> Mid age </label>
-                                <input type="checkbox" id="age-group-adult" value={"adult"} className="checkbox-hidden" /> <label htmlFor="age-group-adult" className="checkbox-rounded ms-3"> Adult </label> */}
+                        <Row className="ms-3 me-3 ps-0">
+                            <div className="col-6 ps-0">
+                                <input className="form-control" placeholder="Region" value={region} onChange={(e) => setRegion(e.target.value)}></input>
+                            </div>
+                            <div className="col-6">
+                                <input className="form-control" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)}></input>
                             </div>
                         </Row>
-                        
+                        <Row className="ms-3 me-3 mt-3 ps-0">
+                            <div className="col-6 ps-0">
+                                <input className="form-control" placeholder="District" value={district} onChange={(e) => setDistrict(e.target.value)}></input>
+                            </div>
+                            <div className="col-6">
+                                <input className="form-control" placeholder="Street" value={street} onChange={(e) => setStreet(e.target.value)}></input>
+                            </div>
+                        </Row>
+                        <Row className="ms-3 mt-3 me-3 mb-1">
+                            <TextForm> Age group: </TextForm>
+                        </Row>
+                        <Row className="ps-0 ms-1 mb-2">
+                            <div>
+                                {ageGroupPossibleValues.map((ageGroup) => (
+                                    <div className="mt-2 me-3" style={{display:"inline-block"}}>
+                                        <input type="checkbox" key={"age-group"+ageGroup} id={"age-group"+ageGroup} value={ageGroup} className="checkbox-hidden" defaultChecked={userAgeGroupsSelected.includes(ageGroup)} onChange={e => handleAgeGroupChange(e.target.value)} /> <label htmlFor={"age-group"+ageGroup} className="checkbox-rounded"> {ageGroup} </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
-                                <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                    Submit
-                                </Button>
+                            <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
+                                Submit
+                            </Button>
                         </Row>
                     </Container>
                 </Form>

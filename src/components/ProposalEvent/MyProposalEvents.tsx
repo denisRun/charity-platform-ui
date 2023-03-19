@@ -5,9 +5,9 @@ import { FC, useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../contexts/StoreContext";
-import { ProposalEventSortBy } from "../../types/enums/ProposalEventSortBy";
-import { ProposalEventStatus } from "../../types/enums/ProposalEventStatus";
-import { SortOrder } from "../../types/enums/SortOrder";
+import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
+import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
+import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import { IProposalEventSearchResource } from "../../types/ProposalEventSearchResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
@@ -20,9 +20,9 @@ const MyProposalEvents: FC = observer(() => {
 
     const store = useStore();
     const [filterTitle, setFilterTitle] = useState<string>('');
-    const [sortBy, setSortBy] = useState<string>(ProposalEventSortBy.createDate);
-    const [sortDirection, setSortDirection] = useState<string>(SortOrder.descending);
-    const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatus.active);
+    const [sortBy, setSortBy] = useState<string>(ProposalEventSortByEnum.createDate);
+    const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
+    const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatusEnum.active);
     const [createProposalFormShow, setCreateProposalFormShow] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
@@ -39,16 +39,16 @@ const MyProposalEvents: FC = observer(() => {
 
     function sortCompare( a:IProposalEventSearchResource, b:IProposalEventSearchResource): number {
 
-        if (sortBy == ProposalEventSortBy.createDate){
-            if (sortDirection == SortOrder.ascending){
+        if (sortBy == ProposalEventSortByEnum.createDate){
+            if (sortDirection == SortOrderEnum.ascending){
                 return a.creationDate! < b.creationDate! ? -1 : 1
-            } else if (sortDirection == SortOrder.descending){
+            } else if (sortDirection == SortOrderEnum.descending){
                 return a.creationDate! > b.creationDate! ? -1 : 1
             }
-        } else if (sortBy == ProposalEventSortBy.title){
-            if (sortDirection == SortOrder.ascending){
+        } else if (sortBy == ProposalEventSortByEnum.title){
+            if (sortDirection == SortOrderEnum.ascending){
                 return a.title! < b.title! ? -1 : 1
-            } else if (sortDirection == SortOrder.descending){
+            } else if (sortDirection == SortOrderEnum.descending){
                 return a.title! > b.title! ? -1 : 1
             }
         }
@@ -87,8 +87,8 @@ const MyProposalEvents: FC = observer(() => {
                                 setCurrentPage(1);
                                 }}
                             aria-label="Default select example">
-                            <option value={ProposalEventSortBy.createDate}>Created date</option>
-                            <option value={ProposalEventSortBy.title}>Title</option>
+                            <option value={ProposalEventSortByEnum.createDate}>Created date</option>
+                            <option value={ProposalEventSortByEnum.title}>Title</option>
                         </select>
                         <select defaultValue={sortDirection} className="form-select"
                             onChange={selectedOption => {
@@ -99,8 +99,8 @@ const MyProposalEvents: FC = observer(() => {
                                 setCurrentPage(1);
                                 }}
                             aria-label="Default select example">
-                            <option value={SortOrder.descending}>Descending</option>
-                            <option value={SortOrder.ascending}>Ascending</option>
+                            <option value={SortOrderEnum.descending}>Descending</option>
+                            <option value={SortOrderEnum.ascending}>Ascending</option>
                         </select>
                     </div>
                 </div>
@@ -114,9 +114,9 @@ const MyProposalEvents: FC = observer(() => {
                             setCurrentPage(1);
                             }}
                         aria-label="Default select example">
-                        <option value={ProposalEventStatus.active}>Active</option>
-                        <option value={ProposalEventStatus.inactive}>Inactive</option>
-                        <option value={ProposalEventStatus.done}>Done</option>
+                        <option value={ProposalEventStatusEnum.active}>Active</option>
+                        <option value={ProposalEventStatusEnum.inactive}>Inactive</option>
+                        <option value={ProposalEventStatusEnum.done}>Done</option>
                     </select>
                 </div>
                 <div className="col-3">

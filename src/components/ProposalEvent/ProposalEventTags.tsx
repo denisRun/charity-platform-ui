@@ -3,12 +3,13 @@ import { observer } from "mobx-react";
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
-import { ProposalEventSortBy } from "../../types/enums/ProposalEventSortBy";
-import { ProposalEventStatus } from "../../types/enums/ProposalEventStatus";
-import { SortOrder } from "../../types/enums/SortOrder";
+import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
+import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
+import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import { IProposalEventUpdateResource } from "../../types/ProposalEventUpdateResource";
 import ProposalEventTagsForm from "../Forms/ProposalEvent/ProposalEventTagsForm";
 import EditIcon from '@mui/icons-material/Edit';
+import { ProposalEventTagsEnum } from "../../types/enums/ProposalEventTagsEnum";
 
 interface ProposalEventTagsProps{
     className?: string
@@ -25,19 +26,19 @@ const ProposalEventTags: FC<ProposalEventTagsProps> = observer((props) => {
                 Suggestion tags:
                 <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalTagsFormShow(true)}><EditIcon fontSize='large' /></button>
             </h4>
-            <div className='row mt-3 gx-2'>
+            <div className='row'>
                 <div className='col-4'>
-                    Location: None
+                    <h5 className="fw-bold">Location: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join(", ")}</span> </h5>
                 </div>
                 <div className='col-4'>
-                    Age group: adult
+                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
                 </div>
                 <div className='col-4'>
-                    Topic: Health
+                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
                 </div>
             </div>
             <ProposalEventTagsForm
-                items={IProposalEventUpdateResource.searchResourceConstructor(store.proposalEventStore.event)}
+                items={store.proposalEventStore.event.tags}
                 isCreate={false}
                 show={updateProposalTagsFormShow}
                 onHide={() => setUpdateProposalTagsFormShow(false)} />

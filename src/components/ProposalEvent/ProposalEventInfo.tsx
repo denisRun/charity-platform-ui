@@ -3,9 +3,6 @@ import { observer } from "mobx-react";
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
-import { ProposalEventSortBy } from "../../types/enums/ProposalEventSortBy";
-import { ProposalEventStatus } from "../../types/enums/ProposalEventStatus";
-import { SortOrder } from "../../types/enums/SortOrder";
 import { IProposalEventUpdateResource } from "../../types/ProposalEventUpdateResource";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
 

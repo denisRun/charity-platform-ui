@@ -37,7 +37,7 @@ class ProposalEventService implements IProposalEventService{
     }
 
     async getById(id: string): Promise<IProposalEventSearchResource> {
-        const response = await axios.get<IProposalEventSearchResource>(proposalControllerPath + "/get/" + id);
+        const response = await axios.get<IProposalEventSearchResource>("open-api/proposal/" + id);
         return response.data;
     }
 

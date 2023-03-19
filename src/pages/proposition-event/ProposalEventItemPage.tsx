@@ -24,7 +24,6 @@ const ProposalEventItemPage: FC = observer(() => {
 
   useEffect(() => {   
     store.proposalEventStore.getById(id!);
-    console.log(store.proposalEventStore.event)
   },[]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

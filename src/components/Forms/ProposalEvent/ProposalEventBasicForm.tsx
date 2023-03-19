@@ -50,7 +50,6 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
             const array = new Uint8Array(arrayBuffer);
             fileByteArray = Array.from(array);
             fileType = picture?.name.split(".")[1];
-            console.log(array);
         }
         
         if(props.isCreate){

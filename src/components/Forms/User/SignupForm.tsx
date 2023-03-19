@@ -26,7 +26,6 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
     const signupSubmit = async (credentials: IUserSignupRequest, helpers: FormikHelpers<IUserSignupRequest>) => {
 
         await store.userStore.signup(credentials);
-        console.log(credentials);
         if(store.userStore.isError == false){
             props.onHide();
             enqueueSnackbar("Email has been send.", { variant: 'success'})

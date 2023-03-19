@@ -96,10 +96,10 @@
 .checkbox-rounded {
   border: 2px solid var(--bs-gray-600);
   border-radius: 10px;
-  padding-top: 0.18rem;
-  padding-bottom: 0.18rem;
-  padding-left: 0.72rem;
-  padding-right: 0.72rem;  
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;  
   font-family: var(--theme-font-family);
   font-size: 1rem;
   font-weight: 600;

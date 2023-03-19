@@ -14,7 +14,7 @@ const ProposalEventInfo: FC = observer(() => {
         <>
             <div className='row'>
                 <div className='col-3 mt-1'>
-                    <img src="https://img.freepik.com/free-photo/beautiful-aerial-shot-fronalpstock-mountains-switzerland-beautiful-pink-blue-sky_181624-9315.jpg?w=996&t=st=1678644966~exp=1678645566~hmac=ba4b8eb4e9e07f835b572413756f273bd4063e70b616e22e6e22a643cfccbbba" className="img-fluid rounded-1 border border-2"  alt="Avatar" />
+                    <img src={store.proposalEventStore.event.imageURL} className="img-fluid rounded-1 border border-2"  alt="Avatar" />
                 </div>
                 <div className='col-9'>
                     <div className='row'>
@@ -23,7 +23,7 @@ const ProposalEventInfo: FC = observer(() => {
                         </div>
                         <div className="col-3 mt-3">
                             <h6>
-                            <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" className="rounded-circle me-2" style={{width:35, height:35}} alt="Avatar" />
+                            <img src={store.proposalEventStore.event.authorInfo?.profileImageURL} className="rounded-circle me-2" style={{width:35, height:35}} alt="Avatar" />
                                 {store.proposalEventStore.event.authorInfo?.username}
                             </h6>
                         </div>

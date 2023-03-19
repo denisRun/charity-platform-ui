@@ -12,6 +12,7 @@ export class IProposalEventSearchResource{
     availableHelps?: number;
     competitionDate?: Date;
     status?: string;
+    imageURL?: string;
     authorInfo?: IUserInfoResource = new IUserInfoResource();
     comments?: ICommentResource[] = [];
     transactions?: ITransactionResource[] = [];

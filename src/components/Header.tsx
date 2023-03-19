@@ -105,7 +105,7 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
                   <EmailIcon fontSize='large' />
                 </Badge>
               </button>
-              <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" className="rounded-circle me-2" style={{width:40, height:40}} alt="Avatar" />
+              <img src={store.userStore.user.profileImageURL} className="rounded-circle me-2" style={{width:40, height:40}} alt="Avatar" />
               <div className="btn-group">
                 <button type="button" id="userProfileActions" className="btn dropdown-toggle fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">{store.userStore.user.firstName + " " + store.userStore.user.secondName + "   "}</button>
                 <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="userProfileActions">

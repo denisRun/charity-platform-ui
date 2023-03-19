@@ -10,4 +10,5 @@ export class IUserResource{
     token?: string;
     refreshToken?: string;
     address?: IAddressResource;
+    profileImageURL?: string;
 }

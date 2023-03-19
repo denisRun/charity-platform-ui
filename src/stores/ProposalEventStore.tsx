@@ -60,7 +60,7 @@ export class ProposalEventStore {
         try{
             this.startOperation();
             const eventsResponse = await ProposalEventServiceInstance.getOwnEvents();
-            this.ownEvents = eventsResponse;
+            this.ownEvents = eventsResponse ?? [];
             this.finishOperation();
         } catch(ex){
             console.log(ex);

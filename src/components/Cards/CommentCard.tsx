@@ -17,7 +17,7 @@ const CommentCard: FC<CommentCardProps> = (props) => {
         <div className={props.className}>
             <div className="row">
                 <div className="col-0-5">
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" className="rounded-circle me-2" style={{width:35, height:35}} alt="Avatar" />
+                    <img src={props.item.profileImageURL} className="rounded-circle me-2" style={{width:35, height:35}} alt="Avatar" />
                 </div>
                 <div className="col-11 ms-1">
                     <div className="row" style={{flexDirection:'row', flexWrap:'wrap'}}>

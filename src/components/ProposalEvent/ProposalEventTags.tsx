@@ -39,7 +39,7 @@ const ProposalEventTags: FC<ProposalEventTagsProps> = observer((props) => {
             </div>
             <ProposalEventTagsForm
                 items={store.proposalEventStore.event.tags}
-                isCreate={false}
+                isSearch={false}
                 show={updateProposalTagsFormShow}
                 onHide={() => setUpdateProposalTagsFormShow(false)} />
         </div>

@@ -15,10 +15,12 @@ import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdate
 import { Checkbox } from "@mui/material";
 import { ITagResource } from "../../../types/TagResource";
 import { ProposalEventTagsEnum } from "../../../types/enums/ProposalEventTagsEnum";
+import { EventTypeEnum } from "../../../types/enums/EventTypeEnum";
 
 interface IProposalEventTagsFormProps{
     show: boolean;
-    isCreate: boolean;
+    isCreate?: boolean;
+    isSearch?: boolean;
     items?: ITagResource[];
     onHide: () => void;
 }
@@ -50,13 +52,24 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
         result.push(locationRes);
         result.push(ageGroupsRes);
 
-        await store.proposalEventStore.upsertEventTags(result);
+        if(props.isSearch){
+            await store.userStore.upsertUserTags(EventTypeEnum.proposal, result);
 
-        if(store.proposalEventStore.isError == false){
-            props.onHide();
-            enqueueSnackbar("Tags are updated.", { variant: 'success'})
+            if(store.userStore.isError == false){
+                props.onHide();
+                enqueueSnackbar("Tags are updated.", { variant: 'success'})
+            } else {
+                enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
+            }
         } else {
-            enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
+            await store.proposalEventStore.upsertEventTags(EventTypeEnum.proposal, result);
+
+            if(store.proposalEventStore.isError == false){
+                props.onHide();
+                enqueueSnackbar("Tags are updated.", { variant: 'success'})
+            } else {
+                enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
+            }
         }
     };
 

@@ -24,11 +24,38 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
+    const [picture, setPicture] = useState<File>();
     const initialValues = props.item ?? new IProposalEventUpdateResource();
+
+    function readFileAsync(file: File) {
+        return new Promise((resolve, reject) => {
+          let reader = new FileReader();
+      
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+      
+          reader.onerror = reject;
+      
+          reader.readAsArrayBuffer(file);
+        })
+      }
 
     const proposalEventSubmit = async (proposalEvent: IProposalEventUpdateResource, helpers: FormikHelpers<IProposalEventUpdateResource>) => {
 
+        let fileType: string = '';
+        let fileByteArray: number[] = []
+        if(picture != null){
+            const arrayBuffer:number[] = await readFileAsync(picture!) as number[];
+            const array = new Uint8Array(arrayBuffer);
+            fileByteArray = Array.from(array);
+            fileType = picture?.name.split(".")[1];
+            console.log(array);
+        }
+        
         if(props.isCreate){
+            proposalEvent.fileBytes = fileByteArray;
+            proposalEvent.fileType = fileType;
             await store.proposalEventStore.createEvent(proposalEvent);
 
             if(store.proposalEventStore.isError == false){
@@ -38,6 +65,8 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                 enqueueSnackbar("Failed to create suggestion.", { variant: 'error'})
             }
         } else {
+            proposalEvent.fileBytes = fileByteArray;
+            proposalEvent.fileType = fileType;
             await store.proposalEventStore.updateEvent(proposalEvent);
 
             if(store.proposalEventStore.isError == false){
@@ -48,6 +77,13 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
             }
         }
       };
+
+    //   const selectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { files } = event.target;
+    //     const selectedFiles = files as FileList;
+    //     setCurrentFile(selectedFiles?.[0]);
+    //     setProgress(0);
+    //   };
 
     return (
         <Modal
@@ -119,6 +155,13 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                                     onChange={handleChange}
                             />
                             <ErrorMessage name="maxConcurrentRequests">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                        </Row>
+                        <Row className="ms-3 me-3 mb-2 mt-4">
+                            <TextForm> Suggestion image: </TextForm>
+                        </Row>
+                        <Row className="ms-3 me-3 ps-0">
+                            {/* <label className="form-label" htmlFor="customFile">Default file input example</label> */}
+                            <input type="file" accept="image/jpeg, image/png" className="form-control" onChange={(e) => setPicture(e.target.files![0])} />
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">

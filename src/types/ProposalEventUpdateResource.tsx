@@ -7,6 +7,8 @@ export class IProposalEventUpdateResource{
     title?: string;
     description?: string;
     maxConcurrentRequests?: number;
+    fileBytes?: number[];
+    fileType?: string;
     tags?: ITagResource[];
 
     constructor(){

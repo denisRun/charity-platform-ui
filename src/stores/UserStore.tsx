@@ -4,6 +4,8 @@ import { INotificationResource } from '../types/NotificationResource';
 import { IUserLoginRequest } from '../types/UserLoginRequest';
 import { IUserSignupRequest } from '../types/UserSignupRequest';
 import { IUserResource } from '../types/UserResource';
+import { ITagResource } from '../types/TagResource';
+import { TagServiceInstance } from '../services/TagService';
 
 export class UserStore {
     user: IUserResource | null = null;
@@ -78,6 +80,17 @@ export class UserStore {
         }
     }  
 
+    upsertUserTags = async (eventType: string, tags: ITagResource[]): Promise<void> => {
+        try{
+            this.startOperation();
+            const user = await TagServiceInstance.upsertUserSearchTags(eventType, tags);
+            await this.refreshUserData(localStorage.getItem('refreshToken')!)
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
     // getUser = async (id?: string): Promise<void> => {
     //     try{
     //         const user = await UserServiceInstance.getUser(id!);

@@ -44,10 +44,10 @@ export class ProposalEventStore {
         }
     }  
 
-    upsertEventTags = async (tags: ITagResource[]): Promise<void> => {
+    upsertEventTags = async (eventType: string, tags: ITagResource[]): Promise<void> => {
         try{
             this.startOperation();
-            await TagServiceInstance.upsertProposalEventTags(this.event.id!, tags);
+            await TagServiceInstance.upsertEventTags(eventType ,this.event.id!, tags);
             this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!)
             this.finishOperation();
         } catch(ex){

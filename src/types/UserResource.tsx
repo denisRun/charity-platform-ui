@@ -1,4 +1,5 @@
 import { IAddressResource } from "./AddressResource";
+import { ITagResource } from "./TagResource";
 
 export class IUserResource{
     id?: number;
@@ -11,4 +12,5 @@ export class IUserResource{
     refreshToken?: string;
     address?: IAddressResource;
     profileImageURL?: string;
+    searchValues?: ITagResource[] = [];
 }

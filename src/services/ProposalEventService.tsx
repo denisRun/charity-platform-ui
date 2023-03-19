@@ -31,6 +31,11 @@ class ProposalEventService implements IProposalEventService{
         return response.data;
     }
 
+    async searchEvents(request: string): Promise<IProposalEventSearchResource[]> {
+        const response = await axios.post<getOwnEventsResponse>("open-api/proposal-search", JSON.stringify(request));
+        return response.data.proposalEvents;
+    }
+
     async getOwnEvents(): Promise<IProposalEventSearchResource[]> {
         const response = await axios.get<getOwnEventsResponse>(proposalControllerPath + "/get-own");
         return response.data.proposalEvents;

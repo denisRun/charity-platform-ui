@@ -7,7 +7,8 @@ import { ITagResource } from "../types/TagResource";
 
 
 export interface ITagService{
-    upsertProposalEventTags(eventId:number, tags: ITagResource[]): Promise<void>;
+    upsertEventTags(eventType: string, eventId: number, tags: ITagResource[]): Promise<void>;
+    upsertUserSearchTags(eventType: string, tags: ITagResource[]): Promise<void>;
 }
 
 class getOwnEventsResponse{
@@ -18,14 +19,24 @@ const tagsControllerPath = "api/tags";
 
 class Tagervice implements ITagService{
 
-    async upsertProposalEventTags(eventId:number, tags: ITagResource[]): Promise<void> {
+    async upsertEventTags(eventType: string, eventId:number, tags: ITagResource[]): Promise<void> {
 
         const request = {
             eventId: eventId,
-            eventType: "proposal-event",
+            eventType: eventType,
             tags: tags
         }
         const response = await axios.post<void>(tagsControllerPath + "/upsert", JSON.stringify(request));
+        return response.data;
+    }
+
+    async upsertUserSearchTags(eventType: string, tags: ITagResource[]): Promise<void> {
+
+        const request = {
+            eventType: eventType,
+            tags: tags
+        }
+        const response = await axios.post<void>(tagsControllerPath + "/user-search", JSON.stringify(request));
         return response.data;
     }
 

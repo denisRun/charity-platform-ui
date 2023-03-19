@@ -16,12 +16,17 @@ import SidebarContainer from '../../components/Body/SidebarContainer'
 import ContentContainer from '../../components/Body/ContentContainer'
 import MyProposalEvents from '../../components/ProposalEvent/MyProposalEvents'
 import TookPartInProposalEvents from '../../components/ProposalEvent/TookPartInProposalEvents'
+import SearchProposalEvents from '../../components/ProposalEvent/SearchProposalEvents'
 
 
 const ProposalEventsPage: FC = observer(() => {
 
   const store = useStore();
   const [tabValue, setTabValue] = useState(0);
+
+  useEffect(() => {   
+    store.proposalEventStore.getOwnEvents();
+  },[]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -84,7 +89,7 @@ const ProposalEventsPage: FC = observer(() => {
             </SidebarContainer>
             <ContentContainer>
                 <TabPanel value={tabValue} index={0}>
-                    <p>Search Suggestions</p>
+                    <SearchProposalEvents />
                 </TabPanel>
                 <TabPanel value={tabValue} index={1}>
                     <MyProposalEvents />

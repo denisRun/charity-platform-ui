@@ -22,7 +22,7 @@ const CommentCard: FC<CommentCardProps> = (props) => {
                 <div className="col-11 ms-1">
                     <div className="row" style={{flexDirection:'row', flexWrap:'wrap'}}>
                         <h6 className="fw-bold">
-                            {props.item.authorInfo?.username ?? "denis-polozov"}
+                            {props.item.username}
                             <span className="ms-3" style={{fontSize: 12, color:"gray"}}>
                                 {dateTimeFormatter(props.item.creationDate!)}
                             </span>

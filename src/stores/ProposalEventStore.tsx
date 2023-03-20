@@ -3,11 +3,14 @@ import { ProposalEventServiceInstance } from '../services/ProposalEventService';
 import { TagServiceInstance } from '../services/TagService';
 import { IProposalEventSearchResource } from '../types/ProposalEventSearchResource';
 import { IProposalEventUpdateResource } from '../types/ProposalEventUpdateResource';
+import { IProposalSearchRequest } from '../types/ProposaSearchRequest';
 import { ITagResource } from '../types/TagResource';
 
 export class ProposalEventStore {
 
     events: IProposalEventSearchResource[] = [];
+    eventsTotalPageCount: number = 1;
+
     ownEvents: IProposalEventSearchResource[]  = [];
     tookPartEvents: IProposalEventSearchResource[] = [];
 
@@ -56,6 +59,19 @@ export class ProposalEventStore {
         }
     }  
     
+    searchEvents = async (request: IProposalSearchRequest): Promise<void> => {
+        try{
+            this.startOperation();
+            const searchResponse = await ProposalEventServiceInstance.searchEvents(request);
+            this.events = searchResponse.items ?? [];
+            this.eventsTotalPageCount = searchResponse.totalPageCount;
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
     getOwnEvents = async (): Promise<void> => {
         try{
             this.startOperation();

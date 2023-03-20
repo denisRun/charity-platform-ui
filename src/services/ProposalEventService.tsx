@@ -3,11 +3,13 @@ import { ICommentResource } from "../types/CommentResource";
 import { IPagedResultSet } from "../types/PagedResultSet";
 import { IProposalEventSearchResource } from "../types/ProposalEventSearchResource";
 import { IProposalEventUpdateResource } from "../types/ProposalEventUpdateResource";
+import { IProposalSearchRequest } from "../types/ProposaSearchRequest";
 
 
 export interface IProposalEventService{
     createEvent(event: IProposalEventUpdateResource): Promise<void>;
     updateEvent(event: IProposalEventUpdateResource): Promise<void>;
+    searchEvents(request: IProposalSearchRequest): Promise<IPagedResultSet<IProposalEventSearchResource>>;
     getOwnEvents(): Promise<IProposalEventSearchResource[]>;
     getById(id: string): Promise<IProposalEventSearchResource>;
     addComment(text: string, id: number): Promise<void>;
@@ -31,9 +33,9 @@ class ProposalEventService implements IProposalEventService{
         return response.data;
     }
 
-    async searchEvents(request: string): Promise<IProposalEventSearchResource[]> {
-        const response = await axios.post<getOwnEventsResponse>("open-api/proposal-search", JSON.stringify(request));
-        return response.data.proposalEvents;
+    async searchEvents(request: IProposalSearchRequest): Promise<IPagedResultSet<IProposalEventSearchResource>> {
+        const response = await axios.post<IPagedResultSet<IProposalEventSearchResource>>("open-api/proposal-search", JSON.stringify(request));
+        return response.data;
     }
 
     async getOwnEvents(): Promise<IProposalEventSearchResource[]> {

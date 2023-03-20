@@ -9,6 +9,10 @@ import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ProposalEventTagsForm from "../Forms/ProposalEvent/ProposalEventTagsForm";
 import { toJS } from "mobx";
+import { IProposalSearchRequest } from "../../types/ProposaSearchRequest";
+import { useSnackbar } from "notistack";
+import ProposalEventCard from "../Cards/ProposalEventCard";
+import { useNavigate } from "react-router-dom";
 
 interface BodyProps{
     children: React.ReactNode
@@ -17,20 +21,26 @@ interface BodyProps{
 const SearchProposalEvents: FC = observer(() => {
 
     const store = useStore();
+    const [title, setTitle] = useState<string>('');
     const [sortBy, setSortBy] = useState<string>(ProposalEventSortByEnum.createDate);
     const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
+    const navigate = useNavigate();
     const [updateProposalSearchTagsFormShow, setUpdateProposalSearchTagsFormShow] = useState(false);
+    const { enqueueSnackbar } = useSnackbar()
 
-    const handleSearchClick = async () => {
+    const handleSearchClick = async (pageNum?: number) => {
 
-        alert("search by "+sortBy+" "+sortDirection)
-        // await store.userStore.login(credentials)
-        // if(store.userStore.user != null && store.userStore.isError == false){
-        //     props.onHide();
-        //     enqueueSnackbar("Login succeed.", { variant: 'success'})
-        // } else {
-        //     enqueueSnackbar("Failed to Login.", { variant: 'error'})
-        // }
+        let request: IProposalSearchRequest = new IProposalSearchRequest();
+        request.pageNumber = pageNum ?? 1;
+        request.name = title;
+        request.sortField = sortBy;
+        request.order = sortDirection;
+        request.tags = store.userStore.user?.proposalEventSearchValues ?? [];
+
+        await store.proposalEventStore.searchEvents(request);
+        if(store.proposalEventStore.isError == true){
+            enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+        }
       };
 
     return (
@@ -41,7 +51,7 @@ const SearchProposalEvents: FC = observer(() => {
                     <input className="form-control" placeholder="Search by name"/>
                 </div>
                 <div className="col-3">
-                    <Button variant="outline-success" disabled={store.userStore.user == null} className="w-100" onClick={() => handleSearchClick()}>
+                    <Button variant="outline-success" className="w-100" onClick={() => handleSearchClick()}>
                         Search 
                     </Button>
                 </div>
@@ -77,22 +87,26 @@ const SearchProposalEvents: FC = observer(() => {
                     </div>
                 </div>
                 <div className="col-2 ps-0 ms-0">
-                    <button type="button"className="btn fs-5 pt-0" onClick={() => setUpdateProposalSearchTagsFormShow(true)}><FilterAltIcon fontSize='large' /></button>
+                    <button type="button"className="btn fs-5 pt-0" hidden={store.userStore.user == null} onClick={() => setUpdateProposalSearchTagsFormShow(true)}><FilterAltIcon fontSize='large' /></button>
                 </div>
                 <div className="col-3">
                 </div>
             </div>
         </Container>
         <Container className="mt-3" fluid>
-            <div className="row" >
-                фівафі
+            <div>
+                {store.proposalEventStore.events
+                    .map((event) => (
+                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} key={event.id!}/>            
+                ))}
             </div>
         </Container>
         <div className="d-flex justify-content-center" style={{}}>
-                <Pagination hidden={store.proposalEventStore.tookPartEvents.length > 1 ? false : true} count={10} style={{justifyContent:"center"}}/>
+            <Pagination count={store.proposalEventStore.eventsTotalPageCount} onChange={(e, value) => handleSearchClick(value)} style={{justifyContent:"center"}}/>
         </div>
+        {/* page={pageNumber} */}
         <ProposalEventTagsForm
-                items={store.userStore.user?.searchValues}
+                items={store.userStore.user?.proposalEventSearchValues}
                 isSearch={true}
                 show={updateProposalSearchTagsFormShow}
                 onHide={() => setUpdateProposalSearchTagsFormShow(false)} />

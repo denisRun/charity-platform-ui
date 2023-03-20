@@ -1,8 +1,8 @@
 import { ITagResource } from "./TagResource";
 
-export class UserSearchRequest{
-    pageNumber!: number;
-    pageSize!: number;
+export class IProposalSearchRequest{
+    pageNumber?: number = 1;
+    pageSize?: number = 1;
     name?: string;
     sortField?: string;
     order?: string;

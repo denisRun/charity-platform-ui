@@ -12,5 +12,5 @@ export class IUserResource{
     refreshToken?: string;
     address?: IAddressResource;
     profileImageURL?: string;
-    searchValues?: ITagResource[] = [];
+    proposalEventSearchValues?: ITagResource[] = [];
 }

@@ -13,6 +13,7 @@ import ProposalEventComments from '../../components/ProposalEvent/ProposalEventC
 import { IProposalEventUpdateResource } from '../../types/ProposalEventUpdateResource'
 import ProposalEventBasicForm from '../../components/Forms/ProposalEvent/ProposalEventBasicForm'
 import EditIcon from '@mui/icons-material/Edit';
+import ProposalEventCurrentRequests from '../../components/ProposalEvent/ProposalEventCurrentRequests'
 
 
 const ProposalEventItemPage: FC = observer(() => {
@@ -85,8 +86,8 @@ const ProposalEventItemPage: FC = observer(() => {
                         value={tabValue}
                         onChange={handleChange}>
                             <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Suggestion info</h6>} {...a11yProps(0)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Deals</h6>} {...a11yProps(1)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Deals</h6>} {...a11yProps(2)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Requests</h6>} {...a11yProps(1)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current Requests</h6>} {...a11yProps(2)} />
                       </Tabs>
                     </div>
                     <div className="col-0-5" >
@@ -110,7 +111,7 @@ const ProposalEventItemPage: FC = observer(() => {
                         Requests
                     </TabPanel>
                     <TabPanel value={tabValue} index={2}>
-                        My Requests
+                        <ProposalEventCurrentRequests />
                     </TabPanel>
                   </div>
                 </div>

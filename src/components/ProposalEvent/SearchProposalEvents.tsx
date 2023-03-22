@@ -24,6 +24,7 @@ const SearchProposalEvents: FC = observer(() => {
     const [title, setTitle] = useState<string>('');
     const [sortBy, setSortBy] = useState<string>(ProposalEventSortByEnum.createDate);
     const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const [updateProposalSearchTagsFormShow, setUpdateProposalSearchTagsFormShow] = useState(false);
     const { enqueueSnackbar } = useSnackbar()
@@ -40,6 +41,10 @@ const SearchProposalEvents: FC = observer(() => {
         await store.proposalEventStore.searchEvents(request);
         if(store.proposalEventStore.isError == true){
             enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+        } else if (pageNum == null){
+            setCurrentPage(1);
+        } else if (pageNum != null){
+            setCurrentPage(pageNum);
         }
       };
 
@@ -102,7 +107,7 @@ const SearchProposalEvents: FC = observer(() => {
             </div>
         </Container>
         <div className="d-flex justify-content-center" style={{}}>
-            <Pagination count={store.proposalEventStore.eventsTotalPageCount} onChange={(e, value) => handleSearchClick(value)} style={{justifyContent:"center"}}/>
+            <Pagination count={store.proposalEventStore.eventsTotalPageCount} page={currentPage} onChange={(e, value) => handleSearchClick(value)} style={{justifyContent:"center"}}/>
         </div>
         {/* page={pageNumber} */}
         <ProposalEventTagsForm

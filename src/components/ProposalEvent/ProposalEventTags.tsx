@@ -28,13 +28,13 @@ const ProposalEventTags: FC<ProposalEventTagsProps> = observer((props) => {
             </h4>
             <div className='row'>
                 <div className='col-4'>
-                    <h5 className="fw-bold">Location: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join(", ")}</span> </h5>
+                    <h5 className="fw-bold">Location: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join("").length == 0 ? "None" : store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join(", ")}</span> </h5>
                 </div>
                 <div className='col-4'>
-                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
+                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup) == null ? "None": store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
                 </div>
                 <div className='col-4'>
-                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
+                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup) == null ? "None": store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
                 </div>
             </div>
             <ProposalEventTagsForm

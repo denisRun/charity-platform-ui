@@ -3,6 +3,7 @@ import { ProposalEventServiceInstance } from '../services/ProposalEventService';
 import { TagServiceInstance } from '../services/TagService';
 import { IProposalEventSearchResource } from '../types/ProposalEventSearchResource';
 import { IProposalEventUpdateResource } from '../types/ProposalEventUpdateResource';
+import { ProposalRequestCreateRequest } from '../types/ProposalRequestCreateRequest';
 import { IProposalSearchRequest } from '../types/ProposaSearchRequest';
 import { ITagResource } from '../types/TagResource';
 
@@ -64,7 +65,7 @@ export class ProposalEventStore {
             this.startOperation();
             const searchResponse = await ProposalEventServiceInstance.searchEvents(request);
             this.events = searchResponse.items ?? [];
-            this.eventsTotalPageCount = searchResponse.totalPageCount;
+            this.eventsTotalPageCount = searchResponse.totalPageCount ?? 1;
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -107,6 +108,18 @@ export class ProposalEventStore {
             this.operationFailed((ex as any).errorMessage);
         }
     }   
+
+    addEventRequest = async (request: ProposalRequestCreateRequest): Promise<void> => {
+        try{
+            this.startOperation();
+            await ProposalEventServiceInstance.addEventRequest(request);
+            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
 
     startOperation = () => {
         this.isLoading = true;

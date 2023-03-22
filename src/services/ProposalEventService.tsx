@@ -3,6 +3,7 @@ import { ICommentResource } from "../types/CommentResource";
 import { IPagedResultSet } from "../types/PagedResultSet";
 import { IProposalEventSearchResource } from "../types/ProposalEventSearchResource";
 import { IProposalEventUpdateResource } from "../types/ProposalEventUpdateResource";
+import { ProposalRequestCreateRequest } from "../types/ProposalRequestCreateRequest";
 import { IProposalSearchRequest } from "../types/ProposaSearchRequest";
 
 
@@ -13,6 +14,7 @@ export interface IProposalEventService{
     getOwnEvents(): Promise<IProposalEventSearchResource[]>;
     getById(id: string): Promise<IProposalEventSearchResource>;
     addComment(text: string, id: number): Promise<void>;
+    addEventRequest(request: ProposalRequestCreateRequest): Promise<void>;
 }
 
 class getOwnEventsResponse{
@@ -54,6 +56,11 @@ class ProposalEventService implements IProposalEventService{
             eventId: id
         }
         const response = await axios.post<void>(proposalControllerPath + "/comment", JSON.stringify(queryObj));
+        return response.data;
+    }
+
+    async addEventRequest(request: ProposalRequestCreateRequest): Promise<void> {
+        const response = await axios.post<void>(proposalControllerPath + "/response", JSON.stringify(request));
         return response.data;
     }
 

@@ -109,7 +109,6 @@ const SearchProposalEvents: FC = observer(() => {
         <div className="d-flex justify-content-center" style={{}}>
             <Pagination count={store.proposalEventStore.eventsTotalPageCount} page={currentPage} onChange={(e, value) => handleSearchClick(value)} style={{justifyContent:"center"}}/>
         </div>
-        {/* page={pageNumber} */}
         <ProposalEventTagsForm
                 items={store.userStore.user?.proposalEventSearchValues}
                 isSearch={true}

@@ -121,6 +121,18 @@ export class ProposalEventStore {
         }
     }  
 
+    acceptRequest = async (id: number): Promise<void> => {
+        try{
+            this.startOperation();
+            await ProposalEventServiceInstance.acceptRequest(id);
+            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
     startOperation = () => {
         this.isLoading = true;
         this.isError = false;

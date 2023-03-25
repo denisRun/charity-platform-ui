@@ -15,6 +15,7 @@ export interface IProposalEventService{
     getById(id: string): Promise<IProposalEventSearchResource>;
     addComment(text: string, id: number): Promise<void>;
     addEventRequest(request: ProposalRequestCreateRequest): Promise<void>;
+    acceptRequest(id: number): Promise<void>
 }
 
 class getOwnEventsResponse{
@@ -61,6 +62,11 @@ class ProposalEventService implements IProposalEventService{
 
     async addEventRequest(request: ProposalRequestCreateRequest): Promise<void> {
         const response = await axios.post<void>(proposalControllerPath + "/response", JSON.stringify(request));
+        return response.data;
+    }
+
+    async acceptRequest(id: number): Promise<void> {
+        const response = await axios.post<void>(proposalControllerPath + "/accept/"+id);
         return response.data;
     }
 

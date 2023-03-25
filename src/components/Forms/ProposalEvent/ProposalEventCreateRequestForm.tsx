@@ -13,12 +13,12 @@ import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
 import { ProposalRequestCreateRequest } from "../../../types/ProposalRequestCreateRequest";
 
-interface ISignupFormProps{
+interface IRequestFormProps{
     show: boolean;
     onHide: () => void;
 }
 
-const ProposalEventCreateRequest: FC<ISignupFormProps> = (props) => {
+const ProposalEventCreateRequestForm: FC<IRequestFormProps> = (props) => {
 
     const store = useStore();
     const initialValues = new ProposalRequestCreateRequest();
@@ -74,11 +74,11 @@ const ProposalEventCreateRequest: FC<ISignupFormProps> = (props) => {
                                     as="textarea" 
                                     rows={3}
                                     type="textarea"
-                                    name="description"
+                                    name="comment"
                                     placeholder="Your Request details"
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="description">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="comment">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
@@ -94,4 +94,4 @@ const ProposalEventCreateRequest: FC<ISignupFormProps> = (props) => {
     );
 };
 
-export default ProposalEventCreateRequest;
+export default ProposalEventCreateRequestForm;

@@ -92,7 +92,7 @@ const ProposalEventItemPage: FC = observer(() => {
                     </div>
                     <div className="col-0-5" >
                       <div className="btn-group">
-                          <button  type="button" className="btn fs-5" data-bs-display="static" style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalFormShow(true)}><EditIcon fontSize='large' /></button>
+                          <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalFormShow(true)}><EditIcon fontSize='large' /></button>
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
                           <li><button className="dropdown-item" type="button" onClick={() => console.log()}>Copy link</button></li>

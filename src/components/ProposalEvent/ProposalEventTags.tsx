@@ -24,7 +24,7 @@ const ProposalEventTags: FC<ProposalEventTagsProps> = observer((props) => {
         <div className={props.className} style={{fontSize:17}}>
             <h4>
                 Suggestion tags:
-                <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalTagsFormShow(true)}><EditIcon fontSize='large' /></button>
+                <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalTagsFormShow(true)}><EditIcon fontSize='large' /></button>
             </h4>
             <div className='row'>
                 <div className='col-4'>

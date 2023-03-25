@@ -4,10 +4,12 @@ import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../contexts/StoreContext";
+import { ProposalRequestStatusEnum } from "../../types/enums/ProposalRequestStatusEnum";
 import { IProposalEventUpdateResource } from "../../types/ProposalEventUpdateResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
+import ProposalEventRequestCard from "../Cards/ProposalEventRequestCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
-import ProposalEventCreateRequest from "../Forms/ProposalEvent/ProposalEventCreateRequestForm";
+import ProposalEventCreateRequestForm from "../Forms/ProposalEvent/ProposalEventCreateRequestForm";
 
 const ProposalEventCurrentRequests: FC = observer(() => {
 
@@ -20,19 +22,22 @@ const ProposalEventCurrentRequests: FC = observer(() => {
             <div className='row'>
                 <div className='col-9 mt-1'>
                 </div>
-                <div className="col-3">
-                    <Button variant="success" disabled={store.userStore.user == null} className="w-100" onClick={() => setCreateRequestFormShow(true)}>
+                <div className="col-2 ms-5">
+                    <Button variant="success" hidden={store.proposalEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null} className="w-100" onClick={() => setCreateRequestFormShow(true)}>
                         + Create request 
                     </Button>
                 </div>
             </div>
             <div className="mt-3">
-                {store.proposalEventStore.events
-                    .map((event) => (
-                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} key={event.id!}/>            
+                {store.proposalEventStore.event.transactions!
+                    .filter(x => (x.responder.id == store.userStore.user?.id || x.creator.id == store.userStore.user?.id) && (x.transactionStatus == ProposalRequestStatusEnum.waiting || x.transactionStatus == ProposalRequestStatusEnum.accepted || x.transactionStatus == ProposalRequestStatusEnum.inProcess))
+                    .slice()
+                    .sort((x,y) => x.creationDate! < y.creationDate! ? 1 : -1)
+                    .map((trans) => (
+                        <ProposalEventRequestCard item={trans} key={trans.id!}/>            
                 ))}
             </div>
-            <ProposalEventCreateRequest
+            <ProposalEventCreateRequestForm
                 show={createRequestFormShow}
                 onHide={() => setCreateRequestFormShow(false)} />
         </>

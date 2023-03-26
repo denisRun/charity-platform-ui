@@ -1,7 +1,7 @@
 export class ProposalRequestStatusEnum {
     static readonly waiting = "waiting";
     static readonly accepted = "accepted";
-    static readonly inProcess = "in_process";
+    static readonly inProcess = "in_progress";
     static readonly completed = "completed";
     static readonly aborted = "aborted";
     static readonly canceled = "canceled";

@@ -14,6 +14,7 @@ import { IProposalEventUpdateResource } from '../../types/ProposalEventUpdateRes
 import ProposalEventBasicForm from '../../components/Forms/ProposalEvent/ProposalEventBasicForm'
 import EditIcon from '@mui/icons-material/Edit';
 import ProposalEventCurrentRequests from '../../components/ProposalEvent/ProposalEventCurrentRequests'
+import ProposalEventRequests from '../../components/ProposalEvent/ProposalEventRequests'
 
 
 const ProposalEventItemPage: FC = observer(() => {
@@ -108,7 +109,7 @@ const ProposalEventItemPage: FC = observer(() => {
                       <ProposalEventComments comments={store.proposalEventStore.event.comments!} className="mt-4 ms-0" />
                     </TabPanel>
                     <TabPanel value={tabValue} index={1}>
-                        Requests
+                        <ProposalEventRequests />
                     </TabPanel>
                     <TabPanel value={tabValue} index={2}>
                         <ProposalEventCurrentRequests />

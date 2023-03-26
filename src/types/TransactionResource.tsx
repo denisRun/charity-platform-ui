@@ -14,4 +14,6 @@ export class ITransactionResource{
     comment?: string
     transactionStatus?: string;
     responderStatus?: string;
+
+    reportURL?: string;
 }

@@ -12,8 +12,13 @@ import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
 import { ProposalRequestCreateRequest } from "../../../types/ProposalRequestCreateRequest";
+import { ITransactionResource } from "../../../types/TransactionResource";
+import { ProposalOwnerRequestStatusEnum } from "../../../types/enums/ProposalOwnerRequestStatusEnum";
+import { ProposalRequestStatusUpdateResource } from "../../../types/ProposalRequestStatusUpdateResource";
+import fileToBytes from "../../../Helpers/FileToBytes";
 
 interface IRequestFormProps{
+    item: ITransactionResource;
     show: boolean;
     onHide: () => void;
 }
@@ -23,17 +28,24 @@ const ProposalEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
     const store = useStore();
     const initialValues = new ProposalRequestCreateRequest();
     const { enqueueSnackbar } = useSnackbar()
-    const [val, setVal] = useState("");
+    const [requestStatus, setRequestStatus] = useState(props.item.responderStatus);
+    const [attachedFile, setAttachedFile] = useState<File>();
     
     const updateRequestSubmit = async () => {
 
-        // request.id = store.proposalEventStore.event.id!;
-        // await store.proposalEventStore.addEventRequest(request)
+        let request = new ProposalRequestStatusUpdateResource();
+        request.status = requestStatus;
+        if(attachedFile != null){
+            request.fileBytes = await fileToBytes(attachedFile);
+            request.fileType = attachedFile?.name.split(".")[1];
+        }
+
+        await store.proposalEventStore.updateRequestStatus(props.item.id!, request);
         if(store.proposalEventStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Request created.", { variant: 'success'})
+            enqueueSnackbar("Request status updated.", { variant: 'success'})
         } else{
-            enqueueSnackbar("Failed to create Request.", { variant: 'error'})
+            enqueueSnackbar("Failed to update Request status.", { variant: 'error'})
         }
       };
 
@@ -53,43 +65,32 @@ const ProposalEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form noValidate onSubmit={updateRequestSubmit}>
+                <Form noValidate>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Description: </TextForm>
+                            <TextForm> Status: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
-                            <Form.Control
-                                    as="textarea" 
-                                    rows={3}
-                                    type="textarea"
-                                    name="comment"
-                                    placeholder="Your Request details"
-                                    value={val}
-                                    onChange={x => setVal(x.target.value)}
-                            />
+                            <select className="form-select" value={requestStatus} onChange={x => setRequestStatus(x.target.value)} aria-label="Default select example">
+                                <option disabled={requestStatus != ProposalOwnerRequestStatusEnum.notStarted} value={ProposalOwnerRequestStatusEnum.notStarted}>Not started</option>
+                                <option value={ProposalOwnerRequestStatusEnum.inProgress}>In Progress</option>
+                                <option value={ProposalOwnerRequestStatusEnum.completed}>Completed</option>
+                                <option value={ProposalOwnerRequestStatusEnum.aborted}>Aborted</option>
+                            </select>
                         </Row>
-                        {val.length! > 0 ? 
+                        {requestStatus == ProposalOwnerRequestStatusEnum.completed ? 
                         <>
                             <Row className="ms-3 mt-3 me-3 mb-2">
-                                <TextForm> Description: </TextForm>
+                                <TextForm> Attach file: </TextForm>
                             </Row>
                             <Row className="ms-3 me-3 ps-0">
-                                <Form.Control
-                                        as="textarea" 
-                                        rows={3}
-                                        type="textarea"
-                                        name="comment"
-                                        placeholder="Your Request details"
-                                        value={val}
-                                        onChange={x => setVal(x.target.value)}
-                                />
+                                <input type="file" className="form-control" onChange={(e) => setAttachedFile(e.target.files![0])} />
                             </Row>
                         </> 
                         :
                          <></>}
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
-                                <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
+                                <Button style={{fontSize:"1.3rem"}} onClick={() => updateRequestSubmit()} variant="success">
                                     Submit
                                 </Button>
                         </Row>

@@ -4,6 +4,7 @@ import { IPagedResultSet } from "../types/PagedResultSet";
 import { IProposalEventSearchResource } from "../types/ProposalEventSearchResource";
 import { IProposalEventUpdateResource } from "../types/ProposalEventUpdateResource";
 import { ProposalRequestCreateRequest } from "../types/ProposalRequestCreateRequest";
+import { ProposalRequestStatusUpdateResource } from "../types/ProposalRequestStatusUpdateResource";
 import { IProposalSearchRequest } from "../types/ProposaSearchRequest";
 
 
@@ -15,7 +16,8 @@ export interface IProposalEventService{
     getById(id: string): Promise<IProposalEventSearchResource>;
     addComment(text: string, id: number): Promise<void>;
     addEventRequest(request: ProposalRequestCreateRequest): Promise<void>;
-    acceptRequest(id: number): Promise<void>
+    acceptRequest(id: number, accept: boolean): Promise<void>;
+    updateRequestStatus(requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void>;
 }
 
 class getOwnEventsResponse{
@@ -65,10 +67,21 @@ class ProposalEventService implements IProposalEventService{
         return response.data;
     }
 
-    async acceptRequest(id: number): Promise<void> {
-        const response = await axios.post<void>(proposalControllerPath + "/accept/"+id);
+    async acceptRequest(id: number, accept: boolean): Promise<void> {
+        let request = {
+            isAccepted: accept
+        }
+        const response = await axios.post<void>(proposalControllerPath + "/accept/" + id, JSON.stringify(request));
         return response.data;
     }
+
+    async updateRequestStatus(requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void> {
+        debugger;
+        const response = await axios.post<void>(proposalControllerPath + "/update-status/"+requestId, newStatus);
+        return response.data;
+    }
+
+    
 
 }
 

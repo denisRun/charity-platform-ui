@@ -4,6 +4,7 @@ import { TagServiceInstance } from '../services/TagService';
 import { IProposalEventSearchResource } from '../types/ProposalEventSearchResource';
 import { IProposalEventUpdateResource } from '../types/ProposalEventUpdateResource';
 import { ProposalRequestCreateRequest } from '../types/ProposalRequestCreateRequest';
+import { ProposalRequestStatusUpdateResource } from '../types/ProposalRequestStatusUpdateResource';
 import { IProposalSearchRequest } from '../types/ProposaSearchRequest';
 import { ITagResource } from '../types/TagResource';
 
@@ -121,10 +122,22 @@ export class ProposalEventStore {
         }
     }  
 
-    acceptRequest = async (id: number): Promise<void> => {
+    acceptRequest = async (requestId: number, accept: boolean): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.acceptRequest(id);
+            await ProposalEventServiceInstance.acceptRequest(requestId, accept);
+            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
+    updateRequestStatus = async (requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void> => {
+        try{
+            this.startOperation();
+            await ProposalEventServiceInstance.updateRequestStatus(requestId, newStatus);
             this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
             this.finishOperation();
         } catch(ex){

@@ -159,7 +159,6 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                             <TextForm> Suggestion image: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
-                            {/* <label className="form-label" htmlFor="customFile">Default file input example</label> */}
                             <input type="file" accept="image/jpeg, image/png" className="form-control" onChange={(e) => setPicture(e.target.files![0])} />
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">

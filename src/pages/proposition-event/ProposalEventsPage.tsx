@@ -17,6 +17,7 @@ import ContentContainer from '../../components/Body/ContentContainer'
 import MyProposalEvents from '../../components/ProposalEvent/MyProposalEvents'
 import TookPartInProposalEvents from '../../components/ProposalEvent/TookPartInProposalEvents'
 import SearchProposalEvents from '../../components/ProposalEvent/SearchProposalEvents'
+import { IProposalSearchRequest } from '../../types/ProposaSearchRequest'
 
 
 const ProposalEventsPage: FC = observer(() => {
@@ -25,6 +26,10 @@ const ProposalEventsPage: FC = observer(() => {
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {   
+
+    let searchRequest = new IProposalSearchRequest();
+    searchRequest.tags = store.userStore.user?.proposalEventSearchValues ?? [];
+    store.proposalEventStore.searchEvents(searchRequest);
     store.proposalEventStore.getOwnEvents();
   },[]);
 

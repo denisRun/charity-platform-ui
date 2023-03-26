@@ -140,7 +140,7 @@ const MyProposalEvents: FC = observer(() => {
             </div>
         </Container>
         <div className="d-flex justify-content-center" style={{}}>
-                <Pagination hidden={store.proposalEventStore.ownEvents.length > 1 ? false : true}  count={totalPageCount} page={currentPage} onChange={(e, value) => setCurrentPage(value)} style={{justifyContent:"center"}}/>
+                <Pagination hidden={store.proposalEventStore.ownEvents.length > 0 ? false : true}  count={totalPageCount} page={currentPage} onChange={(e, value) => setCurrentPage(value)} style={{justifyContent:"center"}}/>
         </div>
         <ProposalEventBasicForm
             isCreate={true}

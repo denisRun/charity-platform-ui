@@ -36,9 +36,9 @@ const ProposalEventComments: FC<ProposalEventCommentsProps> = observer((props) =
             <h4>
                 Comments:
             </h4>
-            <div className='row mt-3'>
+            <div className='row mt-3' hidden={store.userStore.user == null} >
                 <div className='col-0-5 ms-3'>
-                    <img src={store.userStore.user?.profileImageURL} className="rounded-circle me-2" style={{width:35, height:35}} alt="Avatar" />
+                    <img src={store.userStore.user?.profileImageURL ?? "https://charity-platform.s3.amazonaws.com/images/png-transparent-default-avatar-thumbnail.png"} className="rounded-circle me-2" style={{width:35, height:35}} alt="Avatar" />
                 </div>
                 <div className='col-9 ms-1'>
                     <input value={commentValue} onChange={event => setCommentValue(event.target.value)} className="form-control"></input>

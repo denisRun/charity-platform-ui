@@ -16,6 +16,7 @@ import ProposalEventUpdateRequestForm from "../Forms/ProposalEvent/ProposalEvent
 
 interface ProposalEventRequestCardProps{
     item: ITransactionResource;
+    isPreview: boolean;
     key: number;
 }
 
@@ -25,9 +26,9 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
     const { enqueueSnackbar } = useSnackbar()
     const [updateProposalTagsFormShow, setUpdateProposalTagsFormShow] = useState(false);
 
-    const handleAcceptClick = () => {
+    const handleAcceptClick = async (isAccept: boolean) => {
 
-        store.proposalEventStore.acceptRequest(props.item.id!)
+        await store.proposalEventStore.acceptRequest(props.item.id!, isAccept);
         if(store.proposalEventStore.isError == false){
             enqueueSnackbar("Request Accepted.", { variant: 'success'})
         } else {
@@ -37,21 +38,22 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
 
     return (
         <>
-        <div className="card w-90 ms-auto me-auto mb-3 card-hover" style={{height:180}}>
+        <div className="card w-90 ms-auto me-auto mb-3 card-hover" style={{height: props.isPreview ? 170 : 180}}>
             <div className="row h-60 ms-3 me-3 mt-3 mb-0" style={{overflow:"hidden"}}>
                 <div className="col-4" >
                     <div className="row" >
                         <h6>
                             {props.item.responder?.username}
                             <img src={props.item.responder?.profileImageURL} className="rounded-circle ms-2" style={{width:35, height:35}} alt="Avatar" />
-                            <button type="button" style={{color:"green"}} className="btn p-0" hidden={props.item.transactionStatus != ProposalRequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick()}> ⠀Accept? </button>
+                            <button type="button"  style={{color:"green"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != ProposalRequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀Accept / </button>
+                            <button type="button" style={{color:"orange"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != ProposalRequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> Decline </button>
                         </h6>
                     </div>
-                    <div className="row" >
+                    <div className="row" hidden={props.isPreview} >
                         <h6>
                             Contact: {props.item.responder?.phoneNumber}  
                             <span className="btn p-0 ps-2"  
-                                onClick={() => store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id ? false : setUpdateProposalTagsFormShow(true)} >({ProposalOwnerRequestStatusEnum.toContentString(props.item.responderStatus)})</span>
+                                onClick={() => store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || props.item.transactionStatus == ProposalRequestStatusEnum.waiting ? false : setUpdateProposalTagsFormShow(true)} >({ProposalOwnerRequestStatusEnum.toContentString(props.item.responderStatus)})</span>
                         </h6>
                     </div>
                 </div>
@@ -59,14 +61,20 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                     <div className="row justify-content-center">
                         <div className="col-6 text-end">
                             <img 
-                            src={props.item.transactionStatus == ProposalRequestStatusEnum.waiting ? waiting : (props.item.transactionStatus == ProposalRequestStatusEnum.aborted || props.item.transactionStatus == ProposalRequestStatusEnum.canceled) ? cancel : inProgress}
+                            src={props.item.transactionStatus == ProposalRequestStatusEnum.waiting ? waiting : (props.item.transactionStatus == ProposalRequestStatusEnum.aborted || props.item.transactionStatus == ProposalRequestStatusEnum.canceled) ? cancel : props.item.transactionStatus == ProposalRequestStatusEnum.completed ? success : inProgress}
                             style={{ width: 60, height:60 }} />
                         </div>
                         <div className="col-6 mt-2 text-start">
                             <div className="row">
-                                <h6>
-                                    {ProposalRequestStatusEnum.toContentString(props.item.transactionStatus)}
-                                </h6>
+                                {props.isPreview && props.item.transactionStatus ==  ProposalRequestStatusEnum.completed ?
+                                    <a href={props.item.reportURL}> 
+                                        {ProposalRequestStatusEnum.toContentString(ProposalRequestStatusEnum.completed)}
+                                    </a>
+                                    :
+                                    <h6>
+                                        {ProposalRequestStatusEnum.toContentString(props.item.transactionStatus)}
+                                    </h6>
+                                }
                             </div>
                             <div className="row">
                                 <h6>
@@ -75,7 +83,11 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                             </div>
                         </div>
                     </div>
-
+                    <div className="row" hidden={!props.isPreview} >
+                        <a href={props.item.reportURL}>
+                            Download file
+                        </a>
+                    </div>
                 </div>
                 <div className="col-4">
                     <div className="row text-end" >
@@ -84,7 +96,7 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                             <img src={props.item.creator?.profileImageURL} className="rounded-circle ms-2" style={{width:35, height:35}} alt="Avatar" />
                         </h6>
                     </div>
-                    <div className="row text-end" >
+                    <div className="row text-end" hidden={props.isPreview} >
                         <h6>
                             Contact: {props.item.creator?.phoneNumber}
                         </h6>
@@ -103,6 +115,7 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
             </div>
         </div>
         <ProposalEventUpdateRequestForm
+                item={props.item}
                 show={updateProposalTagsFormShow}
                 onHide={() => setUpdateProposalTagsFormShow(false)} />
         </>

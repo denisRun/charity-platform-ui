@@ -16,11 +16,19 @@ const ProposalEventCurrentRequests: FC = observer(() => {
     const store = useStore();
     const navigate = useNavigate();
     const [createRequestFormShow, setCreateRequestFormShow] = useState(false);
+
+    let requests = store.proposalEventStore.event.transactions!
+        .filter(x => (x.responder.id == store.userStore.user?.id || x.creator.id == store.userStore.user?.id) && (x.transactionStatus == ProposalRequestStatusEnum.waiting || x.transactionStatus == ProposalRequestStatusEnum.accepted || x.transactionStatus == ProposalRequestStatusEnum.inProcess))
+        .slice()
+        .sort((x,y) => x.creationDate! < y.creationDate! ? 1 : -1);
     
     return (
         <>
             <div className='row'>
-                <div className='col-9 mt-1'>
+                <div className='col-9 mt-1 ms-1'>
+                    <h5 hidden={requests.length != 0}>
+                        You don`t have active Requests
+                    </h5>
                 </div>
                 <div className="col-2 ms-5">
                     <Button variant="success" hidden={store.proposalEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null} className="w-100" onClick={() => setCreateRequestFormShow(true)}>
@@ -29,12 +37,9 @@ const ProposalEventCurrentRequests: FC = observer(() => {
                 </div>
             </div>
             <div className="mt-3">
-                {store.proposalEventStore.event.transactions!
-                    .filter(x => (x.responder.id == store.userStore.user?.id || x.creator.id == store.userStore.user?.id) && (x.transactionStatus == ProposalRequestStatusEnum.waiting || x.transactionStatus == ProposalRequestStatusEnum.accepted || x.transactionStatus == ProposalRequestStatusEnum.inProcess))
-                    .slice()
-                    .sort((x,y) => x.creationDate! < y.creationDate! ? 1 : -1)
+                {requests
                     .map((trans) => (
-                        <ProposalEventRequestCard item={trans} key={trans.id!}/>            
+                        <ProposalEventRequestCard item={trans} isPreview={false} key={trans.id!}/>            
                 ))}
             </div>
             <ProposalEventCreateRequestForm

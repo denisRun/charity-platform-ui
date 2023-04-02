@@ -15,11 +15,13 @@ import ProposalEventBasicForm from '../../components/Forms/ProposalEvent/Proposa
 import EditIcon from '@mui/icons-material/Edit';
 import ProposalEventCurrentRequests from '../../components/ProposalEvent/ProposalEventCurrentRequests'
 import ProposalEventRequests from '../../components/ProposalEvent/ProposalEventRequests'
+import { useLocation } from 'react-router-dom';
 
 
 const ProposalEventItemPage: FC = observer(() => {
 
   const store = useStore();
+  const location = useLocation();
   const [updateProposalFormShow, setUpdateProposalFormShow] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { id }= useParams();
@@ -31,6 +33,10 @@ const ProposalEventItemPage: FC = observer(() => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+
+  const handleCopyLinkClick = async () => {
+    navigator.clipboard.writeText(`http://localhost:3000${location.pathname}`);
+}
 
   function a11yProps(index: number) {
     return {
@@ -91,12 +97,12 @@ const ProposalEventItemPage: FC = observer(() => {
                             <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current Requests</h6>} {...a11yProps(2)} />
                       </Tabs>
                     </div>
-                    <div className="col-0-5" >
+                    <div className="col-1" >
                       <div className="btn-group">
                           <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalFormShow(true)}><EditIcon fontSize='large' /></button>
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
-                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>Copy link</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>Copy link</button></li>
                           <li><button className="dropdown-item" type="button" onClick={() => console.log()}>Complain</button></li>
                           </ul>
                       </div>

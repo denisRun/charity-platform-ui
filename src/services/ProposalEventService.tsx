@@ -76,7 +76,6 @@ class ProposalEventService implements IProposalEventService{
     }
 
     async updateRequestStatus(requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void> {
-        debugger;
         const response = await axios.post<void>(proposalControllerPath + "/update-status/"+requestId, newStatus);
         return response.data;
     }

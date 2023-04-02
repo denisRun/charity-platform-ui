@@ -53,7 +53,7 @@ const SearchProposalEvents: FC = observer(() => {
         <Container fluid style={{borderBottom: "9px solid #FBF8F0"}}>
             <div className="row" >
                 <div className="col-9">
-                    <input className="form-control" placeholder="Search by name"/>
+                    <input className="form-control" placeholder="Search by name" onChange={x => setTitle(x.target.value)}/>
                 </div>
                 <div className="col-3">
                     <Button variant="outline-success" className="w-100" onClick={() => handleSearchClick()}>
@@ -102,7 +102,7 @@ const SearchProposalEvents: FC = observer(() => {
             <div>
                 {store.proposalEventStore.events
                     .map((event) => (
-                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} key={event.id!}/>            
+                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} isOwn={false} key={event.id!}/>            
                 ))}
             </div>
         </Container>

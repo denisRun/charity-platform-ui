@@ -14,7 +14,9 @@ export class ProposalEventStore {
     eventsTotalPageCount: number = 1;
 
     ownEvents: IProposalEventSearchResource[]  = [];
+
     tookPartEvents: IProposalEventSearchResource[] = [];
+    tookPartEventsTotalPageCount: number = 1;
 
     event: IProposalEventSearchResource = new IProposalEventSearchResource();
 
@@ -65,8 +67,13 @@ export class ProposalEventStore {
         try{
             this.startOperation();
             const searchResponse = await ProposalEventServiceInstance.searchEvents(request);
-            this.events = searchResponse.items ?? [];
-            this.eventsTotalPageCount = searchResponse.totalPageCount ?? 1;
+            if(request.takingPart){
+                this.tookPartEvents = searchResponse.items ?? [];
+                this.tookPartEventsTotalPageCount = searchResponse.totalPageCount ?? 1;
+            } else {
+                this.events = searchResponse.items ?? [];
+                this.eventsTotalPageCount = searchResponse.totalPageCount ?? 1;
+            }
             this.finishOperation();
         } catch(ex){
             console.log(ex);

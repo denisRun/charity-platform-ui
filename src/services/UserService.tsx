@@ -16,6 +16,7 @@ export interface IUserService{
     // createUser(user: IUser): Promise<IUser>;
     // updateUser(id: string, user: IUser): Promise<IUser>;
     getNotifications(): Promise<INotificationResource[]>;
+    readNotifications(ids: string[]): Promise<void>;
 }
 
 const authControllerPath = "/auth";
@@ -50,6 +51,15 @@ class UserService implements IUserService{
         const response = await axios.get<INotificationResource[]>(userControllerPath + "/notifications");
         return response.data;
     }
+
+    async readNotifications(ids: string[]): Promise<void> {
+        const request = {
+            IDs: ids
+        }
+        const response = await axios.put<void>(apiControllerPath + "/read-notifications", JSON.stringify(request));
+        return;
+    }
+
     // ALL the following should be REMOVED
 
 

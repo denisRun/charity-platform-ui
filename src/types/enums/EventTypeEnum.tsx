@@ -6,11 +6,11 @@ export class EventTypeEnum {
       let result: string = "None";
       switch(status) { 
           case this.proposal: { 
-             result = "Suggestion Event";
+             result = "Suggestion";
              break; 
           } 
           case this.help: { 
-              result = "Help Event";
+              result = "Help";
               break; 
           }
        } 

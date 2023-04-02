@@ -10,6 +10,10 @@ import TextFormHeader from "../../Text/TextFormHeader";
 import TextForm from "../../Text/TextForm";
 import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
+import NotificationCard from "../../Cards/NotificationCard";
+import { useNavigate } from "react-router-dom";
+import { EventTypeEnum } from "../../../types/enums/EventTypeEnum";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 interface INotificationsFormProps{
     show: boolean;
@@ -19,11 +23,30 @@ interface INotificationsFormProps{
 const NotificationsForm: FC<INotificationsFormProps> = (props) => {
 
     const store = useStore();
-    const initialValues = new IUserSignupRequest();
+    const navigate = useNavigate()
+
+    const notifactionOnclick = async (id?: string, eventType?: string, eventId?: string) => {
+
+        let ids = [];
+        if(id == null){
+            store.userStore.user?.transactionNotifications!.forEach(notif => {
+                ids.push(notif.id);
+            });
+        } else {
+            ids.push(id);
+        }
+
+        await store.userStore.readNotifications(ids)
+        if(id != null){
+            navigate(`/${EventTypeEnum.toUrlText(eventType)}/${eventId}`);
+            props.onHide();
+            window.location.reload();
+        }
+      };
 
     return (
         <Modal
-            className="modal-xl"
+            className="modal-notifaction"
             show={props.show}
             onHide={props.onHide}
             aria-labelledby="contained-modal-title-vcenter"
@@ -37,8 +60,16 @@ const NotificationsForm: FC<INotificationsFormProps> = (props) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>Notification1</p>
-                <p>Notification2</p>
+                <div className="me-2 text-end">
+                    <button  type="button" className="btn fs-5" data-bs-display="static" onClick={() => notifactionOnclick()}>
+                        Read all
+                        {/* <RemoveRedEyeIcon className="ms-2" />  */}
+                    </button>
+                </div>
+                {store.userStore.user?.transactionNotifications!
+                    .map((notification) => (
+                        <NotificationCard item={notification} key={notification.id!} onClick={() => notifactionOnclick(notification.id!, notification.eventType, notification.eventID)} />            
+                ))}
             </Modal.Body>
         </Modal>
     );

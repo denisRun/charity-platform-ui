@@ -18,6 +18,7 @@ import MyProposalEvents from '../../components/ProposalEvent/MyProposalEvents'
 import TookPartInProposalEvents from '../../components/ProposalEvent/TookPartInProposalEvents'
 import SearchProposalEvents from '../../components/ProposalEvent/SearchProposalEvents'
 import { IProposalSearchRequest } from '../../types/ProposaSearchRequest'
+import ProposalEventStatistics from '../../components/ProposalEvent/ProposalEventStatistics'
 
 
 const ProposalEventsPage: FC = observer(() => {
@@ -103,7 +104,7 @@ const ProposalEventsPage: FC = observer(() => {
                     <TookPartInProposalEvents />
                 </TabPanel>
                 <TabPanel value={tabValue} index={3}>
-                    <p>Statistics</p>
+                  <ProposalEventStatistics />
                 </TabPanel>
             </ContentContainer>
         </BodyContainer>

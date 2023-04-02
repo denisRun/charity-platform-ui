@@ -61,9 +61,8 @@ const NotificationsForm: FC<INotificationsFormProps> = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="me-2 text-end">
-                    <button  type="button" className="btn fs-5" data-bs-display="static" onClick={() => notifactionOnclick()}>
+                    <button  type="button" className="btn fs-7" data-bs-display="static" onClick={() => notifactionOnclick()}>
                         Read all
-                        {/* <RemoveRedEyeIcon className="ms-2" />  */}
                     </button>
                 </div>
                 {store.userStore.user?.transactionNotifications!

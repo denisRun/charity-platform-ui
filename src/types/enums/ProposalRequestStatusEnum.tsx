@@ -7,7 +7,7 @@ export class ProposalRequestStatusEnum {
     static readonly canceled = "canceled";
 
     static toContentString(status?:string): string {
-        let result: string = "None";
+        let result: string = "Waiting";
         switch(status) { 
             case this.waiting: { 
                result = "Waiting";

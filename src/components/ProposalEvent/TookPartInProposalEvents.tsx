@@ -6,6 +6,10 @@ import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
 import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
 import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
+import { useNavigate } from "react-router-dom";
+import ProposalEventCard from "../Cards/ProposalEventCard";
+import { IProposalSearchRequest } from "../../types/ProposaSearchRequest";
+import { useSnackbar } from "notistack";
 
 interface BodyProps{
     children: React.ReactNode
@@ -14,20 +18,31 @@ interface BodyProps{
 const TookPartInProposalEvents: FC = observer(() => {
 
     const store = useStore();
+    const navigate = useNavigate();
+    const [title, setTitle] = useState<string>('');
     const [sortBy, setSortBy] = useState<string>(ProposalEventSortByEnum.createDate);
     const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
-    const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatusEnum.active);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { enqueueSnackbar } = useSnackbar()
 
-    const handleSearchClick = async () => {
+    const handleSearchClick = async (pageNum?: number) => {
 
-        alert("search by "+sortBy+" "+sortDirection+" "+filterStatus)
-        // await store.userStore.login(credentials)
-        // if(store.userStore.user != null && store.userStore.isError == false){
-        //     props.onHide();
-        //     enqueueSnackbar("Login succeed.", { variant: 'success'})
-        // } else {
-        //     enqueueSnackbar("Failed to Login.", { variant: 'error'})
-        // }
+        let request: IProposalSearchRequest = new IProposalSearchRequest();
+        request.pageNumber = pageNum ?? 1;
+        request.name = title;
+        request.sortField = sortBy;
+        request.order = sortDirection;
+        request.tags = [];
+        request.takingPart = true;
+
+        await store.proposalEventStore.searchEvents(request);
+        if(store.proposalEventStore.isError == true){
+            enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+        } else if (pageNum == null){
+            setCurrentPage(1);
+        } else if (pageNum != null){
+            setCurrentPage(pageNum);
+        }
       };
     
     return (
@@ -35,7 +50,7 @@ const TookPartInProposalEvents: FC = observer(() => {
         <Container fluid style={{borderBottom: "9px solid #FBF8F0"}}>
             <div className="row" >
                 <div className="col-9">
-                    <input className="form-control" placeholder="Search by name"/>
+                    <input className="form-control" placeholder="Search by name" onChange={x => setTitle(x.target.value)}/>
                 </div>
                 <div className="col-3">
                     <Button variant="outline-success" disabled={store.userStore.user == null} className="w-100" onClick={() => handleSearchClick()}>
@@ -73,36 +88,18 @@ const TookPartInProposalEvents: FC = observer(() => {
                         </select>
                     </div>
                 </div>
-                <div className="col-2">
-                    <select className="form-select"
-                        onChange={selectedOption => {
-                            if (Array.isArray(selectedOption)) {
-                                throw new Error("Unexpected type passed to ReactSelect onChange handler");
-                            }
-                            setFilterStatus(selectedOption.target.value);
-                            }}
-                        aria-label="Default select example">
-                        <option selected value={ProposalEventStatusEnum.active}>Active</option>
-                        <option value={ProposalEventStatusEnum.inactive}>Inactive</option>
-                        <option value={ProposalEventStatusEnum.done}>Done</option>
-                    </select>
-                </div>
-                <div className="col-3">
-                </div>
-                <div className="col-3">
-                        <Button variant="success" disabled={store.userStore.user == null} className="w-100" onClick={() => console.log()}>
-                            + Add suggestion 
-                        </Button>
-                </div>
             </div>
         </Container>
         <Container className="mt-3" fluid>
-            <div className="row" >
-                фівафі
+            <div>
+                {store.proposalEventStore.tookPartEvents
+                    .map((event) => (
+                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} isOwn={false} key={event.id!}/>            
+                ))}
             </div>
         </Container>
         <div className="d-flex justify-content-center" style={{}}>
-                <Pagination hidden={store.proposalEventStore.tookPartEvents.length > 1 ? false : true} count={10} style={{justifyContent:"center"}}/>
+            <Pagination count={store.proposalEventStore.tookPartEventsTotalPageCount} page={currentPage} onChange={(e, value) => handleSearchClick(value)} style={{justifyContent:"center"}}/>
         </div>
         </>
   )});

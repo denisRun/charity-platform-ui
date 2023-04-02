@@ -17,7 +17,7 @@ export class UserStore {
     constructor(){
         makeAutoObservable(this);
         if(localStorage.getItem("token") != null){
-            this.refreshUserData(localStorage.getItem("refreshToken")!);
+            this.refreshUserData();
         }
     }
 
@@ -35,8 +35,13 @@ export class UserStore {
         }
     }    
 
-    refreshUserData = async (refreshToken: string): Promise<void> => {
+    refreshUserData = async (): Promise<void> => {
         try{
+            let refreshToken = localStorage.getItem("refreshToken");
+            if(!refreshToken){
+                return;
+            }
+
             this.startOperation();
             const user = await UserServiceInstance.refreshUserData(refreshToken);
             this.user = user;
@@ -84,7 +89,7 @@ export class UserStore {
         try{
             this.startOperation();
             const user = await TagServiceInstance.upsertUserSearchTags(eventType, tags);
-            await this.refreshUserData(localStorage.getItem('refreshToken')!)
+            await this.refreshUserData()
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -123,6 +128,18 @@ export class UserStore {
             this.startOperation();
             const notifications = await UserServiceInstance.getNotifications();
             this.notifications = notifications;
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
+    readNotifications = async (ids: string[]): Promise<void> => {
+        try{
+            this.startOperation();
+            await UserServiceInstance.readNotifications(ids);
+            this.refreshUserData();
             this.finishOperation();
         } catch(ex){
             console.log(ex);

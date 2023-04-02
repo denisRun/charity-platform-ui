@@ -16,9 +16,16 @@ const ProposalEventRequests: FC = observer(() => {
     const store = useStore();
     const navigate = useNavigate();
     const [createRequestFormShow, setCreateRequestFormShow] = useState(false);
+
+    const requestsCount = store.proposalEventStore.event.transactions?.length ?? 0;
     
     return (
         <>
+                <div className='col-9 mt-1 ms-1'>
+                    <h5 hidden={requestsCount != 0}>
+                        There is no Requests in Suggestion
+                    </h5>
+                </div>
             <div className="mt-3">
                 {store.proposalEventStore.event.transactions!
                     .slice()

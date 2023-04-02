@@ -135,7 +135,7 @@ const MyProposalEvents: FC = observer(() => {
                     .sort((a,b) => sortCompare(a,b))
                     .slice(currentPage * pageSize - pageSize, currentPage * pageSize)
                     .map((event) => (
-                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} key={event.id!}/>            
+                        <ProposalEventCard onClick={() => navigate(event.id!.toString())} item={event} isOwn={true} key={event.id!}/>            
                 ))}
             </div>
         </Container>

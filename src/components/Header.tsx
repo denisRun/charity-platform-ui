@@ -63,6 +63,8 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
         navigate("/profile")
     }
   };
+
+  const notificationsCount = store.userStore.user?.transactionNotifications!.filter(x => x.isRead == false).length; 
   
   return (
     <Navbar className="ms-4 me-4" expand="lg">
@@ -101,7 +103,7 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
             </> : 
             <div>
               <button type="button" onClick={() => setNotificationsShow(true)} className="btn fs-5">
-                <Badge color="primary" className="me-4" variant="dot">
+                <Badge color="primary" badgeContent={notificationsCount} className="me-4" variant="dot">
                   <EmailIcon fontSize='large' />
                 </Badge>
               </button>

@@ -15,7 +15,7 @@ const NotificationCard: FC<NotificationCardProps> = (props) => {
 
     return (
             <div className="row ms-3 me-3 mb-3 border rounded card-hover" onClick={() => props.onClick()}>
-                <div className="col-1 pt-2">
+                <div className="col-1 pt-2 d-flex align-items-center">
                     { !props.item.isRead ? <span className="dot-orange ms-2"> </span> : <span className="dot-grey ms-2"> </span> }
                 </div>
                 <div className="col-11 pt-2">

@@ -1,4 +1,5 @@
 import { IAddressResource } from "./AddressResource";
+import { INotificationResource } from "./NotificationResource";
 import { ITagResource } from "./TagResource";
 
 export class IUserResource{
@@ -13,4 +14,5 @@ export class IUserResource{
     address?: IAddressResource;
     profileImageURL?: string;
     proposalEventSearchValues?: ITagResource[] = [];
+    transactionNotifications?: INotificationResource[] = []
 }

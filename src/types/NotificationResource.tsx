@@ -1,8 +1,12 @@
 export class INotificationResource{
     id?: string;
+    
+    eventID?: string;
     eventType?: string;
-    eventId?: string;
-    eventName?: string
-    createdDateTime?: string;
-    transactionStatus?: string;
+    eventTitle?: string
+
+    createdAt?: Date;
+    newStatus?: string;
+    isRead?: boolean;
+    text?: string;
 }

@@ -12,6 +12,7 @@ import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
 import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdateResource";
+import { ProposalEventStatusEnum } from "../../../types/enums/ProposalEventStatusEnum";
 
 interface IProposalEventBasicFormProps{
     show: boolean;
@@ -154,6 +155,23 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                                     onChange={handleChange}
                             />
                             <ErrorMessage name="maxConcurrentRequests">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                        </Row>
+                        <Row hidden={props.isCreate} className="ms-3 me-3 mb-2 mt-4">
+                            <TextForm> Status: </TextForm>
+                        </Row>
+                        <Row hidden={props.isCreate} className="ms-3 me-3 ps-0">
+                            <Form.Select
+                                    as="select" 
+                                    name="status"
+                                    placeholder="Status"
+                                    value={values.status}
+                                    onChange={handleChange}
+                            >
+                                <option key={ProposalEventStatusEnum.active} value={ProposalEventStatusEnum.active}>Active</option>
+                                <option key={ProposalEventStatusEnum.inactive} value={ProposalEventStatusEnum.inactive}>Inactive</option>
+                                <option key={ProposalEventStatusEnum.done} value={ProposalEventStatusEnum.done}>Done</option>
+                            </Form.Select>
+                            <ErrorMessage name="status">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-3 me-3 mb-2 mt-4">
                             <TextForm> Suggestion image: </TextForm>

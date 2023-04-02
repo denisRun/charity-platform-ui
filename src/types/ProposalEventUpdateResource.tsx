@@ -7,6 +7,7 @@ export class IProposalEventUpdateResource{
     title?: string;
     description?: string;
     maxConcurrentRequests?: number;
+    status?: string;
     fileBytes?: number[];
     fileType?: string;
     tags?: ITagResource[];
@@ -21,6 +22,7 @@ export class IProposalEventUpdateResource{
         newItem.title = item?.title;
         newItem.description = item?.description;
         newItem.maxConcurrentRequests = item?.maxConcurrentRequests;
+        newItem.status = item?.status;
 
         return newItem
     }

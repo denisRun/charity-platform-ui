@@ -29,10 +29,14 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
+
     const ageGroupPossibleValues = ["Children", "Schollers", "Students", "Middle aged", "Pensioners"];
+    const topicPossibleValues = ["Food", "Cloth", "Job", "People tend", "Housing restoration", "Place to live"];
     
     var userPrevAgeGroups = props.items?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values ?? [];
+    var userPrevTopics = props.items?.find(x => x.title == ProposalEventTagsEnum.topic)?.values ?? [];
     const [userAgeGroupsSelected, setUserAgeGroupsSelected] = useState<string[]>(userPrevAgeGroups);
+    const [userTopicsSelected, setUserTopicsSelected] = useState<string[]>(userPrevTopics);
 
     var userPrevLocation = props.items?.find(x => x.title == ProposalEventTagsEnum.location)?.values ?? ['', '', '', ''];
     const [region, setRegion] = useState(userPrevLocation[0]);
@@ -48,9 +52,11 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
         const location = [region, city, district, street];
         const locationRes = new ITagResource(ProposalEventTagsEnum.location, location);
         const ageGroupsRes = new ITagResource(ProposalEventTagsEnum.ageGroup, userAgeGroupsSelected);
+        const topicsRes = new ITagResource(ProposalEventTagsEnum.topic, userTopicsSelected);
 
         result.push(locationRes);
         result.push(ageGroupsRes);
+        result.push(topicsRes);
 
         if(props.isSearch){
             await store.userStore.upsertUserTags(EventTypeEnum.proposal, result);
@@ -84,6 +90,20 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
         } else {
             newValues.push(value);
             setUserAgeGroupsSelected(newValues)
+        }
+    };
+
+    const handleTopicChange = async (value: string) => {
+
+        const newValues = userTopicsSelected;
+        const index = userTopicsSelected.indexOf(value, 0);
+        if (index > -1) {
+            
+            newValues.splice(index, 1);
+            setUserTopicsSelected(newValues);
+        } else {
+            newValues.push(value);
+            setUserTopicsSelected(newValues)
         }
     };
 
@@ -144,6 +164,18 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
                                 {ageGroupPossibleValues.map((ageGroup) => (
                                     <div className="mt-2 me-3" style={{display:"inline-block"}}>
                                         <input type="checkbox" key={"age-group"+ageGroup} id={"age-group"+ageGroup} value={ageGroup} className="checkbox-hidden" defaultChecked={userAgeGroupsSelected.includes(ageGroup)} onChange={e => handleAgeGroupChange(e.target.value)} /> <label htmlFor={"age-group"+ageGroup} className="checkbox-rounded"> {ageGroup} </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </Row>
+                        <Row className="ms-3 mt-3 me-3 mb-1">
+                            <TextForm> Topic: </TextForm>
+                        </Row>
+                        <Row className="ps-0 ms-1 mb-2">
+                            <div>
+                                {topicPossibleValues.map((topic) => (
+                                    <div className="mt-2 me-3" style={{display:"inline-block"}}>
+                                        <input type="checkbox" key={"topic"+topic} id={"topic"+topic} value={topic} className="checkbox-hidden" defaultChecked={userTopicsSelected.includes(topic)} onChange={e => handleTopicChange(e.target.value)} /> <label htmlFor={"topic"+topic} className="checkbox-rounded"> {topic} </label>
                                     </div>
                                 ))}
                             </div>

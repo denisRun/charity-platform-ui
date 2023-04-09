@@ -27,14 +27,17 @@ const ProposalEventTags: FC<ProposalEventTagsProps> = observer((props) => {
                 <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalTagsFormShow(true)}><EditIcon fontSize='large' /></button>
             </h4>
             <div className='row'>
-                <div className='col-4'>
-                    <h5 className="fw-bold">Location: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join("").length == 0 ? "None" : store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join(", ")}</span> </h5>
+                <div className='col-4 d-inline-flex'>
+                    <h5 className="fw-bold"> Location: </h5>
+                    <h5 className="ms-1"> <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join("").length == 0 ? "None" : store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.map(x => x == "" ? "None" : x).join(", ")}</span></h5>
                 </div>
-                <div className='col-4'>
-                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup) == null ? "None": store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
+                <div className='col-4 d-inline-flex'>
+                    <h5 className="fw-bold"> Topic: </h5>
+                    <h5 className="ms-1"> <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.topic) == null ? "None": store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.topic)?.values?.join(", ")}</span> </h5>
                 </div>
-                <div className='col-4'>
-                    <h5 className="fw-bold">Age group: <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup) == null ? "None": store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
+                <div className='col-4 d-inline-flex'>
+                    <h5 className="fw-bold"> Age: </h5>
+                    <h5 className="ms-1"> <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup) == null ? "None": store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values?.join(", ")}</span> </h5>
                 </div>
             </div>
             <ProposalEventTagsForm

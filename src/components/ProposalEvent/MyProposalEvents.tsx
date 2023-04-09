@@ -55,6 +55,7 @@ const MyProposalEvents: FC = observer(() => {
         return 0;
       }
 
+    debugger;
     const pageSize: number = 5;
     const totalPageCount = Math.ceil((store.proposalEventStore.ownEvents
         .filter(event => event.title!.includes(filterTitle) && event.status == filterStatus).length) / pageSize) ?? 0;
@@ -140,7 +141,7 @@ const MyProposalEvents: FC = observer(() => {
             </div>
         </Container>
         <div className="d-flex justify-content-center" style={{}}>
-                <Pagination hidden={store.proposalEventStore.ownEvents.length > 0 ? false : true}  count={totalPageCount} page={currentPage} onChange={(e, value) => setCurrentPage(value)} style={{justifyContent:"center"}}/>
+                <Pagination   count={totalPageCount < 1 ? 1 : totalPageCount} page={currentPage < 1 ? 1 : currentPage} onChange={(e, value) => setCurrentPage(value)} style={{justifyContent:"center"}}/>
         </div>
         <ProposalEventBasicForm
             isCreate={true}

@@ -28,10 +28,14 @@ const ProposalEventsPage: FC = observer(() => {
 
   useEffect(() => {   
 
+    let searchRequestTakingPart = new IProposalSearchRequest();
+    searchRequestTakingPart.takingPart = true;
     let searchRequest = new IProposalSearchRequest();
     searchRequest.tags = store.userStore.user?.proposalEventSearchValues ?? [];
     store.proposalEventStore.searchEvents(searchRequest);
     store.proposalEventStore.getOwnEvents();
+    store.proposalEventStore.searchEvents(searchRequestTakingPart);
+    store.proposalEventStore.getStatistics();
   },[]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

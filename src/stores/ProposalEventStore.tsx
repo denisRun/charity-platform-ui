@@ -7,6 +7,7 @@ import { ProposalRequestCreateRequest } from '../types/ProposalRequestCreateRequ
 import { ProposalRequestStatusUpdateResource } from '../types/ProposalRequestStatusUpdateResource';
 import { IProposalSearchRequest } from '../types/ProposaSearchRequest';
 import { ITagResource } from '../types/TagResource';
+import { IProposalStatisticsResource } from '../types/ProposalStatistics';
 
 export class ProposalEventStore {
 
@@ -19,6 +20,8 @@ export class ProposalEventStore {
     tookPartEventsTotalPageCount: number = 1;
 
     event: IProposalEventSearchResource = new IProposalEventSearchResource();
+
+    statistics: IProposalStatisticsResource = new IProposalStatisticsResource();
 
     isLoading: boolean = false;
     isError: boolean = false;
@@ -146,6 +149,17 @@ export class ProposalEventStore {
             this.startOperation();
             await ProposalEventServiceInstance.updateRequestStatus(requestId, newStatus);
             this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
+    getStatistics = async (): Promise<void> => {
+        try{
+            this.startOperation();
+            this.statistics = await ProposalEventServiceInstance.getStatistics();
             this.finishOperation();
         } catch(ex){
             console.log(ex);

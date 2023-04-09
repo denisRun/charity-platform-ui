@@ -5,6 +5,7 @@ import { IProposalEventSearchResource } from "../types/ProposalEventSearchResour
 import { IProposalEventUpdateResource } from "../types/ProposalEventUpdateResource";
 import { ProposalRequestCreateRequest } from "../types/ProposalRequestCreateRequest";
 import { ProposalRequestStatusUpdateResource } from "../types/ProposalRequestStatusUpdateResource";
+import { IProposalStatisticsResource } from "../types/ProposalStatistics";
 import { IProposalSearchRequest } from "../types/ProposaSearchRequest";
 
 
@@ -18,6 +19,7 @@ export interface IProposalEventService{
     addEventRequest(request: ProposalRequestCreateRequest): Promise<void>;
     acceptRequest(id: number, accept: boolean): Promise<void>;
     updateRequestStatus(requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void>;
+    getStatistics(): Promise<IProposalStatisticsResource>;
 }
 
 class getOwnEventsResponse{
@@ -77,6 +79,11 @@ class ProposalEventService implements IProposalEventService{
 
     async updateRequestStatus(requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void> {
         const response = await axios.post<void>(proposalControllerPath + "/update-status/"+requestId, newStatus);
+        return response.data;
+    }
+
+    async getStatistics(): Promise<IProposalStatisticsResource> {
+        const response = await axios.get<IProposalStatisticsResource>(proposalControllerPath + "/statistics");
         return response.data;
     }
 

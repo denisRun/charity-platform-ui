@@ -41,7 +41,6 @@ const ProposalEventStatistics: FC<ProposalEventStatisticsProps> = (props) => {
     let requests = [];
     let statistic = store.proposalEventStore.statistics;
 
-    debugger;
     for (let i = 3; i < 28; i+=4) {
       labels.push(statistic?.requests![i].date)
       let sum = statistic?.requests![i].requestsCount! + statistic?.requests![i-1].requestsCount! + statistic?.requests![i-2].requestsCount! + statistic?.requests![i-3].requestsCount!;
@@ -51,7 +50,7 @@ const ProposalEventStatistics: FC<ProposalEventStatisticsProps> = (props) => {
     const bar_data = {
       labels: labels,
       datasets: [{
-        label: "Suggestions requests",
+        label: "Your Suggestions requests",
         data: requests,
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
@@ -64,15 +63,15 @@ const ProposalEventStatistics: FC<ProposalEventStatisticsProps> = (props) => {
       <>
         <div className="d-inline-flex ms-4 mt-3 mb-4">
           <div className="me-3">
-            <Metric label="Requests" value={statistic.transactionsCount!} percents={statistic.transactionsCountCompare!} />
+            <Metric label="Requests" value={statistic.transactionsCount!} percents={statistic.transactionsCountCompare!} isPercentsRevesred={false} />
           </div>
           <div className="me-3">
-            <Metric label="Completed" value={statistic.doneTransactionsCount!} percents={statistic.doneTransactionsCountCompare!} />
+            <Metric label="Completed" value={statistic.doneTransactionsCount!} percents={statistic.doneTransactionsCountCompare!} isPercentsRevesred={false} />
           </div>
           <div className="me-3">
-            <Metric label="Canceled" value={statistic.canceledTransactionCount!} percents={statistic.canceledTransactionCountCompare!} />
+            <Metric label="Canceled" value={statistic.canceledTransactionCount!} percents={statistic.canceledTransactionCountCompare!} isPercentsRevesred={true} />
           </div>
-            <Metric label="Aborted" value={statistic.abortedTransactionsCount!} percents={statistic.abortedTransactionsCountCompare!} />
+            <Metric label="Aborted" value={statistic.abortedTransactionsCount!} percents={statistic.abortedTransactionsCountCompare!} isPercentsRevesred={true} />
         </div>
         <div className="row">
           <Line data={bar_data} width={100} height={35} options={{ maintainAspectRatio: false }} />

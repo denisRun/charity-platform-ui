@@ -4,6 +4,7 @@ interface MetricProps{
     label: string;
     value: number;
     percents: number;
+    isPercentsRevesred: boolean;
 }
 
 const Metric: FC<MetricProps> = (props) => {
@@ -24,7 +25,7 @@ const Metric: FC<MetricProps> = (props) => {
                     </h3>
                 </div>
                 <div className="col-6 text-end">
-                    <p className="mb-0" style={{color : isPersentsPositive ? "green" : "orange"}}>
+                    <p className="mb-0" style={{color : isPersentsPositive ? props.isPercentsRevesred ? "orange" : "green" : props.isPercentsRevesred ? "green" : "orange"}}>
                         {isPersentsPositive ? "+" : ""}{props.percents}%
                     </p>
                     <p className="mb-0 mt-0" style={{fontSize:"10px", color:"gray"}}>

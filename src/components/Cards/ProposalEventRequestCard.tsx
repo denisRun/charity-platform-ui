@@ -29,10 +29,11 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
     const handleAcceptClick = async (isAccept: boolean) => {
 
         await store.proposalEventStore.acceptRequest(props.item.id!, isAccept);
+        let actionType = isAccept == true ? "Accepted" : "Declined"
         if(store.proposalEventStore.isError == false){
-            enqueueSnackbar("Request Accepted.", { variant: 'success'})
+            enqueueSnackbar(`Request ${actionType}.`, { variant: 'success'})
         } else {
-            enqueueSnackbar("Failed to Accepted request.", { variant: 'error'})
+            enqueueSnackbar("Failed to perform action.", { variant: 'error'})
         }
     }
 

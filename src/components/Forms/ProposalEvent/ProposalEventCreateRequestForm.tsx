@@ -11,7 +11,7 @@ import TextForm from "../../Text/TextForm";
 import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
-import { ProposalRequestCreateRequest } from "../../../types/ProposalRequestCreateRequest";
+import { ProposalRequestCreateRequest } from "../../../types/ProposalEvent/ProposalRequestCreateRequest";
 
 interface IRequestFormProps{
     show: boolean;

@@ -1,13 +1,13 @@
 import { action, makeAutoObservable, toJS } from 'mobx';
 import { ProposalEventServiceInstance } from '../services/ProposalEventService';
 import { TagServiceInstance } from '../services/TagService';
-import { IProposalEventSearchResource } from '../types/ProposalEventSearchResource';
-import { IProposalEventUpdateResource } from '../types/ProposalEventUpdateResource';
-import { ProposalRequestCreateRequest } from '../types/ProposalRequestCreateRequest';
-import { ProposalRequestStatusUpdateResource } from '../types/ProposalRequestStatusUpdateResource';
-import { IProposalSearchRequest } from '../types/ProposaSearchRequest';
+import { IProposalEventSearchResource } from '../types/ProposalEvent/ProposalEventSearchResource';
+import { IProposalEventUpdateResource } from '../types/ProposalEvent/ProposalEventUpdateResource';
+import { ProposalRequestCreateRequest } from '../types/ProposalEvent/ProposalRequestCreateRequest';
+import { ProposalRequestStatusUpdateResource } from '../types/ProposalEvent/ProposalRequestStatusUpdateResource';
+import { IProposalSearchRequest } from '../types/ProposalEvent/ProposaSearchRequest';
 import { ITagResource } from '../types/TagResource';
-import { IProposalStatisticsResource } from '../types/ProposalStatistics';
+import { IProposalStatisticsResource } from '../types/ProposalEvent/ProposalStatistics';
 
 export class ProposalEventStore {
 

@@ -8,7 +8,7 @@ import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
 import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
 import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
-import { IProposalEventSearchResource } from "../../types/ProposalEventSearchResource";
+import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
 
@@ -55,7 +55,6 @@ const MyProposalEvents: FC = observer(() => {
         return 0;
       }
 
-    debugger;
     const pageSize: number = 5;
     const totalPageCount = Math.ceil((store.proposalEventStore.ownEvents
         .filter(event => event.title!.includes(filterTitle) && event.status == filterStatus).length) / pageSize) ?? 0;

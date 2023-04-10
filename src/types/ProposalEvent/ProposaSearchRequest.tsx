@@ -1,4 +1,4 @@
-import { ITagResource } from "./TagResource";
+import { ITagResource } from "../TagResource";
 
 export class IProposalSearchRequest{
     pageNumber?: number = 1;

@@ -6,7 +6,7 @@ import logo from '../../images/logo.svg';
 import { ErrorMessage, Formik, FormikHelpers } from "formik";
 import { useSnackbar } from "notistack";
 import { useStore } from "../../contexts/StoreContext";
-import { IProposalEventSearchResource } from "../../types/ProposalEventSearchResource";
+import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import TextFormHeader from "../Text/TextFormHeader";
 import TextForm from "../Text/TextForm";
 import { IComplainResource } from "../../types/ComplainResource";

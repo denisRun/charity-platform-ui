@@ -11,10 +11,10 @@ import TextForm from "../../Text/TextForm";
 import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
-import { ProposalRequestCreateRequest } from "../../../types/ProposalRequestCreateRequest";
+import { ProposalRequestCreateRequest } from "../../../types/ProposalEvent/ProposalRequestCreateRequest";
 import { ITransactionResource } from "../../../types/TransactionResource";
 import { ProposalOwnerRequestStatusEnum } from "../../../types/enums/ProposalOwnerRequestStatusEnum";
-import { ProposalRequestStatusUpdateResource } from "../../../types/ProposalRequestStatusUpdateResource";
+import { ProposalRequestStatusUpdateResource } from "../../../types/ProposalEvent/ProposalRequestStatusUpdateResource";
 import fileToBytes from "../../../Helpers/FileToBytes";
 
 interface IRequestFormProps{

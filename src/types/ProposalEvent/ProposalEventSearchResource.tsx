@@ -1,7 +1,7 @@
-import { IUserInfoResource } from "./UserInfoResource";
-import { ICommentResource } from "./CommentResource";
-import { ITagResource } from "./TagResource";
-import { ITransactionResource } from "./TransactionResource";
+import { IUserInfoResource } from "../UserInfoResource";
+import { ICommentResource } from "../CommentResource";
+import { ITagResource } from "../TagResource";
+import { ITransactionResource } from "../TransactionResource";
 
 export class IProposalEventSearchResource{
     id?: number;

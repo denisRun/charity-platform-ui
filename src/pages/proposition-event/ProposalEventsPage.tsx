@@ -17,7 +17,7 @@ import ContentContainer from '../../components/Body/ContentContainer'
 import MyProposalEvents from '../../components/ProposalEvent/MyProposalEvents'
 import TookPartInProposalEvents from '../../components/ProposalEvent/TookPartInProposalEvents'
 import SearchProposalEvents from '../../components/ProposalEvent/SearchProposalEvents'
-import { IProposalSearchRequest } from '../../types/ProposaSearchRequest'
+import { IProposalSearchRequest } from '../../types/ProposalEvent/ProposaSearchRequest'
 import ProposalEventStatistics from '../../components/ProposalEvent/ProposalEventStatistics'
 
 

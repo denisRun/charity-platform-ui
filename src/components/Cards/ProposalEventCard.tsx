@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IProposalEventSearchResource } from "../../types/ProposalEventSearchResource";
+import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import dateTimeFormatter from "../../Helpers/ToDateTimeConverter";
 import { useLocation } from 'react-router-dom';
 import { useSnackbar } from "notistack";

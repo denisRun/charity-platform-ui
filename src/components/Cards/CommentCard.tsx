@@ -1,6 +1,6 @@
 import { FC } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IProposalEventSearchResource } from "../../types/ProposalEventSearchResource";
+import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import dateTimeFormatter from "../../Helpers/ToDateTimeConverter";
 import { ICommentResource } from "../../types/CommentResource";
 

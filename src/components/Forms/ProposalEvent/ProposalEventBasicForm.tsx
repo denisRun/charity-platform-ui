@@ -11,7 +11,7 @@ import TextForm from "../../Text/TextForm";
 import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
-import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdateResource";
+import { IProposalEventUpdateResource } from "../../../types/ProposalEvent/ProposalEventUpdateResource";
 import { ProposalEventStatusEnum } from "../../../types/enums/ProposalEventStatusEnum";
 
 interface IProposalEventBasicFormProps{

@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
-import { IProposalEventUpdateResource } from "../../types/ProposalEventUpdateResource";
+import { IProposalEventUpdateResource } from "../../types/ProposalEvent/ProposalEventUpdateResource";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
 
 const ProposalEventInfo: FC = observer(() => {

@@ -1,8 +1,8 @@
 import axios from "../axios/Axios";
 import { ICommentResource } from "../types/CommentResource";
 import { IPagedResultSet } from "../types/PagedResultSet";
-import { IProposalEventSearchResource } from "../types/ProposalEventSearchResource";
-import { IProposalEventUpdateResource } from "../types/ProposalEventUpdateResource";
+import { IProposalEventSearchResource } from "../types/ProposalEvent/ProposalEventSearchResource";
+import { IProposalEventUpdateResource } from "../types/ProposalEvent/ProposalEventUpdateResource";
 import { ITagResource } from "../types/TagResource";
 
 

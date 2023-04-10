@@ -6,7 +6,7 @@ import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
 import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
 import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
-import { IProposalEventUpdateResource } from "../../types/ProposalEventUpdateResource";
+import { IProposalEventUpdateResource } from "../../types/ProposalEvent/ProposalEventUpdateResource";
 import ProposalEventTagsForm from "../Forms/ProposalEvent/ProposalEventTagsForm";
 import EditIcon from '@mui/icons-material/Edit';
 import { ProposalEventTagsEnum } from "../../types/enums/ProposalEventTagsEnum";

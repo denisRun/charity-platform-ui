@@ -9,7 +9,7 @@ import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ProposalEventTagsForm from "../Forms/ProposalEvent/ProposalEventTagsForm";
 import { toJS } from "mobx";
-import { IProposalSearchRequest } from "../../types/ProposaSearchRequest";
+import { IProposalSearchRequest } from "../../types/ProposalEvent/ProposaSearchRequest";
 import { useSnackbar } from "notistack";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import { useNavigate } from "react-router-dom";

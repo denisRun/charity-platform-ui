@@ -10,7 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ProposalEventInfo from '../../components/ProposalEvent/ProposalEventInfo'
 import ProposalEventTags from '../../components/ProposalEvent/ProposalEventTags'
 import ProposalEventComments from '../../components/ProposalEvent/ProposalEventComments'
-import { IProposalEventUpdateResource } from '../../types/ProposalEventUpdateResource'
+import { IProposalEventUpdateResource } from '../../types/ProposalEvent/ProposalEventUpdateResource'
 import ProposalEventBasicForm from '../../components/Forms/ProposalEvent/ProposalEventBasicForm'
 import EditIcon from '@mui/icons-material/Edit';
 import ProposalEventCurrentRequests from '../../components/ProposalEvent/ProposalEventCurrentRequests'

@@ -5,7 +5,7 @@ import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../contexts/StoreContext";
 import { ProposalRequestStatusEnum } from "../../types/enums/ProposalRequestStatusEnum";
-import { IProposalEventUpdateResource } from "../../types/ProposalEventUpdateResource";
+import { IProposalEventUpdateResource } from "../../types/ProposalEvent/ProposalEventUpdateResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventRequestCard from "../Cards/ProposalEventRequestCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";

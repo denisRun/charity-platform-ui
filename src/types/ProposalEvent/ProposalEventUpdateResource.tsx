@@ -1,6 +1,6 @@
-import { IAddressResource } from "./AddressResource";
+import { IAddressResource } from "../AddressResource";
 import { IProposalEventSearchResource } from "./ProposalEventSearchResource";
-import { ITagResource } from "./TagResource";
+import { ITagResource } from "../TagResource";
 
 export class IProposalEventUpdateResource{
     id?: number;

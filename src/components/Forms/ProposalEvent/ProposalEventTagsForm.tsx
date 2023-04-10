@@ -11,7 +11,7 @@ import TextForm from "../../Text/TextForm";
 import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
-import { IProposalEventUpdateResource } from "../../../types/ProposalEventUpdateResource";
+import { IProposalEventUpdateResource } from "../../../types/ProposalEvent/ProposalEventUpdateResource";
 import { Checkbox } from "@mui/material";
 import { ITagResource } from "../../../types/TagResource";
 import { ProposalEventTagsEnum } from "../../../types/enums/ProposalEventTagsEnum";

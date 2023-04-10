@@ -8,7 +8,7 @@ import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEn
 import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import { useNavigate } from "react-router-dom";
 import ProposalEventCard from "../Cards/ProposalEventCard";
-import { IProposalSearchRequest } from "../../types/ProposaSearchRequest";
+import { IProposalSearchRequest } from "../../types/ProposalEvent/ProposaSearchRequest";
 import { useSnackbar } from "notistack";
 
 interface BodyProps{

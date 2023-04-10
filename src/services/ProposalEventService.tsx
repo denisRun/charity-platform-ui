@@ -1,12 +1,12 @@
 import axios from "../axios/Axios";
 import { ICommentResource } from "../types/CommentResource";
 import { IPagedResultSet } from "../types/PagedResultSet";
-import { IProposalEventSearchResource } from "../types/ProposalEventSearchResource";
-import { IProposalEventUpdateResource } from "../types/ProposalEventUpdateResource";
-import { ProposalRequestCreateRequest } from "../types/ProposalRequestCreateRequest";
-import { ProposalRequestStatusUpdateResource } from "../types/ProposalRequestStatusUpdateResource";
-import { IProposalStatisticsResource } from "../types/ProposalStatistics";
-import { IProposalSearchRequest } from "../types/ProposaSearchRequest";
+import { IProposalEventSearchResource } from "../types/ProposalEvent/ProposalEventSearchResource";
+import { IProposalEventUpdateResource } from "../types/ProposalEvent/ProposalEventUpdateResource";
+import { ProposalRequestCreateRequest } from "../types/ProposalEvent/ProposalRequestCreateRequest";
+import { ProposalRequestStatusUpdateResource } from "../types/ProposalEvent/ProposalRequestStatusUpdateResource";
+import { IProposalStatisticsResource } from "../types/ProposalEvent/ProposalStatistics";
+import { IProposalSearchRequest } from "../types/ProposalEvent/ProposaSearchRequest";
 
 
 export interface IProposalEventService{

@@ -33,9 +33,9 @@ const ProposalEventsPage: FC = observer(() => {
     let searchRequest = new IProposalSearchRequest();
     searchRequest.tags = store.userStore.user?.proposalEventSearchValues ?? [];
     store.proposalEventStore.searchEvents(searchRequest);
+    store.proposalEventStore.getStatistics();
     store.proposalEventStore.getOwnEvents();
     store.proposalEventStore.searchEvents(searchRequestTakingPart);
-    store.proposalEventStore.getStatistics();
   },[]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -92,9 +92,9 @@ const ProposalEventsPage: FC = observer(() => {
                 value={tabValue}
                 onChange={handleChange}>
                     <Tab title='Search' icon={<SearchIcon fontSize='large' />} {...a11yProps(0)} />
-                    <Tab title='My Events' icon={<PermIdentityIcon fontSize='large' />} {...a11yProps(1)} />
-                    <Tab title='I got help' icon={<GroupsIcon fontSize='large' />} {...a11yProps(2)} />
-                    <Tab title='My statistics' icon={<QueryStatsIcon fontSize='large' />} {...a11yProps(3)} />
+                    <Tab disabled={store.userStore.user == null} title='My Events' icon={<PermIdentityIcon fontSize='large' />} {...a11yProps(1)} />
+                    <Tab disabled={store.userStore.user == null} title='I got help' icon={<GroupsIcon fontSize='large' />} {...a11yProps(2)} />
+                    <Tab disabled={store.userStore.user == null} title='My statistics' icon={<QueryStatsIcon fontSize='large' />} {...a11yProps(3)} />
                 </Tabs>
             </SidebarContainer>
             <ContentContainer>

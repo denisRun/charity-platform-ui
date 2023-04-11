@@ -25,9 +25,13 @@ const Metric: FC<MetricProps> = (props) => {
                     </h3>
                 </div>
                 <div className="col-6 text-end">
-                    <p className="mb-0" style={{color : isPersentsPositive ? props.isPercentsRevesred ? "orange" : "green" : props.isPercentsRevesred ? "green" : "orange"}}>
-                        {isPersentsPositive ? "+" : ""}{props.percents}%
-                    </p>
+                    {props.percents != 0 ? 
+                        <p className="mb-0" style={{color : isPersentsPositive ? props.isPercentsRevesred ? "orange" : "green" : props.isPercentsRevesred ? "green" : "orange"}}>
+                            {isPersentsPositive ? "+" : ""}{props.percents}%
+                        </p> :
+                        <p className="mb-0">
+                            {"+"}{props.percents}%
+                        </p> }
                     <p className="mb-0 mt-0" style={{fontSize:"10px", color:"gray"}}>
                         vs Previous 28 Days
                     </p>

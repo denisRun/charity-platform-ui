@@ -26,7 +26,7 @@ const ProposalEventTags: FC<ProposalEventTagsProps> = observer((props) => {
                 Suggestion tags:
                 <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalTagsFormShow(true)}><EditIcon fontSize='large' /></button>
             </h4>
-            <div className='row'>
+            <div className='row mt-1'>
                 <div className='col-4 d-inline-flex'>
                     <h5 className="fw-bold"> Location: </h5>
                     <h5 className="ms-1"> <span className="fw-normal">{store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.join("").length == 0 ? "None" : store.proposalEventStore.event.tags?.find(x => x.title == ProposalEventTagsEnum.location)?.values?.map(x => x == "" ? "None" : x).join(", ")}</span></h5>

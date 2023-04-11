@@ -31,7 +31,7 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
     const { enqueueSnackbar } = useSnackbar()
 
     const ageGroupPossibleValues = ["Children", "Schollers", "Students", "Middle aged", "Pensioners"];
-    const topicPossibleValues = ["Food", "Cloth", "Job", "People tend", "Housing restoration", "Place to live"];
+    const topicPossibleValues = ["Food", "Cloth", "People tend", "Housing restoration", "Place to live", "Job"];
     
     var userPrevAgeGroups = props.items?.find(x => x.title == ProposalEventTagsEnum.ageGroup)?.values ?? [];
     var userPrevTopics = props.items?.find(x => x.title == ProposalEventTagsEnum.topic)?.values ?? [];

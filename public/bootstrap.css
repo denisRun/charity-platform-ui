@@ -94,6 +94,8 @@
 }
 
 .checkbox-rounded {
+  min-width: 80px;
+  text-align: center;
   border: 2px solid var(--bs-gray-600);
   border-radius: 10px;
   padding-top: 0.2rem;

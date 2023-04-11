@@ -31,14 +31,16 @@ export class ProposalEventStore {
         makeAutoObservable(this);
     } 
 
-    createEvent = async (event: IProposalEventUpdateResource): Promise<void> => {
+    createEvent = async (event: IProposalEventUpdateResource): Promise<number> => {
         try{
             this.startOperation();
-            const createdEvent = await ProposalEventServiceInstance.createEvent(event);
+            const createdEventId = (await ProposalEventServiceInstance.createEvent(event)).id;
             this.finishOperation();
+            return createdEventId!;
         } catch(ex){
             console.log(ex);
             this.operationFailed((ex as any).errorMessage);
+            return -1;
         }
     }  
 

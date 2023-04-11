@@ -13,6 +13,7 @@ import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
 import { IProposalEventUpdateResource } from "../../../types/ProposalEvent/ProposalEventUpdateResource";
 import { ProposalEventStatusEnum } from "../../../types/enums/ProposalEventStatusEnum";
+import { useNavigate } from "react-router-dom";
 
 interface IProposalEventBasicFormProps{
     show: boolean;
@@ -25,6 +26,7 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
+    const navigate = useNavigate()
     const [picture, setPicture] = useState<File>();
     const initialValues = props.item ?? new IProposalEventUpdateResource();
 
@@ -53,10 +55,11 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
             fileType = picture?.name.split(".")[1];
         }
         
+        let createdId = -1;
         if(props.isCreate){
             proposalEvent.fileBytes = fileByteArray;
             proposalEvent.fileType = fileType;
-            await store.proposalEventStore.createEvent(proposalEvent);
+            createdId = await store.proposalEventStore.createEvent(proposalEvent);
 
             if(store.proposalEventStore.isError == false){
                 props.onHide();
@@ -75,6 +78,10 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
             } else {
                 enqueueSnackbar("Failed to update suggestion.", { variant: 'error'})
             }
+        }
+
+        if(createdId > 0){
+            navigate(`${createdId}`);
         }
       };
 

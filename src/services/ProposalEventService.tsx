@@ -10,7 +10,7 @@ import { IProposalSearchRequest } from "../types/ProposalEvent/ProposaSearchRequ
 
 
 export interface IProposalEventService{
-    createEvent(event: IProposalEventUpdateResource): Promise<void>;
+    createEvent(event: IProposalEventUpdateResource): Promise<createdItem>;
     updateEvent(event: IProposalEventUpdateResource): Promise<void>;
     searchEvents(request: IProposalSearchRequest): Promise<IPagedResultSet<IProposalEventSearchResource>>;
     getOwnEvents(): Promise<IProposalEventSearchResource[]>;
@@ -26,12 +26,17 @@ class getOwnEventsResponse{
     proposalEvents: IProposalEventUpdateResource[] = []
 }
 
+class createdItem{
+    id?: number;
+}
+
+
 const proposalControllerPath = "api/events/proposal";
 
 class ProposalEventService implements IProposalEventService{
 
-    async createEvent(event: IProposalEventUpdateResource): Promise<void> {
-        const response = await axios.post<void>(proposalControllerPath + "/create", JSON.stringify(event));
+    async createEvent(event: IProposalEventUpdateResource): Promise<createdItem> {
+        const response = await axios.post<createdItem>(proposalControllerPath + "/create", JSON.stringify(event));
         return response.data;
     }
 

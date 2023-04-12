@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, toJS } from 'mobx';
-import { ProposalEventServiceInstance } from '../services/ProposalEventService';
+import { IProposalEventService } from '../services/ProposalEventService';
 import { TagServiceInstance } from '../services/TagService';
 import { IProposalEventSearchResource } from '../types/ProposalEvent/ProposalEventSearchResource';
 import { IProposalEventUpdateResource } from '../types/ProposalEvent/ProposalEventUpdateResource';
@@ -23,18 +23,17 @@ export class ProposalEventStore {
 
     statistics: IProposalStatisticsResource = new IProposalStatisticsResource();
 
-    isLoading: boolean = false;
-    isError: boolean = false;
-    errorMessage: string = '';
+    EventService: IProposalEventService;
 
-    constructor(){
+    constructor(EventService: IProposalEventService){
         makeAutoObservable(this);
+        this.EventService = EventService;
     } 
 
     createEvent = async (event: IProposalEventUpdateResource): Promise<number> => {
         try{
             this.startOperation();
-            const createdEventId = (await ProposalEventServiceInstance.createEvent(event)).id;
+            const createdEventId = (await this.EventService.createEvent(event)).id;
             this.finishOperation();
             return createdEventId!;
         } catch(ex){
@@ -47,8 +46,8 @@ export class ProposalEventStore {
     updateEvent = async (event: IProposalEventUpdateResource): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.updateEvent(event);
-            this.event = await ProposalEventServiceInstance.getById(event.id?.toString()!)
+            await this.EventService.updateEvent(event);
+            this.event = await this.EventService.getById(event.id?.toString()!)
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -60,7 +59,7 @@ export class ProposalEventStore {
         try{
             this.startOperation();
             await TagServiceInstance.upsertEventTags(eventType ,this.event.id!, tags);
-            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!)
+            this.event = await this.EventService.getById(this.event.id?.toString()!)
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -71,7 +70,7 @@ export class ProposalEventStore {
     searchEvents = async (request: IProposalSearchRequest): Promise<void> => {
         try{
             this.startOperation();
-            const searchResponse = await ProposalEventServiceInstance.searchEvents(request);
+            const searchResponse = await this.EventService.searchEvents(request);
             if(request.takingPart){
                 this.tookPartEvents = searchResponse.items ?? [];
                 this.tookPartEventsTotalPageCount = searchResponse.totalPageCount ?? 1;
@@ -89,7 +88,7 @@ export class ProposalEventStore {
     getOwnEvents = async (): Promise<void> => {
         try{
             this.startOperation();
-            const eventsResponse = await ProposalEventServiceInstance.getOwnEvents();
+            const eventsResponse = await this.EventService.getOwnEvents();
             this.ownEvents = eventsResponse ?? [];
             this.finishOperation();
         } catch(ex){
@@ -101,7 +100,7 @@ export class ProposalEventStore {
     getById = async (id: string): Promise<void> => {
         try{
             this.startOperation();
-            const eventsResponse = await ProposalEventServiceInstance.getById(id);
+            const eventsResponse = await this.EventService.getById(id);
             this.event = eventsResponse;
             this.finishOperation();
         } catch(ex){
@@ -113,8 +112,8 @@ export class ProposalEventStore {
     addComment = async (text: string): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.addComment(text, this.event.id!);
-            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            await this.EventService.addComment(text, this.event.id!);
+            this.event = await this.EventService.getById(this.event.id?.toString()!);
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -125,8 +124,8 @@ export class ProposalEventStore {
     addEventRequest = async (request: ProposalRequestCreateRequest): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.addEventRequest(request);
-            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            await this.EventService.addEventRequest(request);
+            this.event = await this.EventService.getById(this.event.id?.toString()!);
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -137,8 +136,8 @@ export class ProposalEventStore {
     acceptRequest = async (requestId: number, accept: boolean): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.acceptRequest(requestId, accept);
-            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            await this.EventService.acceptRequest(requestId, accept);
+            this.event = await this.EventService.getById(this.event.id?.toString()!);
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -149,8 +148,8 @@ export class ProposalEventStore {
     updateRequestStatus = async (requestId: number, newStatus: ProposalRequestStatusUpdateResource): Promise<void> => {
         try{
             this.startOperation();
-            await ProposalEventServiceInstance.updateRequestStatus(requestId, newStatus);
-            this.event = await ProposalEventServiceInstance.getById(this.event.id?.toString()!);
+            await this.EventService.updateRequestStatus(requestId, newStatus);
+            this.event = await this.EventService.getById(this.event.id?.toString()!);
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -161,13 +160,17 @@ export class ProposalEventStore {
     getStatistics = async (): Promise<void> => {
         try{
             this.startOperation();
-            this.statistics = await ProposalEventServiceInstance.getStatistics();
+            this.statistics = await this.EventService.getStatistics();
             this.finishOperation();
         } catch(ex){
             console.log(ex);
             this.operationFailed((ex as any).errorMessage);
         }
     }  
+
+    isLoading: boolean = false;
+    isError: boolean = false;
+    errorMessage: string = '';
 
     startOperation = () => {
         this.isLoading = true;
@@ -187,5 +190,3 @@ export class ProposalEventStore {
         this.errorMessage = ex;
     }
 }
-
-export default new ProposalEventStore();

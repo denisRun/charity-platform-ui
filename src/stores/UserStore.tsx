@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
-import { UserServiceInstance } from '../services/UserService';
+import { IUserService, UserServiceInstance } from '../services/UserService';
 import { INotificationResource } from '../types/NotificationResource';
 import { IUserLoginRequest } from '../types/UserLoginRequest';
 import { IUserSignupRequest } from '../types/UserSignupRequest';
@@ -10,12 +10,14 @@ import { TagServiceInstance } from '../services/TagService';
 export class UserStore {
     user: IUserResource | null = null;
     notifications: INotificationResource[] = [];
-    isLoading: boolean = false;
-    isError: boolean = false;
-    errorMessage: string = '';
 
-    constructor(){
+    UserService: IUserService;
+
+    constructor(userService: IUserService){
         makeAutoObservable(this);
+
+        this.UserService = userService;
+
         if(localStorage.getItem("token") != null){
             this.refreshUserData();
         }
@@ -24,7 +26,7 @@ export class UserStore {
     login = async (credentials: IUserResource): Promise<void> => {
         try{
             this.startOperation();
-            const user = await UserServiceInstance.login(credentials);
+            const user = await this.UserService.login(credentials);
             this.user = user;
             this.finishOperation();
             localStorage.setItem("token", user.token!);
@@ -43,7 +45,7 @@ export class UserStore {
             }
 
             this.startOperation();
-            const user = await UserServiceInstance.refreshUserData(refreshToken);
+            const user = await this.UserService.refreshUserData(refreshToken);
             this.user = user;
             this.finishOperation();
         } catch(ex){
@@ -55,7 +57,7 @@ export class UserStore {
     signup = async (credentials: IUserSignupRequest): Promise<void> => {
         try{
             this.startOperation();
-            const user = await UserServiceInstance.signup(credentials);
+            const user = await this.UserService.signup(credentials);
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -77,7 +79,7 @@ export class UserStore {
     changePassword = async (): Promise<void> => {
         try{
             this.startOperation();
-            const user = await UserServiceInstance.changePassword();
+            const user = await this.UserService.changePassword();
             this.finishOperation();
         } catch(ex){
             console.log(ex);
@@ -96,37 +98,11 @@ export class UserStore {
             this.operationFailed((ex as any).errorMessage);
         }
     }  
-    // getUser = async (id?: string): Promise<void> => {
-    //     try{
-    //         const user = await UserServiceInstance.getUser(id!);
-    //         this.user = user;
-    //     } catch(ex){
-    //         console.log(ex);
-    //     }
-    // }
-
-    // createUser = async (newItem: IUser): Promise<void> => {
-    //     try{
-    //         const createdUser = await UserServiceInstance.createUser(newItem);
-    //         this.user = createdUser;
-    //     } catch(ex){
-    //         console.log(ex);
-    //     }
-    // }
-
-    // updateUser = async (id: string, itemToUpdate: IUser): Promise<void> => {
-    //     try{
-    //         const updatedUser = await UserServiceInstance.updateUser(id, itemToUpdate);
-    //         this.user = updatedUser;
-    //     } catch(ex){
-    //         console.log(ex);
-    //     }
-    // }
 
     getNotifications = async (): Promise<void> => {
         try{
             this.startOperation();
-            const notifications = await UserServiceInstance.getNotifications();
+            const notifications = await this.UserService.getNotifications();
             this.notifications = notifications;
             this.finishOperation();
         } catch(ex){
@@ -138,7 +114,7 @@ export class UserStore {
     readNotifications = async (ids: string[]): Promise<void> => {
         try{
             this.startOperation();
-            await UserServiceInstance.readNotifications(ids);
+            await this.UserService.readNotifications(ids);
             this.refreshUserData();
             this.finishOperation();
         } catch(ex){
@@ -146,6 +122,10 @@ export class UserStore {
             this.operationFailed((ex as any).errorMessage);
         }
     }  
+
+    isLoading: boolean = false;
+    isError: boolean = false;
+    errorMessage: string = '';
 
     startOperation = () => {
         this.isLoading = true;

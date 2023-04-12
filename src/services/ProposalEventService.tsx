@@ -22,14 +22,13 @@ export interface IProposalEventService{
     getStatistics(): Promise<IProposalStatisticsResource>;
 }
 
-class getOwnEventsResponse{
+export class getOwnEventsResponse{
     proposalEvents: IProposalEventUpdateResource[] = []
 }
 
-class createdItem{
+export class createdItem{
     id?: number;
 }
-
 
 const proposalControllerPath = "api/events/proposal";
 

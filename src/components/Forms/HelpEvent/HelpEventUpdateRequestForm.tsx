@@ -41,6 +41,11 @@ const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
 
     const updateRequestSubmit = async () => {
 
+        if(requestStatus == OwnerRequestStatusEnum.completed && attachedFile == null){
+            enqueueSnackbar("File must be attached.", { variant: 'error'})
+            return;
+        }
+
         let request = new HelpRequestStatusUpdateResource();
         request.status = requestStatus;
         if(attachedFile != null){

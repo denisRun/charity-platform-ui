@@ -90,9 +90,9 @@ const HelpEventsPage: FC = observer(() => {
                 value={tabValue}
                 onChange={handleChange}>
                     <Tab title='Search' icon={<SearchIcon fontSize='large' />} {...a11yProps(0)} />
-                    <Tab title='My Help Events' icon={<PermIdentityIcon fontSize='large' />} {...a11yProps(1)} />
-                    <Tab title='I helped' icon={<GroupsIcon fontSize='large' />} {...a11yProps(2)} />
-                    <Tab title='My statistics' icon={<QueryStatsIcon fontSize='large' />} {...a11yProps(3)} />
+                    <Tab disabled={store.userStore.user == null} title='My Help Events' icon={<PermIdentityIcon fontSize='large' />} {...a11yProps(1)} />
+                    <Tab disabled={store.userStore.user == null} title='I helped' icon={<GroupsIcon fontSize='large' />} {...a11yProps(2)} />
+                    <Tab disabled={store.userStore.user == null} title='My statistics' icon={<QueryStatsIcon fontSize='large' />} {...a11yProps(3)} />
                 </Tabs>
             </SidebarContainer>
             <ContentContainer>

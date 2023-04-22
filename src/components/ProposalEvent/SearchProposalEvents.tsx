@@ -99,6 +99,9 @@ const SearchProposalEvents: FC = observer(() => {
             </div>
         </Container>
         <Container className="mt-3" fluid>
+            <h5 hidden={store.proposalEventStore.events.length != 0}>
+                No results found
+            </h5>
             <div>
                 {store.proposalEventStore.events
                     .map((event) => (

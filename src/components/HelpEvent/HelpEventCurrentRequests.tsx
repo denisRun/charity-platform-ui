@@ -18,9 +18,9 @@ const HelpEventCurrentRequests: FC = observer(() => {
 
         store.helpEventStore.addEventRequest();
         if(store.helpEventStore.isError){
-            enqueueSnackbar("Failed to create request.", { variant: 'error'})
+            enqueueSnackbar("Failed to create transaction.", { variant: 'error'})
         } else {
-            enqueueSnackbar("Request created.", { variant: 'success'})
+            enqueueSnackbar("Transaction created.", { variant: 'success'})
         }
     }
 
@@ -34,11 +34,11 @@ const HelpEventCurrentRequests: FC = observer(() => {
             <div className='row'>
                 <div className='col-9 mt-1 ms-1'>
                     <h5 hidden={requests.length != 0}>
-                        You don`t have active Requests
+                        There is no Active Iitems
                     </h5>
                 </div>
                 <div className="col-2 ms-5">
-                    <Button variant="success" hidden={store.helpEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null} className="w-100" onClick={() => handleAddRequestClick()}>
+                    <Button variant="success" hidden={store.helpEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null || requests.length > 0} className="w-100" onClick={() => handleAddRequestClick()}>
                         + Create request 
                     </Button>
                 </div>

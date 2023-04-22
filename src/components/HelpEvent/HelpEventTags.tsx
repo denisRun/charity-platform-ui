@@ -6,6 +6,7 @@ import { useStore } from "../../contexts/StoreContext";
 import EditIcon from '@mui/icons-material/Edit';
 import { HelpEventTagsEnum } from "../../types/enums/HelpEventTagsEnum";
 import HelpEventTagsForm from "../Forms/HelpEvent/HelpEventTagsForm";
+import { HelpEventStatusEnum } from "../../types/enums/HelpEventStatusEnum";
 
 interface HelpEventTagsProps{
     className?: string
@@ -20,7 +21,7 @@ const HelpEventTags: FC<HelpEventTagsProps> = observer((props) => {
         <div className={props.className} style={{fontSize:17}}>
             <h4>
                 Tags:
-                <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" hidden={store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateHelpTagsFormShow(true)}><EditIcon fontSize='large' /></button>
+                <button  type="button" className="btn fs-5 mb-2" data-bs-display="static" hidden={store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id || store.helpEventStore.event.status == HelpEventStatusEnum.done} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateHelpTagsFormShow(true)}><EditIcon fontSize='large' /></button>
             </h4>
             <div className='row mt-1'>
                 <div className='col-4 d-inline-flex justify-content-center'>

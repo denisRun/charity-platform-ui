@@ -16,7 +16,7 @@ const HelpEventRequests: FC = observer(() => {
         <>
             <div className='col-9 mt-1 ms-1'>
                 <h5 hidden={requestsCount != 0}>
-                    There is no Requests in Suggestion
+                    There is no Active Iitems
                 </h5>
             </div>
             <div className="mt-3">

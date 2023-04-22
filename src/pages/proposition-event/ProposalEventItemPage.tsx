@@ -16,6 +16,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import ProposalEventCurrentRequests from '../../components/ProposalEvent/ProposalEventCurrentRequests'
 import ProposalEventRequests from '../../components/ProposalEvent/ProposalEventRequests'
 import { useLocation } from 'react-router-dom';
+import { HelpEventStatusEnum } from '../../types/enums/HelpEventStatusEnum'
+import { EventStatusEnum } from '../../types/enums/EventStatusEnum'
 
 
 const ProposalEventItemPage: FC = observer(() => {
@@ -63,7 +65,7 @@ const ProposalEventItemPage: FC = observer(() => {
         {...other}
       >
         {value === index && (
-          <Box sx={{ height: '100%', p: 3 }}>
+          <Box style={{paddingTop: "0px"}} sx={{ height: '100%', p: 3 }}>
             {children}
           </Box>
         )}
@@ -94,12 +96,12 @@ const ProposalEventItemPage: FC = observer(() => {
                         onChange={handleChange}>
                             <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Suggestion info</h6>} {...a11yProps(0)} />
                             <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Requests</h6>} {...a11yProps(1)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current Requests</h6>} {...a11yProps(2)} />
+                            <Tab disabled={store.proposalEventStore.event.status == EventStatusEnum.done || store.proposalEventStore.event.status == EventStatusEnum.inactive || store.userStore.user == null} style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current Requests</h6>} {...a11yProps(2)} />
                       </Tabs>
                     </div>
                     <div className="col-1" >
                       <div className="btn-group">
-                          <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalFormShow(true)}><EditIcon fontSize='large' /></button>
+                          <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || store.proposalEventStore.event.status == EventStatusEnum.done} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalFormShow(true)}><EditIcon fontSize='large' /></button>
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
                           <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>Copy link</button></li>

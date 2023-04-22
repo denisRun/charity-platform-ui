@@ -58,6 +58,10 @@ const MyHelpEvents: FC = observer(() => {
     const pageSize: number = 5;
     const totalPageCount = Math.ceil((store.helpEventStore.ownEvents
         .filter(event => event.title!.includes(filterTitle) && event.status == filterStatus).length) / pageSize) ?? 0;
+    const ownEvents = store.helpEventStore.ownEvents
+        .filter(event => event.title?.toLowerCase()!.includes(filterTitle.toLowerCase()) && event.status == filterStatus)
+        .sort((a,b) => sortCompare(a,b))
+        .slice(currentPage * pageSize - pageSize, currentPage * pageSize);
     
     return (
         <>
@@ -129,11 +133,11 @@ const MyHelpEvents: FC = observer(() => {
             </div>
         </Container>
         <Container className="mt-3" fluid>
+            <h5 hidden={ownEvents.length != 0}>
+                No results found
+            </h5>
             <div>
-                {store.helpEventStore.ownEvents
-                    .filter(event => event.title?.toLowerCase()!.includes(filterTitle.toLowerCase()) && event.status == filterStatus)
-                    .sort((a,b) => sortCompare(a,b))
-                    .slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+                {ownEvents
                     .map((event) => (
                         <HelpEventCard onClick={() => navigate(event.id!.toString())} item={event} isOwn={true} key={event.id!}/>            
                 ))}

@@ -91,6 +91,9 @@ const TookPartInHelpEvents: FC = observer(() => {
             </div>
         </Container>
         <Container className="mt-3" fluid>
+            <h5 hidden={store.helpEventStore.tookPartEvents.length != 0}>
+                No results found
+            </h5>
             <div>
                 {store.helpEventStore.tookPartEvents
                     .map((event) => (

@@ -50,7 +50,7 @@ const HelpEventStatistics: FC<HelpEventStatisticsProps> = (props) => {
     const bar_data = {
       labels: labels,
       datasets: [{
-        label: "Your Suggestions requests",
+        label: "Your Help support",
         data: requests,
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",

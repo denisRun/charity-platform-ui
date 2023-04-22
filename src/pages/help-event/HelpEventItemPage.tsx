@@ -16,6 +16,7 @@ import HelpEventNeeds from '../../components/HelpEvent/HelpEventNeeds'
 import HelpEventUpdateForm from '../../components/Forms/HelpEvent/HelpEventUpdateForm'
 import HelpEventCurrentRequests from '../../components/HelpEvent/HelpEventCurrentRequests'
 import HelpEventRequests from '../../components/HelpEvent/HelpEventRequests'
+import { HelpEventStatusEnum } from '../../types/enums/HelpEventStatusEnum'
 
 
 const HelpEventItemPage: FC = observer(() => {
@@ -63,7 +64,7 @@ const HelpEventItemPage: FC = observer(() => {
         {...other}
       >
         {value === index && (
-          <Box sx={{ height: '100%', p: 3 }}>
+          <Box style={{paddingTop: "0px"}} sx={{ height: '100%', p: 3 }}>
             {children}
           </Box>
         )}
@@ -92,14 +93,14 @@ const HelpEventItemPage: FC = observer(() => {
                         orientation="horizontal"
                         value={tabValue}
                         onChange={handleChange}>
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Suggestion info</h6>} {...a11yProps(0)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Requests</h6>} {...a11yProps(1)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current Requests</h6>} {...a11yProps(2)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Help info</h6>} {...a11yProps(0)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>All supports</h6>} {...a11yProps(1)} />
+                            <Tab disabled={store.helpEventStore.event.status == HelpEventStatusEnum.done || store.helpEventStore.event.status == HelpEventStatusEnum.inactive || store.userStore.user == null} style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current support</h6>} {...a11yProps(2)} />
                       </Tabs>
                     </div>
                     <div className="col-1" >
                       <div className="btn-group">
-                          <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateHelpFormShow(true)}><EditIcon fontSize='large' /></button>
+                          <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id || store.helpEventStore.event.status == HelpEventStatusEnum.done} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateHelpFormShow(true)}><EditIcon fontSize='large' /></button>
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
                           <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>Copy link</button></li>

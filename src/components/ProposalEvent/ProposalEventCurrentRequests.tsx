@@ -27,11 +27,11 @@ const ProposalEventCurrentRequests: FC = observer(() => {
             <div className='row'>
                 <div className='col-9 mt-1 ms-1'>
                     <h5 hidden={requests.length != 0}>
-                        You don`t have active Requests
+                        There is no Active Iitems
                     </h5>
                 </div>
                 <div className="col-2 ms-5">
-                    <Button variant="success" hidden={store.proposalEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null} className="w-100" onClick={() => setCreateRequestFormShow(true)}>
+                    <Button variant="success" hidden={store.proposalEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null || requests.length > 0} className="w-100" onClick={() => setCreateRequestFormShow(true)}>
                         + Create request 
                     </Button>
                 </div>

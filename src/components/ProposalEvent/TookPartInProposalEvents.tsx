@@ -91,6 +91,9 @@ const TookPartInProposalEvents: FC = observer(() => {
             </div>
         </Container>
         <Container className="mt-3" fluid>
+            <h5 hidden={store.proposalEventStore.tookPartEvents.length != 0}>
+                No results found
+            </h5>
             <div>
                 {store.proposalEventStore.tookPartEvents
                     .map((event) => (

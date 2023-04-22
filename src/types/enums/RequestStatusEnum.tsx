@@ -1,7 +1,8 @@
-export class ProposalRequestStatusEnum {
+export class RequestStatusEnum {
     static readonly waiting = "waiting";
     static readonly accepted = "accepted";
     static readonly inProcess = "in_progress";
+    static readonly waitingForApprove = "waiting_for_approve";
     static readonly completed = "completed";
     static readonly aborted = "aborted";
     static readonly canceled = "canceled";
@@ -19,6 +20,10 @@ export class ProposalRequestStatusEnum {
              } 
             case this.inProcess: { 
                 result = "In Progress";
+                break; 
+            }
+            case this.waitingForApprove: { 
+                result = "Waiting for approve";
                 break; 
             }
             case this.completed: { 

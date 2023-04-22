@@ -6,7 +6,7 @@ import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
-import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
+import { EventStatusEnum } from "../../types/enums/EventStatusEnum";
 import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
@@ -22,7 +22,7 @@ const MyProposalEvents: FC = observer(() => {
     const [filterTitle, setFilterTitle] = useState<string>('');
     const [sortBy, setSortBy] = useState<string>(ProposalEventSortByEnum.createDate);
     const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
-    const [filterStatus, setFilterStatus] = useState<string>(ProposalEventStatusEnum.active);
+    const [filterStatus, setFilterStatus] = useState<string>(EventStatusEnum.active);
     const [createProposalFormShow, setCreateProposalFormShow] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
@@ -114,9 +114,9 @@ const MyProposalEvents: FC = observer(() => {
                             setCurrentPage(1);
                             }}
                         aria-label="Default select example">
-                        <option value={ProposalEventStatusEnum.active}>Active</option>
-                        <option value={ProposalEventStatusEnum.inactive}>Inactive</option>
-                        <option value={ProposalEventStatusEnum.done}>Done</option>
+                        <option value={EventStatusEnum.active}>Active</option>
+                        <option value={EventStatusEnum.inactive}>Inactive</option>
+                        <option value={EventStatusEnum.done}>Done</option>
                     </select>
                 </div>
                 <div className="col-3">

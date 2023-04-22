@@ -13,7 +13,7 @@ import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
 import { ProposalRequestCreateRequest } from "../../../types/ProposalEvent/ProposalRequestCreateRequest";
 import { ITransactionResource } from "../../../types/TransactionResource";
-import { ProposalOwnerRequestStatusEnum } from "../../../types/enums/ProposalOwnerRequestStatusEnum";
+import { OwnerRequestStatusEnum } from "../../../types/enums/OwnerRequestStatusEnum";
 import { ProposalRequestStatusUpdateResource } from "../../../types/ProposalEvent/ProposalRequestStatusUpdateResource";
 import fileToBytes from "../../../Helpers/FileToBytes";
 
@@ -72,13 +72,13 @@ const ProposalEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <select className="form-select" value={requestStatus} onChange={x => setRequestStatus(x.target.value)} aria-label="Default select example">
-                                <option disabled={requestStatus != ProposalOwnerRequestStatusEnum.notStarted} value={ProposalOwnerRequestStatusEnum.notStarted}>Not started</option>
-                                <option value={ProposalOwnerRequestStatusEnum.inProgress}>In Progress</option>
-                                <option value={ProposalOwnerRequestStatusEnum.completed}>Completed</option>
-                                <option value={ProposalOwnerRequestStatusEnum.aborted}>Aborted</option>
+                                <option disabled={requestStatus != OwnerRequestStatusEnum.notStarted} value={OwnerRequestStatusEnum.notStarted}>Not started</option>
+                                <option value={OwnerRequestStatusEnum.inProgress}>In Progress</option>
+                                <option value={OwnerRequestStatusEnum.completed}>Completed</option>
+                                <option value={OwnerRequestStatusEnum.aborted}>Aborted</option>
                             </select>
                         </Row>
-                        {requestStatus == ProposalOwnerRequestStatusEnum.completed ? 
+                        {requestStatus == OwnerRequestStatusEnum.completed ? 
                         <>
                             <Row className="ms-3 mt-3 me-3 mb-2">
                                 <TextForm> Attach file: </TextForm>

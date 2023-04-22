@@ -5,7 +5,7 @@ import dateTimeFormatter from "../../Helpers/ToDateTimeConverter";
 import { useLocation } from 'react-router-dom';
 import { useSnackbar } from "notistack";
 import ComplainForm from "../Forms/ComplainForm";
-import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
+import { EventStatusEnum } from "../../types/enums/EventStatusEnum";
 import { EventTypeEnum } from "../../types/enums/EventTypeEnum";
 
 interface ProposalEventCardProps{
@@ -31,7 +31,7 @@ const ProposalEventCard: FC<ProposalEventCardProps> = (props) => {
         <div className="card w-100 mb-3 card-hover" style={{height:160}}>
             <div className="row h-100 ms-2 me-2" style={{marginTop: "auto", marginBottom: "auto", overflow:"hidden"}}>
                 <div className="col-2" style={{height:135,overflow:"hidden",marginTop: "auto", marginBottom: "auto"}} onClick={() => props.onClick()}>
-                    <img src={props.item.imageURL} className="img-fluid rounded-1 border border-2"  alt="Avatar" />
+                    <img src={props.item.imageURL} style={{height: 135, width: 230}} className="img-fluid rounded-1 border border-2"  alt="Avatar" />
                 </div>
                 <div className="col-7 mt-3" onClick={() => props.onClick()}>
                     <div className="row h-30" >
@@ -61,7 +61,7 @@ const ProposalEventCard: FC<ProposalEventCardProps> = (props) => {
                         <h6>
                             Status: 
                             <span className="fw-bold ms-1">
-                                 {ProposalEventStatusEnum.toContentString(props.item.status)} 
+                                 {EventStatusEnum.toContentString(props.item.status)} 
                             </span>
                         </h6>
                     </div>

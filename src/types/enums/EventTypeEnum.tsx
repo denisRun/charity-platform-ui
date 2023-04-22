@@ -1,6 +1,6 @@
 export class EventTypeEnum {
     static readonly proposal = "proposal-event";
-    static readonly help = "help-event";
+    static readonly help = "help";
 
     static toContentString(status?:string): string {
       let result: string = "None";
@@ -25,7 +25,7 @@ export class EventTypeEnum {
            break; 
         }
         case this.help: { 
-            result = "help";
+            result = "helps";
             break; 
         }
      } 

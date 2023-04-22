@@ -12,7 +12,7 @@ import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import { useSnackbar } from "notistack";
 import ProposalEventBasicValidation from "../../../validations/ProposalEventBasicValidation";
 import { IProposalEventUpdateResource } from "../../../types/ProposalEvent/ProposalEventUpdateResource";
-import { ProposalEventStatusEnum } from "../../../types/enums/ProposalEventStatusEnum";
+import { EventStatusEnum } from "../../../types/enums/EventStatusEnum";
 import { useNavigate } from "react-router-dom";
 
 interface IProposalEventBasicFormProps{
@@ -174,9 +174,9 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                                     value={values.status}
                                     onChange={handleChange}
                             >
-                                <option key={ProposalEventStatusEnum.active} value={ProposalEventStatusEnum.active}>Active</option>
-                                <option key={ProposalEventStatusEnum.inactive} value={ProposalEventStatusEnum.inactive}>Inactive</option>
-                                <option key={ProposalEventStatusEnum.done} value={ProposalEventStatusEnum.done}>Done</option>
+                                <option key={EventStatusEnum.active} value={EventStatusEnum.active}>Active</option>
+                                <option key={EventStatusEnum.inactive} value={EventStatusEnum.inactive}>Inactive</option>
+                                <option key={EventStatusEnum.done} value={EventStatusEnum.done}>Done</option>
                             </Form.Select>
                             <ErrorMessage name="status">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
                         </Row>

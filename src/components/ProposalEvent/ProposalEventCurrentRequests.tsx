@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../contexts/StoreContext";
-import { ProposalRequestStatusEnum } from "../../types/enums/ProposalRequestStatusEnum";
+import { RequestStatusEnum } from "../../types/enums/RequestStatusEnum";
 import { IProposalEventUpdateResource } from "../../types/ProposalEvent/ProposalEventUpdateResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventRequestCard from "../Cards/ProposalEventRequestCard";
@@ -18,7 +18,7 @@ const ProposalEventCurrentRequests: FC = observer(() => {
     const [createRequestFormShow, setCreateRequestFormShow] = useState(false);
 
     let requests = store.proposalEventStore.event.transactions!
-        .filter(x => (x.responder.id == store.userStore.user?.id || x.creator.id == store.userStore.user?.id) && (x.transactionStatus == ProposalRequestStatusEnum.waiting || x.transactionStatus == ProposalRequestStatusEnum.accepted || x.transactionStatus == ProposalRequestStatusEnum.inProcess))
+        .filter(x => (x.responder.id == store.userStore.user?.id || x.creator.id == store.userStore.user?.id) && (x.transactionStatus == RequestStatusEnum.waiting || x.transactionStatus == RequestStatusEnum.accepted || x.transactionStatus == RequestStatusEnum.inProcess))
         .slice()
         .sort((x,y) => x.creationDate! < y.creationDate! ? 1 : -1);
     

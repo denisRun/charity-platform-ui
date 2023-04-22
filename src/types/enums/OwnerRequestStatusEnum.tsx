@@ -1,4 +1,4 @@
-export class ProposalOwnerRequestStatusEnum {
+export class OwnerRequestStatusEnum {
     static readonly notStarted = "not_started";
     static readonly inProgress = "in_progress";
     static readonly completed = "completed";

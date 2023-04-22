@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
 import { ProposalEventSortByEnum } from "../../types/enums/ProposalEventSortByEnum";
-import { ProposalEventStatusEnum } from "../../types/enums/ProposalEventStatusEnum";
+import { EventStatusEnum } from "../../types/enums/EventStatusEnum";
 import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import { useNavigate } from "react-router-dom";
 import ProposalEventCard from "../Cards/ProposalEventCard";

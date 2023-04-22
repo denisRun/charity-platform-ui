@@ -7,8 +7,8 @@ import waiting from '../../images/waiting.png';
 import inProgress from '../../images/in-progress.png';
 import success from '../../images/success.png';
 import cancel from '../../images/cancel.png';
-import { ProposalRequestStatusEnum } from "../../types/enums/ProposalRequestStatusEnum";
-import { ProposalOwnerRequestStatusEnum } from "../../types/enums/ProposalOwnerRequestStatusEnum";
+import { RequestStatusEnum } from "../../types/enums/RequestStatusEnum";
+import { OwnerRequestStatusEnum } from "../../types/enums/OwnerRequestStatusEnum";
 import { useStore } from "../../contexts/StoreContext";
 import { useSnackbar } from "notistack";
 import ProposalEventTagsForm from "../Forms/ProposalEvent/ProposalEventTagsForm";
@@ -46,15 +46,15 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                         <h6>
                             {props.item.responder?.username}
                             <img src={props.item.responder?.profileImageURL} className="rounded-circle ms-2" style={{width:35, height:35}} alt="Avatar" />
-                            <button type="button"  style={{color:"green"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != ProposalRequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀Accept / </button>
-                            <button type="button" style={{color:"orange"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != ProposalRequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> Decline </button>
+                            <button type="button"  style={{color:"green"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀Accept / </button>
+                            <button type="button" style={{color:"orange"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> Decline </button>
                         </h6>
                     </div>
                     <div className="row" hidden={props.isPreview} >
                         <h6>
                             Contact: {props.item.responder?.phoneNumber}  
                             <span className="btn p-0 ps-2"  
-                                onClick={() => store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || props.item.transactionStatus == ProposalRequestStatusEnum.waiting ? false : setUpdateProposalTagsFormShow(true)} >({ProposalOwnerRequestStatusEnum.toContentString(props.item.responderStatus)})</span>
+                                onClick={() => store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || props.item.transactionStatus == RequestStatusEnum.waiting ? false : setUpdateProposalTagsFormShow(true)} >({OwnerRequestStatusEnum.toContentString(props.item.responderStatus)})</span>
                         </h6>
                     </div>
                 </div>
@@ -62,18 +62,18 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                     <div className="row justify-content-center">
                         <div className="col-6 text-end">
                             <img 
-                            src={props.item.transactionStatus == ProposalRequestStatusEnum.waiting ? waiting : (props.item.transactionStatus == ProposalRequestStatusEnum.aborted || props.item.transactionStatus == ProposalRequestStatusEnum.canceled) ? cancel : props.item.transactionStatus == ProposalRequestStatusEnum.completed ? success : inProgress}
+                            src={props.item.transactionStatus == RequestStatusEnum.waiting ? waiting : (props.item.transactionStatus == RequestStatusEnum.aborted || props.item.transactionStatus == RequestStatusEnum.canceled) ? cancel : props.item.transactionStatus == RequestStatusEnum.completed ? success : inProgress}
                             style={{ width: 60, height:60 }} />
                         </div>
                         <div className="col-6 mt-2 text-start">
                             <div className="row">
-                                {props.isPreview && props.item.transactionStatus ==  ProposalRequestStatusEnum.completed ?
+                                {props.isPreview && props.item.transactionStatus ==  RequestStatusEnum.completed ?
                                     <a href={props.item.reportURL}> 
-                                        {ProposalRequestStatusEnum.toContentString(ProposalRequestStatusEnum.completed)}
+                                        {RequestStatusEnum.toContentString(RequestStatusEnum.completed)}
                                     </a>
                                     :
                                     <h6>
-                                        {ProposalRequestStatusEnum.toContentString(props.item.transactionStatus)}
+                                        {RequestStatusEnum.toContentString(props.item.transactionStatus)}
                                     </h6>
                                 }
                             </div>

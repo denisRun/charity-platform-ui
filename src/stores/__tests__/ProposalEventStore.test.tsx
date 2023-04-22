@@ -8,10 +8,6 @@ import { IProposalSearchRequest } from "../../types/ProposalEvent/ProposaSearchR
 import { IProposalEventUpdateResource } from "../../types/ProposalEvent/ProposalEventUpdateResource";
 import { ProposalRequestCreateRequest } from "../../types/ProposalEvent/ProposalRequestCreateRequest";
 import { ProposalRequestStatusUpdateResource } from "../../types/ProposalEvent/ProposalRequestStatusUpdateResource";
-import { ITagResource } from "../../types/TagResource";
-import { IUserLoginRequest } from "../../types/UserLoginRequest";
-import { IUserSignupRequest } from "../../types/UserSignupRequest";
-import { ProposalOwnerRequestStatusEnum } from "../../types/enums/ProposalOwnerRequestStatusEnum";
 import { ProposalEventStore } from "../ProposalEventStore";
 import {UserStore} from "../UserStore";
 

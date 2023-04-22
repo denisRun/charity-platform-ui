@@ -77,7 +77,7 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
             className="justify-content-center"
             style={{ maxHeight: '50px' }}
           >
-            <NavLink className="nav-link" to="/help"> 
+            <NavLink className="nav-link" to="/helps"> 
                 Need help
             </NavLink>
             <NavLink className="nav-link" to="/propositions"> 

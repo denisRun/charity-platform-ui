@@ -14,5 +14,6 @@ export class IUserResource{
     address?: IAddressResource;
     profileImageURL?: string;
     proposalEventSearchValues?: ITagResource[] = [];
+    helpEventSearchValues?: ITagResource[] = [];
     transactionNotifications?: INotificationResource[] = []
 }

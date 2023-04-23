@@ -17,6 +17,7 @@ import {
   } from 'chart.js';
   import { Bar, Line } from 'react-chartjs-2';
 import Metric from "../Statistics/Metric";
+import { useTranslation } from "react-i18next";
 
   ChartJS.register(
     CategoryScale,
@@ -36,6 +37,7 @@ interface ProposalEventStatisticsProps{
 const ProposalEventStatistics: FC<ProposalEventStatisticsProps> = (props) => {
 
     const store = useStore();
+    const { t } = useTranslation();
 
     let labels = [];
     let requests = [];
@@ -50,7 +52,7 @@ const ProposalEventStatistics: FC<ProposalEventStatisticsProps> = (props) => {
     const bar_data = {
       labels: labels,
       datasets: [{
-        label: "Your Suggestions requests",
+        label: t("Your Suggestions requests"),
         data: requests,
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
@@ -63,15 +65,15 @@ const ProposalEventStatistics: FC<ProposalEventStatisticsProps> = (props) => {
       <>
         <div className="d-inline-flex ms-4 mt-3 mb-4">
           <div className="me-3">
-            <Metric label="Requests" value={statistic.transactionsCount!} percents={statistic.transactionsCountCompare!} isPercentsRevesred={false} />
+            <Metric label={t("Requests")} value={statistic.transactionsCount!} percents={statistic.transactionsCountCompare!} isPercentsRevesred={false} />
           </div>
           <div className="me-3">
-            <Metric label="Completed" value={statistic.doneTransactionsCount!} percents={statistic.doneTransactionsCountCompare!} isPercentsRevesred={false} />
+            <Metric label={t("Completed")} value={statistic.doneTransactionsCount!} percents={statistic.doneTransactionsCountCompare!} isPercentsRevesred={false} />
           </div>
           <div className="me-3">
-            <Metric label="Canceled" value={statistic.canceledTransactionCount!} percents={statistic.canceledTransactionCountCompare!} isPercentsRevesred={true} />
+            <Metric label={t("Canceled")} value={statistic.canceledTransactionCount!} percents={statistic.canceledTransactionCountCompare!} isPercentsRevesred={true} />
           </div>
-            <Metric label="Aborted" value={statistic.abortedTransactionsCount!} percents={statistic.abortedTransactionsCountCompare!} isPercentsRevesred={true} />
+            <Metric label={t("Aborted")} value={statistic.abortedTransactionsCount!} percents={statistic.abortedTransactionsCountCompare!} isPercentsRevesred={true} />
         </div>
         <div className="row">
           <Line data={bar_data} width={100} height={35} options={{ maintainAspectRatio: false }} />

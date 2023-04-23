@@ -17,12 +17,14 @@ import HelpEventUpdateForm from '../../components/Forms/HelpEvent/HelpEventUpdat
 import HelpEventCurrentRequests from '../../components/HelpEvent/HelpEventCurrentRequests'
 import HelpEventRequests from '../../components/HelpEvent/HelpEventRequests'
 import { HelpEventStatusEnum } from '../../types/enums/HelpEventStatusEnum'
+import { useTranslation } from 'react-i18next'
 
 
 const HelpEventItemPage: FC = observer(() => {
 
   const store = useStore();
   const location = useLocation();
+  const { t } = useTranslation();
   const [updateHelpFormShow, setUpdateHelpFormShow] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { id }= useParams();
@@ -80,7 +82,7 @@ const HelpEventItemPage: FC = observer(() => {
             <ContentContainer>
                 <div className='ms-4 me-4 mt-4' style={{backgroundColor: "#FFFFFF", overflowX: "hidden"}}>
                   <div className='row ms-0'>
-                    <div className='col-11'>
+                    <div className='col-9'>
                       <Tabs 
                         TabIndicatorProps={{
                             style: {
@@ -93,18 +95,18 @@ const HelpEventItemPage: FC = observer(() => {
                         orientation="horizontal"
                         value={tabValue}
                         onChange={handleChange}>
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Help info</h6>} {...a11yProps(0)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>All supports</h6>} {...a11yProps(1)} />
-                            <Tab disabled={store.helpEventStore.event.status == HelpEventStatusEnum.done || store.helpEventStore.event.status == HelpEventStatusEnum.inactive || store.userStore.user == null} style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current support</h6>} {...a11yProps(2)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>{t('Help info')}</h6>} {...a11yProps(0)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>{t('All supports')}</h6>} {...a11yProps(1)} />
+                            <Tab disabled={store.helpEventStore.event.status == HelpEventStatusEnum.done || store.helpEventStore.event.status == HelpEventStatusEnum.inactive || store.userStore.user == null} style={{textTransform: 'none'}} label={<h6 className='fw-bold'>{t('My Current support')}</h6>} {...a11yProps(2)} />
                       </Tabs>
                     </div>
-                    <div className="col-1" >
+                    <div className="col-3 d-inline-flex justify-content-end" >
                       <div className="btn-group">
                           <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id || store.helpEventStore.event.status == HelpEventStatusEnum.done} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateHelpFormShow(true)}><EditIcon fontSize='large' /></button>
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
-                          <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>Copy link</button></li>
-                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>Complain</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>{t('Copy link')}</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>{t('Complain')}</button></li>
                           </ul>
                       </div>
                     </div>

@@ -12,6 +12,7 @@ import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
 import { ProposalRequestCreateRequest } from "../../../types/ProposalEvent/ProposalRequestCreateRequest";
+import { useTranslation } from "react-i18next";
 
 interface IRequestFormProps{
     show: boolean;
@@ -21,6 +22,7 @@ interface IRequestFormProps{
 const ProposalEventCreateRequestForm: FC<IRequestFormProps> = (props) => {
 
     const store = useStore();
+    const { t } = useTranslation();
     const initialValues = new ProposalRequestCreateRequest();
     const { enqueueSnackbar } = useSnackbar()
     
@@ -30,9 +32,9 @@ const ProposalEventCreateRequestForm: FC<IRequestFormProps> = (props) => {
         await store.proposalEventStore.addEventRequest(request)
         if(store.proposalEventStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Request created.", { variant: 'success'})
+            enqueueSnackbar(t("Request created"), { variant: 'success'})
         } else{
-            enqueueSnackbar("Failed to create Request.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to create Request"), { variant: 'error'})
         }
       };
 
@@ -45,7 +47,7 @@ const ProposalEventCreateRequestForm: FC<IRequestFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> Create request </TextFormHeader>
+                    <TextFormHeader> {t('Create request')} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -67,7 +69,7 @@ const ProposalEventCreateRequestForm: FC<IRequestFormProps> = (props) => {
                 <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Description: </TextForm>
+                            <TextForm> {t('Description')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
@@ -75,14 +77,14 @@ const ProposalEventCreateRequestForm: FC<IRequestFormProps> = (props) => {
                                     rows={3}
                                     type="textarea"
                                     name="comment"
-                                    placeholder="Your Request details"
+                                    placeholder={t("Description")!}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="comment">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="comment">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                    Submit
+                                    {t('Submit')}
                                 </Button>
                         </Row>
                     </Container>

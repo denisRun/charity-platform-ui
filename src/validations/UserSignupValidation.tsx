@@ -3,10 +3,10 @@ import * as yup from "yup";
 const UserSignupValidation = yup.object().shape({
     email: yup.string()
         .email('Invalid email')
-        .required('Enter your email'),
+        .required('Enter your Email'),
     password: yup.string()
         .min(4,'Password too short')
-        .required('Enter your password'),
+        .required('Enter your Password'),
     firstName: yup.string()
         .required('Enter your First name'),
     secondName: yup.string()

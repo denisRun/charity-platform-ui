@@ -18,6 +18,7 @@ import TextLarge from './Text/TextLarge';
 import EmailIcon from '@mui/icons-material/Email';
 import NotificationsForm from './Forms/User/NotificationsForm';
 import { useSnackbar } from 'notistack';
+import { useTranslation } from 'react-i18next';
 
 interface IAppProps {
 }
@@ -30,6 +31,7 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
   const { enqueueSnackbar } = useSnackbar()
   const navigate = useNavigate()
   const store = useStore();
+  const { i18n, t } = useTranslation();
 
   const handleLogout = async () => {
 
@@ -55,6 +57,10 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
     }
   };
 
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
   const handleOpenProfile = async () => {
 
     if(store.userStore.user == null){
@@ -78,27 +84,31 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
             style={{ maxHeight: '50px' }}
           >
             <NavLink className="nav-link" to="/helps"> 
-                Need help
+                {t('Need help')}
             </NavLink>
             <NavLink className="nav-link" to="/propositions"> 
-                People`s suggestions
+                {t('People`s suggestions')}
             </NavLink>
             <NavLink className="nav-link" to="/statistics"> 
-                Statistics
-            </NavLink>
-            <NavLink className="nav-link" to="/about"> 
-                About us
+                {t('Statistics')}
             </NavLink>
           </Nav>
        </Navbar>
         <Navbar className="justify-content-end">
+          <div className="btn-group">
+            <button type="button" id="userLanguageAction" className="btn dropdown-toggle fs-6" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">{i18n.language.toUpperCase()}</button>
+            <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="userLanguageAction">
+              <li><button className="dropdown-item" type="button" onClick={() => changeLanguage("en")}>{t('English')}</button></li>
+              <li><button className="dropdown-item" type="button" onClick={() => changeLanguage("ua")}>{t('Ukrainian')}</button></li>
+            </ul>
+          </div>
           {store.userStore.user == null ? 
             <>
               <Button className="me-3" style={{width:125}}  variant="outline-success" onClick={() => setLoginFormShow(true)}>
-                 Login 
+                 {t('Login')} 
               </Button>
               <Button style={{width:125}} variant="success" onClick={() => setSignupFormShow(true)}>
-                Sign up 
+                {t('Sign up')} 
               </Button>
             </> : 
             <div>
@@ -111,9 +121,9 @@ const Header: React.FunctionComponent<IAppProps> = observer((props) => {
               <div className="btn-group">
                 <button type="button" id="userProfileActions" className="btn dropdown-toggle fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">{store.userStore.user.firstName + " " + store.userStore.user.secondName + "   "}</button>
                 <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="userProfileActions">
-                  <li><button className="dropdown-item" type="button" onClick={() => handleOpenProfile()}>Profile</button></li>
-                  <li><button className="dropdown-item" type="button" onClick={() => handleChangePassword()}>Change password</button></li>
-                  <li><button className="dropdown-item" type="button" onClick={() => handleLogout()}>Logout</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => handleOpenProfile()}>{t('Profile')}</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => handleChangePassword()}>{t('Change password')}</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => handleLogout()}>{t('Logout')}</button></li>
                 </ul>
               </div>
             </div>

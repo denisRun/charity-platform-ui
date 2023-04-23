@@ -7,20 +7,22 @@ import { useStore } from "../../contexts/StoreContext";
 import { RequestStatusEnum } from "../../types/enums/RequestStatusEnum";
 import HelpEventRequestCard from "../Cards/HelpEventRequestCard";
 import { useSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 
 const HelpEventCurrentRequests: FC = observer(() => {
 
     const store = useStore();
     const navigate = useNavigate();
-    const { enqueueSnackbar } = useSnackbar()
+    const { enqueueSnackbar } = useSnackbar();
+    const { t } = useTranslation();
 
     const handleAddRequestClick = () => {
 
         store.helpEventStore.addEventRequest();
         if(store.helpEventStore.isError){
-            enqueueSnackbar("Failed to create transaction.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to create transaction"), { variant: 'error'})
         } else {
-            enqueueSnackbar("Transaction created.", { variant: 'success'})
+            enqueueSnackbar(t("Transaction created"), { variant: 'success'})
         }
     }
 
@@ -34,12 +36,12 @@ const HelpEventCurrentRequests: FC = observer(() => {
             <div className='row'>
                 <div className='col-9 mt-1 ms-1'>
                     <h5 hidden={requests.length != 0}>
-                        There is no Active Iitems
+                        {t('There is no Active Iitems')}
                     </h5>
                 </div>
                 <div className="col-2 ms-5">
                     <Button variant="success" hidden={store.helpEventStore.event.authorInfo?.id == store.userStore.user?.id} disabled={store.userStore.user == null || requests.length > 0} className="w-100" onClick={() => handleAddRequestClick()}>
-                        + Create request 
+                        {t('+ Create request')} 
                     </Button>
                 </div>
             </div>

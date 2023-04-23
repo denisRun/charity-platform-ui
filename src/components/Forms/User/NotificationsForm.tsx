@@ -14,6 +14,7 @@ import NotificationCard from "../../Cards/NotificationCard";
 import { useNavigate } from "react-router-dom";
 import { EventTypeEnum } from "../../../types/enums/EventTypeEnum";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useTranslation } from "react-i18next";
 
 interface INotificationsFormProps{
     show: boolean;
@@ -23,7 +24,8 @@ interface INotificationsFormProps{
 const NotificationsForm: FC<INotificationsFormProps> = (props) => {
 
     const store = useStore();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const notifactionOnclick = async (id?: string, eventType?: string, eventId?: string) => {
 
@@ -53,7 +55,7 @@ const NotificationsForm: FC<INotificationsFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> Notifications </TextFormHeader>
+                    <TextFormHeader> {t('Notifications')} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -62,7 +64,7 @@ const NotificationsForm: FC<INotificationsFormProps> = (props) => {
             <Modal.Body>
                 <div className="me-2 text-end">
                     <button  type="button" className="btn fs-7" data-bs-display="static" onClick={() => notifactionOnclick()}>
-                        Read all
+                        {t('Read all')}
                     </button>
                 </div>
                 {store.userStore.user?.transactionNotifications!

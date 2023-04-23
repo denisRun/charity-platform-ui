@@ -9,6 +9,7 @@ import { ErrorMessage, Formik, FormikHelpers } from "formik";
 import { IUserLoginRequest } from "../../../types/UserLoginRequest";
 import UserLoginValidation from "../../../validations/UserLoginValidatioin";
 import { useSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 
 interface ILoginFormProps{
     show: boolean;
@@ -19,16 +20,17 @@ const LoginForm: FC<ILoginFormProps> = (props) => {
 
     const store = useStore();
     const initialValues = new IUserLoginRequest();
-    const { enqueueSnackbar } = useSnackbar()
+    const { enqueueSnackbar } = useSnackbar();
+    const { t } = useTranslation();
 
     const loginSubmit = async (credentials: IUserLoginRequest, helpers: FormikHelpers<IUserLoginRequest>) => {
 
         await store.userStore.login(credentials)
         if(store.userStore.user != null && store.userStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Login succeed.", { variant: 'success'})
+            enqueueSnackbar(t("Login succeed"), { variant: 'success'})
         } else {
-            enqueueSnackbar("Failed to Login.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to Login"), { variant: 'error'})
         }
       };
 
@@ -64,32 +66,32 @@ const LoginForm: FC<ILoginFormProps> = (props) => {
                         <Row className="justify-content-md-center ms-3 me-3 mt-3">
                             <Form.Control
                                 name="email"
-                                placeholder="Email"
+                                placeholder={t("Email")!}
                                 value={values.email}
                                 onChange={handleChange}
                                 required
                             />
-                                <ErrorMessage name="email">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="email">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4">
                             <Form.Control
                                 name="password"
                                 type="password"
-                                placeholder="Password"
+                                placeholder={t("Password")!}
                                 value={values.password}
                                 onChange={handleChange}
                                 required
                             />
-                                <ErrorMessage name="password">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="password">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4">
                             <a onClick={() => alert("link has been send on email")} className="link-secondary">
-                                Reset password
+                                {t('Reset password')}
                             </a>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-5">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                    Login
+                                    {t('Login')}
                                 </Button>
                         </Row>
                     </Container>

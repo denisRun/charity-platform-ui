@@ -16,6 +16,7 @@ import { Checkbox } from "@mui/material";
 import { ITagResource } from "../../../types/TagResource";
 import { ProposalEventTagsEnum } from "../../../types/enums/ProposalEventTagsEnum";
 import { EventTypeEnum } from "../../../types/enums/EventTypeEnum";
+import { useTranslation } from "react-i18next";
 
 interface IProposalEventTagsFormProps{
     show: boolean;
@@ -29,6 +30,7 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation();
 
     const ageGroupPossibleValues = ["Children", "Schollers", "Students", "Middle aged", "Pensioners"];
     const topicPossibleValues = ["Food", "Cloth", "People tend", "Housing restoration", "Place to live", "Job"];
@@ -63,18 +65,18 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
 
             if(store.userStore.isError == false){
                 props.onHide();
-                enqueueSnackbar("Tags are updated.", { variant: 'success'})
+                enqueueSnackbar(t("Tags are updated"), { variant: 'success'})
             } else {
-                enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
+                enqueueSnackbar(t("Failed to setup tags"), { variant: 'error'})
             }
         } else {
             await store.proposalEventStore.upsertEventTags(EventTypeEnum.proposal, result);
 
             if(store.proposalEventStore.isError == false){
                 props.onHide();
-                enqueueSnackbar("Tags are updated.", { variant: 'success'})
+                enqueueSnackbar(t("Tags are updated"), { variant: 'success'})
             } else {
-                enqueueSnackbar("Failed to setup tags.", { variant: 'error'})
+                enqueueSnackbar(t("Failed to setup tags"), { variant: 'error'})
             }
         }
     };
@@ -116,7 +118,7 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> Setup Tags </TextFormHeader>
+                    <TextFormHeader> {t('Setup Tags')} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -138,51 +140,51 @@ const ProposalEventTagsForm: FC<IProposalEventTagsFormProps> = (props) => {
                 <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Location: </TextForm>
+                            <TextForm> {t('Location')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <div className="col-6 ps-0">
-                                <input className="form-control" placeholder="Region" value={region} onChange={(e) => setRegion(e.target.value)}></input>
+                                <input className="form-control" placeholder={t("Region")!} value={region} onChange={(e) => setRegion(e.target.value)}></input>
                             </div>
                             <div className="col-6">
-                                <input className="form-control" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)}></input>
+                                <input className="form-control" placeholder={t("City")!} value={city} onChange={(e) => setCity(e.target.value)}></input>
                             </div>
                         </Row>
                         <Row className="ms-3 me-3 mt-3 ps-0">
                             <div className="col-6 ps-0">
-                                <input className="form-control" placeholder="District" value={district} onChange={(e) => setDistrict(e.target.value)}></input>
+                                <input className="form-control" placeholder={t("District")!} value={district} onChange={(e) => setDistrict(e.target.value)}></input>
                             </div>
                             <div className="col-6">
-                                <input className="form-control" placeholder="Street" value={street} onChange={(e) => setStreet(e.target.value)}></input>
+                                <input className="form-control" placeholder={t("Street")!} value={street} onChange={(e) => setStreet(e.target.value)}></input>
                             </div>
                         </Row>
                         <Row className="ms-3 mt-3 me-3 mb-1">
-                            <TextForm> Age group: </TextForm>
+                            <TextForm> {t('Age group')}: </TextForm>
                         </Row>
                         <Row className="ps-0 ms-1 mb-2">
                             <div>
                                 {ageGroupPossibleValues.map((ageGroup) => (
                                     <div className="mt-2 me-3" style={{display:"inline-block"}}>
-                                        <input type="checkbox" key={"age-group"+ageGroup} id={"age-group"+ageGroup} value={ageGroup} className="checkbox-hidden" defaultChecked={userAgeGroupsSelected.includes(ageGroup)} onChange={e => handleAgeGroupChange(e.target.value)} /> <label htmlFor={"age-group"+ageGroup} className="checkbox-rounded"> {ageGroup} </label>
+                                        <input type="checkbox" key={"age-group"+ageGroup} id={"age-group"+ageGroup} value={ageGroup} className="checkbox-hidden" defaultChecked={userAgeGroupsSelected.includes(ageGroup)} onChange={e => handleAgeGroupChange(e.target.value)} /> <label htmlFor={"age-group"+ageGroup} className="checkbox-rounded"> {t(ageGroup!)} </label>
                                     </div>
                                 ))}
                             </div>
                         </Row>
                         <Row className="ms-3 mt-3 me-3 mb-1">
-                            <TextForm> Topic: </TextForm>
+                            <TextForm> {t('Topic')}: </TextForm>
                         </Row>
                         <Row className="ps-0 ms-1 mb-2">
                             <div>
                                 {topicPossibleValues.map((topic) => (
                                     <div className="mt-2 me-3" style={{display:"inline-block"}}>
-                                        <input type="checkbox" key={"topic"+topic} id={"topic"+topic} value={topic} className="checkbox-hidden" defaultChecked={userTopicsSelected.includes(topic)} onChange={e => handleTopicChange(e.target.value)} /> <label htmlFor={"topic"+topic} className="checkbox-rounded"> {topic} </label>
+                                        <input type="checkbox" key={"topic"+topic} id={"topic"+topic} value={topic} className="checkbox-hidden" defaultChecked={userTopicsSelected.includes(topic)} onChange={e => handleTopicChange(e.target.value)} /> <label htmlFor={"topic"+topic} className="checkbox-rounded"> {t(topic!)} </label>
                                     </div>
                                 ))}
                             </div>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                             <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                Submit
+                                {t('Submit')}
                             </Button>
                         </Row>
                     </Container>

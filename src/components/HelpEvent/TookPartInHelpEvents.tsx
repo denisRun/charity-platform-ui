@@ -10,6 +10,7 @@ import { useSnackbar } from "notistack";
 import { HelpEventSortByEnum } from "../../types/enums/HelpEventSortByEnum";
 import { IHelpSearchRequest } from "../../types/HelpEvent/HelpSearchRequest";
 import HelpEventCard from "../Cards/HelpEventCard";
+import { useTranslation } from "react-i18next";
 
 interface BodyProps{
     children: React.ReactNode
@@ -24,6 +25,7 @@ const TookPartInHelpEvents: FC = observer(() => {
     const [sortDirection, setSortDirection] = useState<string>(SortOrderEnum.descending);
     const [currentPage, setCurrentPage] = useState(1);
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation();
 
     const handleSearchClick = async (pageNum?: number) => {
 
@@ -37,7 +39,7 @@ const TookPartInHelpEvents: FC = observer(() => {
 
         await store.helpEventStore.searchEvents(request);
         if(store.helpEventStore.isError == true){
-            enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to execute search"), { variant: 'error'})
         } else if (pageNum == null){
             setCurrentPage(1);
         } else if (pageNum != null){
@@ -50,11 +52,11 @@ const TookPartInHelpEvents: FC = observer(() => {
         <Container fluid style={{borderBottom: "9px solid #FBF8F0"}}>
             <div className="row" >
                 <div className="col-9">
-                    <input className="form-control" placeholder="Search by name" onChange={x => setTitle(x.target.value)}/>
+                    <input className="form-control" placeholder={t("Search by name")!} onChange={x => setTitle(x.target.value)}/>
                 </div>
                 <div className="col-3">
                     <Button variant="outline-success" disabled={store.userStore.user == null} className="w-100" onClick={() => handleSearchClick()}>
-                        Search 
+                        {t('Search')} 
                     </Button>
                 </div>
             </div>
@@ -62,7 +64,7 @@ const TookPartInHelpEvents: FC = observer(() => {
                 <div className="col-4">
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
-                            <span className="input-group-text" id="inputGroup-sizing-default">Sort by</span>
+                            <span className="input-group-text" id="inputGroup-sizing-default">{t('Sort by')}</span>
                         </div>
                         <select className="form-select"  
                             onChange={selectedOption => {
@@ -72,8 +74,8 @@ const TookPartInHelpEvents: FC = observer(() => {
                                 setSortBy(selectedOption.target.value);
                                 }}
                             aria-label="Default select example">
-                            <option selected value={HelpEventSortByEnum.createDate}>Created date</option>
-                            <option value={HelpEventSortByEnum.title}>Title</option>
+                            <option selected value={HelpEventSortByEnum.createDate}>{t('Created date')}</option>
+                            <option value={HelpEventSortByEnum.title}>{t('Title')}</option>
                         </select>
                         <select className="form-select"
                             onChange={selectedOption => {
@@ -83,8 +85,8 @@ const TookPartInHelpEvents: FC = observer(() => {
                                 setSortDirection(selectedOption.target.value);
                                 }}
                             aria-label="Default select example">
-                            <option selected value={SortOrderEnum.descending}>Descending</option>
-                            <option value={SortOrderEnum.ascending}>Ascending</option>
+                            <option selected value={SortOrderEnum.descending}>{t('Descending')}</option>
+                            <option value={SortOrderEnum.ascending}>{t('Ascending')}</option>
                         </select>
                     </div>
                 </div>
@@ -92,7 +94,7 @@ const TookPartInHelpEvents: FC = observer(() => {
         </Container>
         <Container className="mt-3" fluid>
             <h5 hidden={store.helpEventStore.tookPartEvents.length != 0}>
-                No results found
+            {t('No results found')}
             </h5>
             <div>
                 {store.helpEventStore.tookPartEvents

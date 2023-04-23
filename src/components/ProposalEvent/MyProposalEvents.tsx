@@ -11,6 +11,7 @@ import { SortOrderEnum } from "../../types/enums/SortOrderEnum";
 import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
+import { useTranslation } from "react-i18next";
 
 interface BodyProps{
     children: React.ReactNode
@@ -27,13 +28,14 @@ const MyProposalEvents: FC = observer(() => {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation();
 
     const handleSearchClick = () => {
 
         store.proposalEventStore.getOwnEvents()
         setCurrentPage(1);
         if(store.proposalEventStore.isError == true){
-            enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to execute search"), { variant: 'error'})
         }
     }
 
@@ -68,11 +70,11 @@ const MyProposalEvents: FC = observer(() => {
         <Container fluid style={{borderBottom: "9px solid #FBF8F0"}}>
             <div className="row" >
                 <div className="col-9">
-                    <input className="form-control" value={filterTitle} onChange={event => { setFilterTitle(event.target.value); setCurrentPage(1)}} placeholder="Search by name"/>
+                    <input className="form-control" value={filterTitle} onChange={event => { setFilterTitle(event.target.value); setCurrentPage(1)}} placeholder={t("Search by name")!}/>
                 </div>
                 <div className="col-3">
                     <Button variant="outline-success" disabled={store.userStore.user == null} className="w-100" onClick={() => handleSearchClick()}>
-                        Search 
+                        {t('Search')} 
                     </Button>
                 </div>
             </div>
@@ -80,7 +82,7 @@ const MyProposalEvents: FC = observer(() => {
                 <div className="col-4">
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
-                            <span className="input-group-text" id="inputGroup-sizing-default">Sort by</span>
+                            <span className="input-group-text" id="inputGroup-sizing-default">{t('Sort by')}</span>
                         </div>
                         <select defaultValue={sortBy} className="form-select"  
                             onChange={selectedOption => {
@@ -91,8 +93,8 @@ const MyProposalEvents: FC = observer(() => {
                                 setCurrentPage(1);
                                 }}
                             aria-label="Default select example">
-                            <option value={ProposalEventSortByEnum.createDate}>Created date</option>
-                            <option value={ProposalEventSortByEnum.title}>Title</option>
+                            <option value={ProposalEventSortByEnum.createDate}>{t('Created date')}</option>
+                            <option value={ProposalEventSortByEnum.title}>{t('Title')}</option>
                         </select>
                         <select defaultValue={sortDirection} className="form-select"
                             onChange={selectedOption => {
@@ -103,8 +105,8 @@ const MyProposalEvents: FC = observer(() => {
                                 setCurrentPage(1);
                                 }}
                             aria-label="Default select example">
-                            <option value={SortOrderEnum.descending}>Descending</option>
-                            <option value={SortOrderEnum.ascending}>Ascending</option>
+                            <option value={SortOrderEnum.descending}>{t('Descending')}</option>
+                            <option value={SortOrderEnum.ascending}>{t('Ascending')}</option>
                         </select>
                     </div>
                 </div>
@@ -118,23 +120,23 @@ const MyProposalEvents: FC = observer(() => {
                             setCurrentPage(1);
                             }}
                         aria-label="Default select example">
-                        <option value={EventStatusEnum.active}>Active</option>
-                        <option value={EventStatusEnum.inactive}>Inactive</option>
-                        <option value={EventStatusEnum.done}>Done</option>
+                        <option value={EventStatusEnum.active}>{t('Active')}</option>
+                        <option value={EventStatusEnum.inactive}>{t('Inactive')}</option>
+                        <option value={EventStatusEnum.done}>{t('Done')}</option>
                     </select>
                 </div>
                 <div className="col-3">
                 </div>
                 <div className="col-3">
                         <Button variant="success" disabled={store.userStore.user == null} className="w-100" onClick={() => setCreateProposalFormShow(true)}>
-                            + Add suggestion 
+                            {t('+ Add suggestion')} 
                         </Button>
                 </div>
             </div>
         </Container>
         <Container className="mt-3" fluid>
             <h5 hidden={ownEvents.length != 0}>
-                No results found
+                {t('No results found')}
             </h5>
             <div>
                 {ownEvents

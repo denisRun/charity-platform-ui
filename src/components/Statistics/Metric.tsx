@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 interface MetricProps{
     label: string;
@@ -9,6 +10,7 @@ interface MetricProps{
 
 const Metric: FC<MetricProps> = (props) => {
 
+    const { t } = useTranslation();
     const isPersentsPositive = props.percents >= 0 ? true : false;
 
     return (
@@ -33,7 +35,7 @@ const Metric: FC<MetricProps> = (props) => {
                             {"+"}{props.percents}%
                         </p> }
                     <p className="mb-0 mt-0" style={{fontSize:"10px", color:"gray"}}>
-                        vs Previous 28 Days
+                        {t('vs Previous 28 Days')}
                     </p>
                 </div>
             </div>

@@ -11,6 +11,7 @@ import TextForm from "../../Text/TextForm";
 import { IUserSignupRequest } from "../../../types/UserSignupRequest";
 import UserSignupValidation from "../../../validations/UserSignupValidation";
 import { useSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 
 interface ISignupFormProps{
     show: boolean;
@@ -20,6 +21,7 @@ interface ISignupFormProps{
 const SignupForm: FC<ISignupFormProps> = (props) => {
 
     const store = useStore();
+    const { t } = useTranslation();
     const initialValues = new IUserSignupRequest();
     const { enqueueSnackbar } = useSnackbar()
     
@@ -28,9 +30,9 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
         await store.userStore.signup(credentials);
         if(store.userStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Email has been send.", { variant: 'success'})
+            enqueueSnackbar(t("Email has been send"), { variant: 'success'})
         } else{
-            enqueueSnackbar("Failed to Sign up.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to Sign up"), { variant: 'error'})
         }
       };
 
@@ -43,7 +45,7 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> Sign up </TextFormHeader>
+                    <TextFormHeader> {t('Sign up')} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -66,30 +68,30 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
                 <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Fullname: </TextForm>
+                            <TextForm> {t('Full Name')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3">
                             <Col className="ps-0">
                                 <Form.Control
                                     name="firstName"
-                                    placeholder="First name"
+                                    placeholder={t("First name")!}
                                     value={values.firstName}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="firstName">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="firstName">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                             <Col className="pe-0">
                                 <Form.Control
                                     name="secondName"
-                                    placeholder="Second name"
+                                    placeholder={t("Second name")!}
                                     value={values.secondName}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="secondName">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="secondName">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                         </Row>
                         <Row className="ms-3 me-3 mb-2 mt-4">
-                            <TextForm> Phone number: </TextForm>
+                            <TextForm> {t('Phone number')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
@@ -99,52 +101,52 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
                                     value={values.telephone}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="telephone">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="telephone">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-3 me-3 mt-4 mb-2">
-                            <TextForm> Location: </TextForm>
+                            <TextForm> {t('Location')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3">
                             <Col className="ps-0">
                                 <Form.Control
                                     name="address.region"
-                                    placeholder="Region"
+                                    placeholder={t("Region")!}
                                     value={values.address?.region}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="address.region">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="address.region">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                             <Col className="pe-0">
                                 <Form.Control
                                     name="address.city"
-                                    placeholder="City"
+                                    placeholder={t("City")!}
                                     value={values.address?.city}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="address.city">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="address.city">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                         </Row>
                         <Row className="ms-3 me-3 mt-3">
                             <Col className="ps-0">
                                 <Form.Control
                                     name="address.district"
-                                    placeholder="District"
+                                    placeholder={t("District")!}
                                     value={values.address?.district}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="address.district">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="address.district">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                             <Col className="pe-0">
                                 <Form.Control
                                     name="address.homeLocation"
-                                    placeholder="Street"
+                                    placeholder={t("Street")!}
                                     value={values.address?.homeLocation}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="address.homeLocation">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="address.homeLocation">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                         </Row>
-                        <Row className="ms-3 me-3 mt-4 mb-2">
+                        {/* <Row className="ms-3 me-3 mt-4 mb-2">
                             <TextForm> Are you representing a company? </TextForm>
                         </Row>
                         <Row className="ms-3 me-3">
@@ -166,34 +168,34 @@ const SignupForm: FC<ISignupFormProps> = (props) => {
                                 />
                                 <ErrorMessage name="companyLink">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
                             </Col>
-                        </Row>
+                        </Row> */}
                         <Row className="ms-3 me-3 mt-4 mb-2">
-                            <TextForm> Email and password: </TextForm>
+                            <TextForm> {t('Email and password')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3">
                             <Col className="ps-0">
                                 <Form.Control
                                     name="email"
-                                    placeholder="Email"
+                                    placeholder={t("Email")!}
                                     value={values.email}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="email">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="email">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                             <Col className="pe-0">
                                 <Form.Control
                                     name="password"
                                     type="password"
-                                    placeholder="Password"
+                                    placeholder={t("Password")!}
                                     value={values.password}
                                     onChange={handleChange}
                                 />
-                                <ErrorMessage name="password">{msg => <div className="error-color">{msg}</div>}</ErrorMessage>
+                                <ErrorMessage name="password">{msg => <div className="error-color">{t(msg)}</div>}</ErrorMessage>
                             </Col>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                    Sign up
+                                    {t('Sign up')}
                                 </Button>
                         </Row>
                     </Container>

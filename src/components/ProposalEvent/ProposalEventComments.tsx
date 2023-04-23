@@ -5,6 +5,7 @@ import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
 import { ICommentResource } from "../../types/CommentResource";
 import CommentCard from "../Cards/CommentCard";
+import { useTranslation } from "react-i18next";
 
 interface ProposalEventCommentsProps{
     comments: ICommentResource[];
@@ -15,7 +16,8 @@ const ProposalEventComments: FC<ProposalEventCommentsProps> = observer((props) =
 
     const store = useStore();
     const [commentValue, setCommentValue]  = useState('');
-    const { enqueueSnackbar } = useSnackbar()
+    const { enqueueSnackbar } = useSnackbar();
+    const { t } = useTranslation();
     
     const handleAddCommentClick = () => {
 
@@ -34,7 +36,7 @@ const ProposalEventComments: FC<ProposalEventCommentsProps> = observer((props) =
     return (
         <div className={props.className} style={{fontSize:17}}>
             <h4>
-                Comments:
+                {t('Comments')}:
             </h4>
             <div className='row mt-3' hidden={store.userStore.user == null} >
                 <div className='col-0-5 ms-3'>
@@ -44,7 +46,7 @@ const ProposalEventComments: FC<ProposalEventCommentsProps> = observer((props) =
                     <input value={commentValue} onChange={event => setCommentValue(event.target.value)} className="form-control"></input>
                 </div>
                 <div className='col-2 ms-1'>
-                    <button className="btn btn-success w-100" onClick={() => handleAddCommentClick()}>Add comment</button>
+                    <button className="btn btn-success w-100" onClick={() => handleAddCommentClick()}>{t('Add comment')}</button>
                 </div>
             </div>
             <div className="row mt-3">

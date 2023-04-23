@@ -12,6 +12,7 @@ import { OwnerRequestStatusEnum } from "../../../types/enums/OwnerRequestStatusE
 import fileToBytes from "../../../Helpers/FileToBytes";
 import { HelpRequestStatusUpdateResource } from "../../../types/HelpEvent/HelpRequestStatusUpdateResource";
 import { NeedRequestResource } from "../../../types/HelpEvent/NeedRequestResource";
+import { useTranslation } from "react-i18next";
 
 interface IRequestFormProps{
     item: ITransactionResource;
@@ -23,7 +24,8 @@ interface IRequestFormProps{
 const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
 
     const store = useStore();
-    const { enqueueSnackbar } = useSnackbar()
+    const { enqueueSnackbar } = useSnackbar();
+    const { t } = useTranslation();
     const [requestStatus, setRequestStatus] = useState(props.item.responderStatus);
     const [attachedFile, setAttachedFile] = useState<File>();
     const [needsCompletion, setNeedsCompletion] = useState<NeedRequestResource[]>(props.item.needs?.filter(x => x.amount != x.received) ?? []);
@@ -57,9 +59,9 @@ const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
         await store.helpEventStore.updateRequestStatus(props.item.id!, request);
         if(store.helpEventStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Request status updated.", { variant: 'success'})
+            enqueueSnackbar("Request status updated", { variant: 'success'})
         } else{
-            enqueueSnackbar("Failed to update Request status.", { variant: 'error'})
+            enqueueSnackbar("Failed to update Request status", { variant: 'error'})
         }
       };
 
@@ -72,7 +74,7 @@ const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> Update request status </TextFormHeader>
+                    <TextFormHeader> {t('Update request status')} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -82,20 +84,20 @@ const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
                 <Form noValidate>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Status: </TextForm>
+                            <TextForm> {t('Status')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <select className="form-select" value={requestStatus} onChange={x => setRequestStatus(x.target.value)} aria-label="Default select example">
-                                <option disabled={requestStatus != OwnerRequestStatusEnum.notStarted} value={OwnerRequestStatusEnum.notStarted}>Not started</option>
-                                <option value={OwnerRequestStatusEnum.inProgress}>In Progress</option>
-                                <option value={OwnerRequestStatusEnum.completed}>Completed</option>
-                                <option value={OwnerRequestStatusEnum.aborted}>Aborted</option>
+                                <option disabled={requestStatus != OwnerRequestStatusEnum.notStarted} value={OwnerRequestStatusEnum.notStarted}>{t('Not Started')}</option>
+                                <option value={OwnerRequestStatusEnum.inProgress}>{t('In Progress')}</option>
+                                <option value={OwnerRequestStatusEnum.completed}>{t('Completed')}</option>
+                                <option value={OwnerRequestStatusEnum.aborted}>{t('Aborted')}</option>
                             </select>
                         </Row>
                         {requestStatus == OwnerRequestStatusEnum.completed ? 
                         <div className="mt-3">
                             <Row className="ms-3 me-3 mb-2">
-                                <TextForm> Needs completion: </TextForm>
+                                <TextForm> {t('Needs completion')}: </TextForm>
                             </Row>
                             {needsCompletion
                                 .filter(x => x.amount != x.receivedTotal)
@@ -113,13 +115,13 @@ const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
                                         </div>
                                         <div className="col-2">
                                             <div className="row ms-1 mt-2">
-                                                of {need.amount! - need.receivedTotal!} {need.unit}
+                                                {t('of')} {need.amount! - need.receivedTotal!} {t(need.unit!)}
                                             </div>
                                         </div>
                                     </div>
                             ))}
                             <Row className="ms-3 mt-3 me-3 mb-2">
-                                <TextForm> Attach file: </TextForm>
+                                <TextForm> {t('Attach file')}: </TextForm>
                             </Row>
                             <Row className="ms-3 me-3 ps-0">
                                 <input type="file" className="form-control" onChange={(e) => setAttachedFile(e.target.files![0])} />
@@ -129,7 +131,7 @@ const HelpEventUpdateRequestForm: FC<IRequestFormProps> = (props) => {
                          <></>}
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} onClick={() => updateRequestSubmit()} variant="success">
-                                    Submit
+                                    {t('Submit')}
                                 </Button>
                         </Row>
                     </Container>

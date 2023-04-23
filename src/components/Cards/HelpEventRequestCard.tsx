@@ -12,6 +12,7 @@ import { useSnackbar } from "notistack";
 import HelpEventUpdateRequestForm from "../Forms/HelpEvent/HelpEventUpdateRequestForm";
 import { NeedRequestResource } from "../../types/HelpEvent/NeedRequestResource";
 import { HelpRequestStatusUpdateResource } from "../../types/HelpEvent/HelpRequestStatusUpdateResource";
+import { useTranslation } from "react-i18next";
 
 interface HelpEventRequestCardProps{
     item: ITransactionResource;
@@ -24,6 +25,7 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation();
     const [updateStatusFormShow, setUpdateStatusFormShow] = useState(false);
 
     const handleAcceptClick = async (isAccept: boolean) => {
@@ -32,9 +34,9 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
         await store.helpEventStore.updateRequestStatus(props.item.id!, request);
         let actionType = isAccept == true ? "Accepted" : "Declined"
         if(store.helpEventStore.isError == false){
-            enqueueSnackbar(`Request ${actionType}.`, { variant: 'success'})
+            enqueueSnackbar(t(`Request ${actionType}`), { variant: 'success'})
         } else {
-            enqueueSnackbar("Failed to perform action.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to perform action"), { variant: 'error'})
         }
     }
 
@@ -51,7 +53,7 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
                     </div>
                     <div className="row" hidden={props.isPreview} >
                         <h6>
-                            Contact: {props.item.responder?.phoneNumber}  
+                            {t('Contact')}: {props.item.responder?.phoneNumber}  
                         </h6>
                     </div>
                 </div>
@@ -66,11 +68,11 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
                             <div className="row">
                                 {props.isPreview && props.item.transactionStatus ==  RequestStatusEnum.completed ?
                                     <a href={props.item.reportURL}> 
-                                        {RequestStatusEnum.toContentString(RequestStatusEnum.completed)}
+                                        {t(RequestStatusEnum.toContentString(RequestStatusEnum.completed))}
                                     </a>
                                     :
                                     <h6>
-                                        {RequestStatusEnum.toContentString(props.item.transactionStatus)}
+                                        {t(RequestStatusEnum.toContentString(props.item.transactionStatus))}
                                     </h6>
                                 }
                             </div>
@@ -85,24 +87,24 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
                 <div className="col-4">
                     <div className="row text-end" >
                         <h6>
-                            <button type="button"  style={{color:"green"}} className="btn p-0 mb-1" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀Accept / </button>
-                            <button type="button" style={{color:"orange"}} className="btn p-0 mb-1 me-2" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> Decline </button>
+                            <button type="button"  style={{color:"green"}} className="btn p-0 mb-1" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀{t('Accept')} / </button>
+                            <button type="button" style={{color:"orange"}} className="btn p-0 mb-1 me-2" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> t{('Decline')} </button>
                             {props.item.receiver?.username}
                             <img src={props.item.receiver?.profileImageURL} className="rounded-circle ms-2" style={{width:35, height:35}} alt="Avatar" />
                         </h6>
                     </div>
                     <div className="row text-end" hidden={props.isPreview} >
                         <h6>
-                            Contact: {props.item.receiver?.phoneNumber}
+                            {t('Contact')}: {props.item.receiver?.phoneNumber}
                         </h6>
                     </div>
                 </div>
             </div>
             <div className="row mt-2 ms-3 me-3 mb-2">
                 <h6 className=" mb-0">
-                    Сompletion Status:
+                    {t('Сompletion Status')}:
                     <span className="btn p-0 ps-2"  
-                                onClick={() => store.userStore.user?.id == store.helpEventStore.event.authorInfo?.id || props.item.responderStatus == OwnerRequestStatusEnum.completed || props.isPreview ? false : setUpdateStatusFormShow(true)} >{OwnerRequestStatusEnum.toContentString(props.item.responderStatus)}</span>
+                                onClick={() => store.userStore.user?.id == store.helpEventStore.event.authorInfo?.id || props.item.responderStatus == OwnerRequestStatusEnum.completed || props.isPreview ? false : setUpdateStatusFormShow(true)} >{t(OwnerRequestStatusEnum.toContentString(props.item.responderStatus))}</span>
                 </h6>
             </div>
             <div className="row ms-3 me-3 mb-2" hidden={props.item.needs?.filter(x => x.received != 0).length == 0} style={{borderTop: "9px solid #FBF8F0"}}>
@@ -110,7 +112,7 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
                         .filter(x => x.received != 0)
                         .map((need) => (
                             <div className='col-12 mt-2'>
-                                <span className="me-1">{need.title} -</span> {need.received} / {need.amount! - need.receivedTotal!} {need.unit}
+                                <span className="me-1">{need.title} -</span> {need.received} / {need.amount! - need.receivedTotal!} {t(need.unit!)}
                             </div>
                     ))}
             </div>

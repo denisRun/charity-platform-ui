@@ -5,6 +5,7 @@ import { Button, Container } from "react-bootstrap";
 import { useStore } from "../../contexts/StoreContext";
 import waiting from '../../images/waiting.png';
 import success from '../../images/success.png';
+import { useTranslation } from "react-i18next";
 
 interface HelpEventNeedsProps{
     className?: string
@@ -13,11 +14,12 @@ interface HelpEventNeedsProps{
 const HelpEventNeeds: FC<HelpEventNeedsProps> = observer((props) => {
 
     const store = useStore();
+    const { t } = useTranslation();
 
     return (
         <div className={props.className} style={{fontSize:17}}>
             <h4>
-                Needs:
+                {t('Needs')}:
             </h4>
             <div className='row mt-1'>
                 {store.helpEventStore.event?.needs!

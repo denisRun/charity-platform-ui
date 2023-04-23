@@ -7,6 +7,7 @@ import { useSnackbar } from "notistack";
 import ComplainForm from "../Forms/ComplainForm";
 import { EventStatusEnum } from "../../types/enums/EventStatusEnum";
 import { EventTypeEnum } from "../../types/enums/EventTypeEnum";
+import { useTranslation } from "react-i18next";
 
 interface ProposalEventCardProps{
     onClick: () => void;
@@ -19,12 +20,13 @@ const ProposalEventCard: FC<ProposalEventCardProps> = (props) => {
 
     const location = useLocation();
     const { enqueueSnackbar } = useSnackbar();
+    const { t } = useTranslation();
     const [complainFormShow, setComplainFormShow] = useState(false);
 
 
     const handleCopyClick = async () => {
         navigator.clipboard.writeText(`http://localhost:3000${location.pathname}/${props.item.id}`);
-        enqueueSnackbar("Link copied.", { variant: 'success'})
+        enqueueSnackbar(t("Link copied"), { variant: 'success'})
     }
 
     return (
@@ -54,20 +56,20 @@ const ProposalEventCard: FC<ProposalEventCardProps> = (props) => {
                     </div>
                     <div className="mt-3 ms-2" hidden={props.isOwn}>
                         <h6>
-                            {props.item.availableHelps! > 0 ? <>Available <span className="dot-green ms-2"> </span></> : <>Work in progress <span className="dot-orange ms-2"> </span></> }
+                            {props.item.availableHelps! > 0 ? <>{t('Available')} <span className="dot-green ms-2"> </span></> : <>{t('Work in progress')} <span className="dot-orange ms-2"> </span></> }
                         </h6>
                     </div>
                     <div className="mt-1 mt-2 ms-2" hidden={!props.isOwn}>
                         <h6>
-                            Status: 
+                            {t('Status')}: 
                             <span className="fw-bold ms-1">
-                                 {EventStatusEnum.toContentString(props.item.status)} 
+                                 {t(EventStatusEnum.toContentString(props.item.status))} 
                             </span>
                         </h6>
                     </div>
                     <div className="mt-4 ms-2" hidden={!props.isOwn}>
                         <h6>
-                            Active requests: <span className="fw-bold">{(props.item.maxConcurrentRequests! - props.item.availableHelps!)}</span> / {props.item.maxConcurrentRequests}
+                            {t('Active requests')}: <span className="fw-bold">{(props.item.maxConcurrentRequests! - props.item.availableHelps!)}</span> / {props.item.maxConcurrentRequests}
                         </h6>
                     </div>
                     <div className="mt-4 ms-2" >
@@ -78,8 +80,8 @@ const ProposalEventCard: FC<ProposalEventCardProps> = (props) => {
                     <div className="btn-group">
                         <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
-                        <li><button className="dropdown-item" type="button" onClick={() => handleCopyClick()}>Copy link</button></li>
-                        <li><button className="dropdown-item" type="button" onClick={() => setComplainFormShow(true)}>Complain</button></li>
+                        <li><button className="dropdown-item" type="button" onClick={() => handleCopyClick()}>{t('Copy link')}</button></li>
+                        <li><button className="dropdown-item" type="button" onClick={() => setComplainFormShow(true)}>{t('Complain')}</button></li>
                         </ul>
                     </div>
                 </div>

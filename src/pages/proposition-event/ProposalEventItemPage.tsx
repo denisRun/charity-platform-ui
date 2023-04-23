@@ -18,12 +18,14 @@ import ProposalEventRequests from '../../components/ProposalEvent/ProposalEventR
 import { useLocation } from 'react-router-dom';
 import { HelpEventStatusEnum } from '../../types/enums/HelpEventStatusEnum'
 import { EventStatusEnum } from '../../types/enums/EventStatusEnum'
+import { useTranslation } from 'react-i18next'
 
 
 const ProposalEventItemPage: FC = observer(() => {
 
   const store = useStore();
   const location = useLocation();
+  const { t } = useTranslation();
   const [updateProposalFormShow, setUpdateProposalFormShow] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { id }= useParams();
@@ -81,7 +83,7 @@ const ProposalEventItemPage: FC = observer(() => {
             <ContentContainer>
                 <div className='ms-4 me-4 mt-4' style={{backgroundColor: "#FFFFFF", overflowX: "hidden"}}>
                   <div className='row ms-0'>
-                    <div className='col-11'>
+                    <div className='col-9'>
                       <Tabs 
                         TabIndicatorProps={{
                             style: {
@@ -94,18 +96,18 @@ const ProposalEventItemPage: FC = observer(() => {
                         orientation="horizontal"
                         value={tabValue}
                         onChange={handleChange}>
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Suggestion info</h6>} {...a11yProps(0)} />
-                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>Requests</h6>} {...a11yProps(1)} />
-                            <Tab disabled={store.proposalEventStore.event.status == EventStatusEnum.done || store.proposalEventStore.event.status == EventStatusEnum.inactive || store.userStore.user == null} style={{textTransform: 'none'}} label={<h6 className='fw-bold'>My Current Requests</h6>} {...a11yProps(2)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>{t('Suggestion info')}</h6>} {...a11yProps(0)} />
+                            <Tab style={{textTransform: 'none'}} label={<h6 className='fw-bold'>{t('Requests')}</h6>} {...a11yProps(1)} />
+                            <Tab disabled={store.proposalEventStore.event.status == EventStatusEnum.done || store.proposalEventStore.event.status == EventStatusEnum.inactive || store.userStore.user == null} style={{textTransform: 'none'}} label={<h6 className='fw-bold'>{t('My Current Requests')}</h6>} {...a11yProps(2)} />
                       </Tabs>
                     </div>
-                    <div className="col-1" >
+                    <div className="col-3 d-inline-flex justify-content-end" >
                       <div className="btn-group">
                           <button  type="button" className="btn fs-5" data-bs-display="static" hidden={store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || store.proposalEventStore.event.status == EventStatusEnum.done} style={{visibility: store.userStore.user==null ? "hidden" : "visible"}} onClick={() => setUpdateProposalFormShow(true)}><EditIcon fontSize='large' /></button>
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
-                          <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>Copy link</button></li>
-                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>Complain</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>{t('Copy link')}</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>{t('Complain')}</button></li>
                           </ul>
                       </div>
                     </div>

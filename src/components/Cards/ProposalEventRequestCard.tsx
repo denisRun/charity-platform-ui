@@ -13,6 +13,7 @@ import { useStore } from "../../contexts/StoreContext";
 import { useSnackbar } from "notistack";
 import ProposalEventTagsForm from "../Forms/ProposalEvent/ProposalEventTagsForm";
 import ProposalEventUpdateRequestForm from "../Forms/ProposalEvent/ProposalEventUpdateRequestForm";
+import { useTranslation } from "react-i18next";
 
 interface ProposalEventRequestCardProps{
     item: ITransactionResource;
@@ -24,6 +25,7 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
 
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation();
     const [updateProposalTagsFormShow, setUpdateProposalTagsFormShow] = useState(false);
 
     const handleAcceptClick = async (isAccept: boolean) => {
@@ -31,9 +33,9 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
         await store.proposalEventStore.acceptRequest(props.item.id!, isAccept);
         let actionType = isAccept == true ? "Accepted" : "Declined"
         if(store.proposalEventStore.isError == false){
-            enqueueSnackbar(`Request ${actionType}.`, { variant: 'success'})
+            enqueueSnackbar(t(`Request ${actionType}`), { variant: 'success'})
         } else {
-            enqueueSnackbar("Failed to perform action.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to perform action"), { variant: 'error'})
         }
     }
 
@@ -46,15 +48,15 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                         <h6>
                             {props.item.responder?.username}
                             <img src={props.item.responder?.profileImageURL} className="rounded-circle ms-2" style={{width:35, height:35}} alt="Avatar" />
-                            <button type="button"  style={{color:"green"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀Accept / </button>
-                            <button type="button" style={{color:"orange"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> Decline </button>
+                            <button type="button"  style={{color:"green"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀{t('Accept')} / </button>
+                            <button type="button" style={{color:"orange"}} className="btn p-0" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waiting || store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> {t('Decline')} </button>
                         </h6>
                     </div>
                     <div className="row" hidden={props.isPreview} >
                         <h6>
-                            Contact: {props.item.responder?.phoneNumber}  
+                            {t('Contact')}: {props.item.responder?.phoneNumber}  
                             <span className="btn p-0 ps-2"  
-                                onClick={() => store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || props.item.transactionStatus == RequestStatusEnum.waiting ? false : setUpdateProposalTagsFormShow(true)} >({OwnerRequestStatusEnum.toContentString(props.item.responderStatus)})</span>
+                                onClick={() => store.userStore.user?.id != store.proposalEventStore.event.authorInfo?.id || props.item.transactionStatus == RequestStatusEnum.waiting ? false : setUpdateProposalTagsFormShow(true)} >({t(OwnerRequestStatusEnum.toContentString(props.item.responderStatus))})</span>
                         </h6>
                     </div>
                 </div>
@@ -69,11 +71,11 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                             <div className="row">
                                 {props.isPreview && props.item.transactionStatus ==  RequestStatusEnum.completed ?
                                     <a href={props.item.reportURL}> 
-                                        {RequestStatusEnum.toContentString(RequestStatusEnum.completed)}
+                                        {t(RequestStatusEnum.toContentString(RequestStatusEnum.completed))}
                                     </a>
                                     :
                                     <h6>
-                                        {RequestStatusEnum.toContentString(props.item.transactionStatus)}
+                                        {t(RequestStatusEnum.toContentString(props.item.transactionStatus))}
                                     </h6>
                                 }
                             </div>
@@ -99,14 +101,14 @@ const ProposalEventRequestCard: FC<ProposalEventRequestCardProps> = (props) => {
                     </div>
                     <div className="row text-end" hidden={props.isPreview} >
                         <h6>
-                            Contact: {props.item.creator?.phoneNumber}
+                            {t('Contact')}: {props.item.creator?.phoneNumber}
                         </h6>
                     </div>
                 </div>
             </div>
             <div className="row ms-3 me-3 mt-2">
                 <h6>
-                    Сomment:
+                    {t('Comment')}:
                 </h6>
             </div>
             <div className="row h-40 ms-4 me-4 mb-2 border rounded p-1" style={{overflowY:"auto"}}>

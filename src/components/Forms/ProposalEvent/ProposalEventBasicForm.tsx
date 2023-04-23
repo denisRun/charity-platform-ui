@@ -14,6 +14,7 @@ import ProposalEventBasicValidation from "../../../validations/ProposalEventBasi
 import { IProposalEventUpdateResource } from "../../../types/ProposalEvent/ProposalEventUpdateResource";
 import { EventStatusEnum } from "../../../types/enums/EventStatusEnum";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface IProposalEventBasicFormProps{
     show: boolean;
@@ -29,6 +30,7 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
     const navigate = useNavigate()
     const [picture, setPicture] = useState<File>();
     const initialValues = props.item ?? new IProposalEventUpdateResource();
+    const { t } = useTranslation();
 
     function readFileAsync(file: File) {
         return new Promise((resolve, reject) => {
@@ -63,9 +65,9 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
 
             if(store.proposalEventStore.isError == false){
                 props.onHide();
-                enqueueSnackbar("Suggestion created.", { variant: 'success'})
+                enqueueSnackbar(t("Suggestion created"), { variant: 'success'})
             } else {
-                enqueueSnackbar("Failed to create suggestion.", { variant: 'error'})
+                enqueueSnackbar(t("Failed to create suggestion"), { variant: 'error'})
             }
         } else {
             proposalEvent.fileBytes = fileByteArray;
@@ -74,9 +76,9 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
 
             if(store.proposalEventStore.isError == false){
                 props.onHide();
-                enqueueSnackbar("Suggestion updated.", { variant: 'success'})
+                enqueueSnackbar(t("Suggestion updated"), { variant: 'success'})
             } else {
-                enqueueSnackbar("Failed to update suggestion.", { variant: 'error'})
+                enqueueSnackbar(t("Failed to update suggestion"), { variant: 'error'})
             }
         }
 
@@ -101,7 +103,7 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> {props.isCreate == true ? "Create Suggestion" : "Update Suggestion"} </TextFormHeader>
+                    <TextFormHeader> {props.isCreate == true ? t("Create Suggestion") : t("Update Suggestion")} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -124,19 +126,19 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                 <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Title: </TextForm>
+                            <TextForm> {t('Title')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
                                     name="title"
-                                    placeholder="Title"
+                                    placeholder={t("Title")!}
                                     value={values.title}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="title">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="title">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-3 me-3 mb-2 mt-4">
-                            <TextForm> Description: </TextForm>
+                            <TextForm> {t('Description')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
@@ -144,51 +146,51 @@ const ProposalEventBasicForm: FC<IProposalEventBasicFormProps> = (props) => {
                                     rows={3}
                                     type="textarea"
                                     name="description"
-                                    placeholder="Description"
+                                    placeholder={t("Description")!}
                                     value={values.description}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="description">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="description">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-3 me-3 mb-2 mt-4">
-                            <TextForm> Maximum active requests: </TextForm>
+                            <TextForm> {t('Maximum active requests')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
                                     name="maxConcurrentRequests"
-                                    placeholder="Not more than 2"
+                                    placeholder={t("Not more than")!}
                                     type="number"
                                     value={values.maxConcurrentRequests}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="maxConcurrentRequests">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="maxConcurrentRequests">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row hidden={props.isCreate} className="ms-3 me-3 mb-2 mt-4">
-                            <TextForm> Status: </TextForm>
+                            <TextForm> {t('Status')}: </TextForm>
                         </Row>
                         <Row hidden={props.isCreate} className="ms-3 me-3 ps-0">
                             <Form.Select
                                     as="select" 
                                     name="status"
-                                    placeholder="Status"
+                                    placeholder={t("Status")!}
                                     value={values.status}
                                     onChange={handleChange}
                             >
-                                <option key={EventStatusEnum.active} value={EventStatusEnum.active}>Active</option>
-                                <option key={EventStatusEnum.inactive} value={EventStatusEnum.inactive}>Inactive</option>
-                                <option key={EventStatusEnum.done} value={EventStatusEnum.done}>Done</option>
+                                <option key={EventStatusEnum.active} value={EventStatusEnum.active}>{t('Active')}</option>
+                                <option key={EventStatusEnum.inactive} value={EventStatusEnum.inactive}>{t('Inactive')}</option>
+                                <option key={EventStatusEnum.done} value={EventStatusEnum.done}>{t('Done')}</option>
                             </Form.Select>
-                            <ErrorMessage name="status">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="status">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-3 me-3 mb-2 mt-4">
-                            <TextForm> Suggestion image: </TextForm>
+                            <TextForm> {t('Suggestion Image')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <input type="file" accept="image/jpeg, image/png" className="form-control" onChange={(e) => setPicture(e.target.files![0])} />
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                    {props.isCreate == true ? "Submit" : "Update"}
+                                    {props.isCreate == true ? t("Submit") : t("Update")}
                                 </Button>
                         </Row>
                     </Container>

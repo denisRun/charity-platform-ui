@@ -11,6 +11,7 @@ import { IHelpEventSearchResource } from "../../types/HelpEvent/HelpEventSearchR
 import HelpEventCard from "../Cards/HelpEventCard";
 import { HelpEventStatusEnum } from "../../types/enums/HelpEventStatusEnum";
 import { HelpEventSortByEnum } from "../../types/enums/HelpEventSortByEnum";
+import { useTranslation } from "react-i18next";
 
 interface BodyProps{
     children: React.ReactNode
@@ -27,13 +28,14 @@ const MyHelpEvents: FC = observer(() => {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation();
 
     const handleSearchClick = () => {
 
         store.helpEventStore.getOwnEvents()
         setCurrentPage(1);
         if(store.helpEventStore.isError == true){
-            enqueueSnackbar("Failed to execute search.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to execute search"), { variant: 'error'})
         }
     }
 
@@ -68,11 +70,11 @@ const MyHelpEvents: FC = observer(() => {
         <Container fluid style={{borderBottom: "9px solid #FBF8F0"}}>
             <div className="row" >
                 <div className="col-9">
-                    <input className="form-control" value={filterTitle} onChange={event => { setFilterTitle(event.target.value); setCurrentPage(1)}} placeholder="Search by name"/>
+                    <input className="form-control" value={filterTitle} onChange={event => { setFilterTitle(event.target.value); setCurrentPage(1)}} placeholder={t("Search by name")!}/>
                 </div>
                 <div className="col-3">
                     <Button variant="outline-success" disabled={store.userStore.user == null} className="w-100" onClick={() => handleSearchClick()}>
-                        Search 
+                        {t('Search')} 
                     </Button>
                 </div>
             </div>
@@ -80,7 +82,7 @@ const MyHelpEvents: FC = observer(() => {
                 <div className="col-4">
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
-                            <span className="input-group-text" id="inputGroup-sizing-default">Sort by</span>
+                            <span className="input-group-text" id="inputGroup-sizing-default">{t('Sort by')}</span>
                         </div>
                         <select defaultValue={sortBy} className="form-select"  
                             onChange={selectedOption => {
@@ -91,8 +93,8 @@ const MyHelpEvents: FC = observer(() => {
                                 setCurrentPage(1);
                                 }}
                             aria-label="Default select example">
-                            <option value={HelpEventSortByEnum.createDate}>Created date</option>
-                            <option value={HelpEventSortByEnum.title}>Title</option>
+                            <option value={HelpEventSortByEnum.createDate}>{t('Created date')}</option>
+                            <option value={HelpEventSortByEnum.title}>{t('Title')}</option>
                         </select>
                         <select defaultValue={sortDirection} className="form-select"
                             onChange={selectedOption => {
@@ -103,8 +105,8 @@ const MyHelpEvents: FC = observer(() => {
                                 setCurrentPage(1);
                                 }}
                             aria-label="Default select example">
-                            <option value={SortOrderEnum.descending}>Descending</option>
-                            <option value={SortOrderEnum.ascending}>Ascending</option>
+                            <option value={SortOrderEnum.descending}>{t('Descending')}</option>
+                            <option value={SortOrderEnum.ascending}>{t('Ascending')}</option>
                         </select>
                     </div>
                 </div>
@@ -118,23 +120,23 @@ const MyHelpEvents: FC = observer(() => {
                             setCurrentPage(1);
                             }}
                         aria-label="Default select example">
-                        <option value={HelpEventStatusEnum.active}>Active</option>
-                        <option value={HelpEventStatusEnum.inactive}>Inactive</option>
-                        <option value={HelpEventStatusEnum.done}>Done</option>
+                        <option value={HelpEventStatusEnum.active}>{t('Active')}</option>
+                        <option value={HelpEventStatusEnum.inactive}>{t('Inactive')}</option>
+                        <option value={HelpEventStatusEnum.done}>{t('Done')}</option>
                     </select>
                 </div>
                 <div className="col-3">
                 </div>
                 <div className="col-3">
                         <Button variant="success" disabled={store.userStore.user == null} className="w-100" onClick={() => setCreateHelpFormShow(true)}>
-                            + Add request
+                            {t('+ Add request')}
                         </Button>
                 </div>
             </div>
         </Container>
         <Container className="mt-3" fluid>
             <h5 hidden={ownEvents.length != 0}>
-                No results found
+                {t('No results found')}
             </h5>
             <div>
                 {ownEvents

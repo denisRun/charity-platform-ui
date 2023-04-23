@@ -10,11 +10,13 @@ import ProposalEventCard from "../Cards/ProposalEventCard";
 import ProposalEventRequestCard from "../Cards/ProposalEventRequestCard";
 import ProposalEventBasicForm from "../Forms/ProposalEvent/ProposalEventBasicForm";
 import ProposalEventCreateRequestForm from "../Forms/ProposalEvent/ProposalEventCreateRequestForm";
+import { useTranslation } from "react-i18next";
 
 const ProposalEventRequests: FC = observer(() => {
 
     const store = useStore();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [createRequestFormShow, setCreateRequestFormShow] = useState(false);
 
     const requestsCount = store.proposalEventStore.event.transactions?.length ?? 0;
@@ -23,7 +25,7 @@ const ProposalEventRequests: FC = observer(() => {
         <>
                 <div className='col-9 mt-1 ms-1'>
                     <h5 hidden={requestsCount != 0}>
-                        There is no Active Iitems
+                        {t('There is no Active Iitems')}
                     </h5>
                 </div>
             <div className="mt-3">

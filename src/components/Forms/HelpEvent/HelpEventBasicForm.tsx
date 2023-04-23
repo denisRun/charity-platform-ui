@@ -16,6 +16,7 @@ import { UnitEnum } from "../../../types/enums/UnitEnum";
 import fileToBytes from "../../../Helpers/FileToBytes";
 import { useNavigate } from "react-router-dom";
 import HelpEventBasicValidation from "../../../validations/HelpEventBasicValidation";
+import { useTranslation } from "react-i18next";
 
 interface IHelpEventBasicFormProps{
     show: boolean;
@@ -29,6 +30,7 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar()
     const navigate = useNavigate()
+    const { t } = useTranslation();
     const [attachedFile, setAttachedFile] = useState<File>();
     const [needCount, setNeedCount] = useState(2);
     const [action, setAction] = useState(1);
@@ -94,9 +96,9 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
 
         if(store.helpEventStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Request created.", { variant: 'success'})
+            enqueueSnackbar(t("Request created"), { variant: 'success'})
         } else {
-            enqueueSnackbar("Failed to create request.", { variant: 'error'})
+            enqueueSnackbar(t("Failed to create request"), { variant: 'error'})
         }
 
         if(createdId > 0){
@@ -113,7 +115,7 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
             centered>
             <Modal.Header className="mt-3 ms-4 me-4">
                 <Modal.Title id="contained-modal-title-vleft">
-                    <TextFormHeader> {props.isCreate == true ? "Create Help Request" : "Update Help Request"} </TextFormHeader>
+                    <TextFormHeader> {props.isCreate == true ? t("Create Help Request") : t("Update Help Request")} </TextFormHeader>
                 </Modal.Title>
                 <Modal.Title id="contained-modal-title-vright">
                     <img src={logo} style={{ width: 110, height: 22 }} />
@@ -136,19 +138,19 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
                 <Form noValidate onSubmit={handleSubmit}>
                     <Container fluid>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Title: </TextForm>
+                            <TextForm> {t('Title')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
                                     name="title"
-                                    placeholder="Title"
+                                    placeholder={t("Title")!}
                                     value={values.title}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="title">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="title">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-3 me-3 mb-2 mt-4">
-                            <TextForm> Description: </TextForm>
+                            <TextForm> {t('Description')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <Form.Control
@@ -156,15 +158,15 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
                                     rows={3}
                                     type="textarea"
                                     name="description"
-                                    placeholder="Description"
+                                    placeholder={t("Description")!}
                                     value={values.description}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="description">{msg => <div className="error-color ps-0">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="description">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="ms-2 me-3 mb-1 mt-4">
                             <div className="form-inline">
-                                <TextForm> Needs: </TextForm>
+                                <TextForm> {t('Needs')}: </TextForm>
                             </div>
                         </Row>
                         <div>
@@ -184,10 +186,10 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
                                         <div className="col-2">
                                             <div className="row ms-1">
                                                 <select className="form-select" value={need.unit} onChange={x => handleNeedChange(need.id!, need.title!, need.amount!, x.target.value)} aria-label="Default select example">
-                                                    <option value={UnitEnum.item}>item</option>
-                                                    <option value={UnitEnum.kilogram}>kilogram</option>
-                                                    <option value={UnitEnum.liter}>liter</option>
-                                                    <option value={UnitEnum.work}>work</option>
+                                                    <option value={UnitEnum.item}>{t('item')}</option>
+                                                    <option value={UnitEnum.kilogram}>{t('kilogram')}</option>
+                                                    <option value={UnitEnum.liter}>{t('liter')}</option>
+                                                    <option value={UnitEnum.work}>{t('work')}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -203,14 +205,14 @@ const HelpEventBasicForm: FC<IHelpEventBasicFormProps> = (props) => {
                             </div>
                         </div>
                         <Row className="ms-3 me-3 mb-2">
-                            <TextForm> Request image: </TextForm>
+                            <TextForm> {t('Request image')}: </TextForm>
                         </Row>
                         <Row className="ms-3 me-3 ps-0">
                             <input type="file" accept="image/jpeg, image/png" className="form-control" onChange={(e) => setAttachedFile(e.target.files![0])} />
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">
-                                    {props.isCreate == true ? "Submit" : "Update"}
+                                    {props.isCreate == true ? t("Submit") : t("Update")}
                                 </Button>
                         </Row>
                     </Container>

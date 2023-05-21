@@ -11,6 +11,10 @@ class UserService implements IUserService {
         return Promise.resolve(this.user);
     }
 
+    public async loginAdmin(credentials: IUserLoginRequest): Promise<IUserResource> {
+        return Promise.resolve(this.user);
+    }
+
     public async refresUserData(token: string): Promise<IUserResource> {
         return Promise.resolve(this.user);
     }

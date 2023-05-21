@@ -8,6 +8,7 @@ import { IUserResource } from "../types/UserResource";
 
 export interface IUserService{
     login(credentials: IUserLoginRequest): Promise<IUserResource>;
+    loginAdmin(credentials: IUserLoginRequest): Promise<IUserResource>;
     refreshUserData(refreshToken: string): Promise<IUserResource>;
     signup(credentials: IUserSignupRequest): Promise<IUserResource>;
     changePassword(): Promise<void>;
@@ -23,6 +24,11 @@ class UserService implements IUserService{
 
     async login(credentials: IUserLoginRequest): Promise<IUserResource> {
         const response = await axios.post<IUserResource>(authControllerPath + "/sign-in", JSON.stringify(credentials));
+        return response.data;
+    }
+
+    async loginAdmin(credentials: IUserLoginRequest): Promise<IUserResource> {
+        const response = await axios.post<IUserResource>(authControllerPath + "/sign-in-admin", JSON.stringify(credentials));
         return response.data;
     }
 

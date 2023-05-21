@@ -9,8 +9,9 @@ import { useStore } from "../../contexts/StoreContext";
 import { IProposalEventSearchResource } from "../../types/ProposalEvent/ProposalEventSearchResource";
 import TextFormHeader from "../Text/TextFormHeader";
 import TextForm from "../Text/TextForm";
-import { IComplainResource } from "../../types/ComplainResource";
 import { useTranslation } from "react-i18next";
+import { IComplainCreateResource } from "../../types/ComplainCreateResource";
+import { EventTypeEnum } from "../../types/enums/EventTypeEnum";
 
 interface IComplainFormProps{
     eventId: number;
@@ -22,20 +23,24 @@ interface IComplainFormProps{
 const ComplainForm: FC<IComplainFormProps> = (props) => {
 
     const store = useStore();
-    const initialValues = new IComplainResource();
+    const initialValues = new IComplainCreateResource();
     const { enqueueSnackbar } = useSnackbar()
     const { t } = useTranslation();
     
-    const createRequestSubmit = async (request: IComplainResource, helpers: FormikHelpers<IComplainResource>) => {
+    const createRequestSubmit = async (request: IComplainCreateResource, helpers: FormikHelpers<IComplainCreateResource>) => {
 
         request.eventId = props.eventId;
         request.eventType = props.eventType;
-        //await store.proposalEventStore.addEventRequest(request)
-        if(store.proposalEventStore.isError == false){
+        if(request.eventType == EventTypeEnum.proposal){
+            await store.proposalEventStore.createComplaint(request);
+        } else {
+            await store.helpEventStore.createComplaint(request);
+        }
+        if(store.proposalEventStore.isError == false && store.helpEventStore.isError == false){
             props.onHide();
-            enqueueSnackbar("Request created.", { variant: 'success'})
+            enqueueSnackbar("Complaint created.", { variant: 'success'})
         } else{
-            enqueueSnackbar("Failed to create Request.", { variant: 'error'})
+            enqueueSnackbar("Failed to create Complaint.", { variant: 'error'})
         }
       };
 
@@ -77,11 +82,11 @@ const ComplainForm: FC<IComplainFormProps> = (props) => {
                                     as="textarea" 
                                     rows={3}
                                     type="textarea"
-                                    name="comment"
+                                    name="description"
                                     placeholder={t("Description")!}
                                     onChange={handleChange}
                             />
-                            <ErrorMessage name="comment">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
+                            <ErrorMessage name="description">{msg => <div className="error-color ps-0">{t(msg)}</div>}</ErrorMessage>
                         </Row>
                         <Row className="justify-content-md-center ms-3 me-3 mt-4 mb-3">
                                 <Button style={{fontSize:"1.3rem"}} variant="success" type="submit">

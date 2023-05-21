@@ -172,5 +172,9 @@
     "Request Accepted": "Заяву прийнято",
     "Transaction created":"Транзакцію створено",
     "Failed to create transaction":"Не вдалось створити транзакцію",
-    "Failed to execute search":"Не вдалось виконати пошук"
+    "Failed to execute search":"Не вдалось виконати пошук",
+    "Totall requests amount": "Всього кількість запитів",
+    "Complaints": "Скарги",
+    "Event banned": "Подію заблоковано",
+    "User banned": "Користувача заблоковано"
 }

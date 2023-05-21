@@ -7,6 +7,8 @@ import { TagServiceInstance } from '../services/TagService';
 import { ITagResource } from '../types/TagResource';
 import { HelpRequestStatusUpdateResource } from '../types/HelpEvent/HelpRequestStatusUpdateResource';
 import { IHelpStatisticsResource } from '../types/HelpEvent/HelpStatistics';
+import { IComplainCreateResource } from '../types/ComplainCreateResource';
+import { IComplaintService } from '../services/ComplaintService';
 
 export class HelpEventStore {
 
@@ -23,10 +25,12 @@ export class HelpEventStore {
     statistics: IHelpStatisticsResource = new IHelpStatisticsResource();
 
     EventService: IHelpEventService;
+    ComplaintService: IComplaintService;
 
-    constructor(EventService: IHelpEventService){
+    constructor(EventService: IHelpEventService, ComplaintService: IComplaintService){
         makeAutoObservable(this);
         this.EventService = EventService;
+        this.ComplaintService = ComplaintService;
     } 
 
     createEvent = async (event: IHelpEventCreateResource): Promise<number> => {
@@ -160,6 +164,17 @@ export class HelpEventStore {
         try{
             this.startOperation();
             this.statistics = await this.EventService.getStatistics();
+            this.finishOperation();
+        } catch(ex){
+            console.log(ex);
+            this.operationFailed((ex as any).errorMessage);
+        }
+    }  
+
+    createComplaint = async (request: IComplainCreateResource): Promise<void> => {
+        try{
+            this.startOperation();
+            await this.ComplaintService.createComplaint(request);
             this.finishOperation();
         } catch(ex){
             console.log(ex);

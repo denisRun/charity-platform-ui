@@ -88,7 +88,7 @@ const HelpEventRequestCard: FC<HelpEventRequestCardProps> = (props) => {
                     <div className="row text-end" >
                         <h6>
                             <button type="button"  style={{color:"green"}} className="btn p-0 mb-1" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(true)}> ⠀{t('Accept')} / </button>
-                            <button type="button" style={{color:"orange"}} className="btn p-0 mb-1 me-2" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> t{('Decline')} </button>
+                            <button type="button" style={{color:"orange"}} className="btn p-0 mb-1 me-2" hidden={props.isPreview || props.item.transactionStatus != RequestStatusEnum.waitingForApprove || store.userStore.user?.id != store.helpEventStore.event.authorInfo?.id} onClick={() => handleAcceptClick(false)}> {t('Decline')} </button>
                             {props.item.receiver?.username}
                             <img src={props.item.receiver?.profileImageURL} className="rounded-circle ms-2" style={{width:35, height:35}} alt="Avatar" />
                         </h6>

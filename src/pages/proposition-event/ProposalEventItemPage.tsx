@@ -19,6 +19,8 @@ import { useLocation } from 'react-router-dom';
 import { HelpEventStatusEnum } from '../../types/enums/HelpEventStatusEnum'
 import { EventStatusEnum } from '../../types/enums/EventStatusEnum'
 import { useTranslation } from 'react-i18next'
+import { EventTypeEnum } from '../../types/enums/EventTypeEnum'
+import ComplainForm from '../../components/Forms/ComplainForm'
 
 
 const ProposalEventItemPage: FC = observer(() => {
@@ -27,6 +29,7 @@ const ProposalEventItemPage: FC = observer(() => {
   const location = useLocation();
   const { t } = useTranslation();
   const [updateProposalFormShow, setUpdateProposalFormShow] = useState(false);
+  const [complainFormShow, setComplainFormShow] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { id }= useParams();
 
@@ -107,7 +110,7 @@ const ProposalEventItemPage: FC = observer(() => {
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
                           <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>{t('Copy link')}</button></li>
-                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>{t('Complain')}</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => setComplainFormShow(true)}>{t('Complain')}</button></li>
                           </ul>
                       </div>
                     </div>
@@ -134,6 +137,11 @@ const ProposalEventItemPage: FC = observer(() => {
                 isCreate={false}
                 show={updateProposalFormShow}
                 onHide={() => setUpdateProposalFormShow(false)} />
+        <ComplainForm 
+                eventId={store.proposalEventStore.event.id!}
+                eventType={EventTypeEnum.proposal}
+                show={complainFormShow}
+                onHide={() => setComplainFormShow(false)} />
     </div>
   )
 });

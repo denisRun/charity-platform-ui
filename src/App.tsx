@@ -5,6 +5,8 @@ import ProposalEventItemPage from './pages/proposition-event/ProposalEventItemPa
 import ProposalEventsPage from './pages/proposition-event/ProposalEventsPage';
 import HelpEventsPage from './pages/help-event/HelpEventsPage';
 import HelpEventItemPage from './pages/help-event/HelpEventItemPage';
+import StatisticsPage from './pages/StatisticsPage';
+import AdminPage from './pages/AdminPage';
 
 const App = () => {
   return (
@@ -15,8 +17,10 @@ const App = () => {
           <Route element={<ProposalEventsPage/>} path={'/propositions'} />
           <Route element={<HelpEventsPage/>} path={'/helps'} />
           <Route element={<HelpEventItemPage/>} path={'/helps/:id'} />
-          <Route element={<HomePage/>} path={'/statistics'} />
+          <Route element={<StatisticsPage/>} path={'/statistics'} />
           <Route element={<HomePage/>} path={'/about'} />
+
+          <Route element={<AdminPage/>} path={'/admin'} />
       </Routes>
     </BrowserRouter>
   );

@@ -177,5 +177,9 @@
     "Request Accepted": "Request Accepted",
     "Transaction created":"Transaction created",
     "Failed to create transaction":"Failed to create transaction",
-    "Failed to execute search":"Failed to execute search"
+    "Failed to execute search":"Failed to execute search",
+    "Totall requests amount": "Totall requests amount",
+    "Complaints": "Complaints",
+    "Event banned": "Event banned",
+    "User banned": "User banned"
 }

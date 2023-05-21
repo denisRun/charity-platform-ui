@@ -18,6 +18,8 @@ import HelpEventCurrentRequests from '../../components/HelpEvent/HelpEventCurren
 import HelpEventRequests from '../../components/HelpEvent/HelpEventRequests'
 import { HelpEventStatusEnum } from '../../types/enums/HelpEventStatusEnum'
 import { useTranslation } from 'react-i18next'
+import ComplainForm from '../../components/Forms/ComplainForm'
+import { EventTypeEnum } from '../../types/enums/EventTypeEnum'
 
 
 const HelpEventItemPage: FC = observer(() => {
@@ -26,6 +28,7 @@ const HelpEventItemPage: FC = observer(() => {
   const location = useLocation();
   const { t } = useTranslation();
   const [updateHelpFormShow, setUpdateHelpFormShow] = useState(false);
+  const [complainFormShow, setComplainFormShow] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { id }= useParams();
 
@@ -106,7 +109,7 @@ const HelpEventItemPage: FC = observer(() => {
                           <button type="button" id="userProfileActions" className="btn fs-5" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"><MoreVertIcon fontSize='large' /></button>
                           <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileActions">
                           <li><button className="dropdown-item" type="button" onClick={() => handleCopyLinkClick()}>{t('Copy link')}</button></li>
-                          <li><button className="dropdown-item" type="button" onClick={() => console.log()}>{t('Complain')}</button></li>
+                          <li><button className="dropdown-item" type="button" onClick={() => setComplainFormShow(true)}>{t('Complain')}</button></li>
                           </ul>
                       </div>
                     </div>
@@ -133,6 +136,11 @@ const HelpEventItemPage: FC = observer(() => {
                 item={store.helpEventStore.event}
                 show={updateHelpFormShow}
                 onHide={() => setUpdateHelpFormShow(false)} />
+        <ComplainForm 
+                eventId={store.helpEventStore.event.id!}
+                eventType={EventTypeEnum.help}
+                show={complainFormShow}
+                onHide={() => setComplainFormShow(false)} />
     </div>
   )
 });
